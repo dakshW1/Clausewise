@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronRight, Plus, Quote } from 'lucide-react'
+import { ChevronRight, PencilLine, Plus, Quote } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { SEVERITY } from '../lib/theme'
 import { EASE } from './motion-bits'
@@ -12,7 +12,7 @@ const FILTERS = [
   { key: 'green', label: 'Fair' },
 ]
 
-function ClauseCard({ c, rule, active, first, activeT, onSpy }) {
+function ClauseCard({ c, rule, active, first, activeT, onSpy, explanation, onCorrect }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
   const s = SEVERITY[c.severity]
@@ -51,7 +51,12 @@ function ClauseCard({ c, rule, active, first, activeT, onSpy }) {
             <Chip color={s.text} soft={s.soft}>{s.label}</Chip>
             {rule && <Chip color="#EDEBE6" soft="#141414">{rule.id} · {rule.title}</Chip>}
           </span>
-          <span className="mt-1 text-sm font-semibold text-ink-2">{c.simple}</span>
+          <AnimatePresence mode="wait">
+            <motion.span key={explanation ?? c.simple} initial={{ opacity: 0, y: 6, filter: 'blur(4px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.3 }} className="mt-1 block text-sm font-semibold text-ink-2">
+              {explanation ?? c.simple}
+            </motion.span>
+          </AnimatePresence>
+          {c.corrected && <span className="mt-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-info">Corrected by you · rechecked</span>}
           {c.severity !== 'green' && <span className="mt-1 text-[13px] font-bold" style={{ color: s.text }}>{c.reason}</span>}
         </span>
         <ChevronRight size={18} className={`mt-2 shrink-0 text-muted transition ${open ? 'rotate-90' : ''}`} />
@@ -71,6 +76,13 @@ function ClauseCard({ c, rule, active, first, activeT, onSpy }) {
                 </div>
               )}
             </div>
+            {onCorrect && (
+              <div className="px-4 pb-4 pl-[68px]">
+                <button type="button" onClick={() => onCorrect(c)} className="flex cursor-pointer items-center gap-1.5 text-xs font-extrabold text-muted hover:text-ink">
+                  <PencilLine size={13} /> Misread? Correct this clause
+                </button>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -78,7 +90,7 @@ function ClauseCard({ c, rule, active, first, activeT, onSpy }) {
   )
 }
 
-export default function ClauseList({ analysis, active, onSpy }) {
+export default function ClauseList({ analysis, active, onSpy, explanations, onCorrect, toolbar }) {
   const [filter, setFilter] = useState('all')
   const rules = Object.fromEntries(analysis.rules.map((r) => [r.id, r]))
   const shown = analysis.clauses.filter((c) => filter === 'all' || c.severity === filter || active.clauseIds.includes(c.id))
@@ -98,9 +110,10 @@ export default function ClauseList({ analysis, active, onSpy }) {
           </div>
         }
       />
+      {toolbar}
       <div className="flex flex-col gap-2.5">
         <AnimatePresence mode="popLayout">
-          {shown.map((c) => <ClauseCard key={c.id} c={c} rule={rules[c.rule_id]} active={active.clauseIds.includes(c.id)} first={active.clauseIds[0] === c.id} activeT={active.t} onSpy={onSpy} />)}
+          {shown.map((c) => <ClauseCard key={c.id} c={c} rule={rules[c.rule_id]} active={active.clauseIds.includes(c.id)} first={active.clauseIds[0] === c.id} activeT={active.t} onSpy={onSpy} explanation={explanations?.[c.id]} onCorrect={onCorrect} />)}
         </AnimatePresence>
       </div>
 
