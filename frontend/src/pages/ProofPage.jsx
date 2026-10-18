@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import AgentFeed from '../components/AgentFeed'
 import BenchmarkBars from '../components/BenchmarkBars'
 import CitationWeb from '../components/CitationWeb'
+import DebatePanel from '../components/DebatePanel'
 import { CountTo, EASE } from '../components/motion-bits'
 import { AGENTS, PIPELINE } from '../lib/agents'
 import { useStore } from '../lib/store'
@@ -22,7 +23,7 @@ export default function ProofPage() {
   return (
     <>
       <PageHead
-        kicker={['03', 'Proof']}
+        kicker={['04', 'Proof']}
         title="Four checks."
         accent="Every flag cited."
         sub="Each stage hands its findings to the next. Nothing reaches you unless it points to a clause and a written rule."
@@ -35,6 +36,7 @@ export default function ProofPage() {
         <AgentFeed analysis={analysis} onFocus={focus} />
         <BenchmarkBars analysis={analysis} active={active} onFocus={focus} />
         <CitationWeb analysis={analysis} active={active} onFocus={focus} />
+        <DebatePanel analysis={analysis} />
       </div>
     </>
   )
