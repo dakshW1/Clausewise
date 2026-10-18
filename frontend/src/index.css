@@ -1,31 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #F6F3EC;
+  --paper: #F4F3EF;
   --surface: #FFFFFF;
-  --ink: #12141F;
-  --ink-2: #3A3D4D;
-  --muted: #6B6A72;
-  --line: #E7E1D4;
-  --money: #1F6F55;
-  --money-soft: #E3EFE8;
-  --heat: #A8792A;
-  --heat-soft: #F6EEDC;
-  --amber: #C08A1E;
-  --amber-soft: #F8EED6;
-  --danger: #A3243B;
-  --danger-soft: #F7E4E7;
-  --info: #3A5A8C;
-  --info-soft: #E6ECF5;
+  --ink: #141414;
+  --ink-2: #3B3B3B;
+  --muted: #6E6C67;
+  --line: #E4E1DA;
+  --money: #2F6B4F;
+  --money-soft: #E5EFE8;
+  --heat: #6E6C67;
+  --heat-soft: #EFEDE7;
+  --amber: #A8771E;
+  --amber-soft: #F6EEDB;
+  --danger: #9A2E3A;
+  --danger-soft: #F5E3E5;
+  --info: #3D5A80;
+  --info-soft: #E5EAF2;
 
-  --night: #0B0D17;
-  --night-2: #141827;
+  --night: #0D0D0E;
+  --night-2: #161618;
   --night-line: rgba(255, 255, 255, 0.1);
-  --night-text: #EEEAE0;
-  --night-muted: #9B9AA6;
-  --glow-heat: #D8B26A;
-  --glow-money: #7FD1AE;
-  --glow-gold: #D8B26A;
+  --night-text: #EDEBE6;
+  --night-muted: #8F8D88;
+  --glow-heat: #E9E5DC;
+  --glow-money: #8FCBA8;
+  --glow-gold: #E9E5DC;
 }
 
 @theme inline {
@@ -89,12 +89,12 @@ body {
 .caret { animation: caret 1s step-end infinite; }
 
 .paper-doc {
-  background: linear-gradient(180deg, #fffdf7, #f6f1e4);
+  background: linear-gradient(180deg, #FFFFFF, #F3F1EC);
   color: #2a2418;
 }
 
 .hatch {
-  background-image: repeating-linear-gradient(135deg, rgba(192, 138, 30, 0.55) 0 6px, transparent 6px 12px);
+  background-image: repeating-linear-gradient(135deg, rgba(168, 119, 30, 0.55) 0 6px, transparent 6px 12px);
 }
 
 .scrollbar-thin::-webkit-scrollbar { width: 6px; }

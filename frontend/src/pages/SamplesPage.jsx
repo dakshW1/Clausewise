@@ -96,8 +96,8 @@ function SampleCard({ sample, preview, index, onPick }) {
         <span className="mt-2 text-sm font-semibold text-night-text/70">{sample.subtitle}</span>
         {sample.person && <span className="mt-1 text-xs font-bold text-night-muted">For {sample.person}</span>}
         {sample.teaser && (
-          <span className="mt-4 inline-flex w-fit items-center gap-2 rounded-full bg-[#E8798C]/15 px-3 py-1.5 text-xs font-extrabold text-[#E8798C]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#E8798C]" /> {sample.teaser}
+          <span className="mt-4 inline-flex w-fit items-center gap-2 rounded-full bg-[#E38B93]/15 px-3 py-1.5 text-xs font-extrabold text-[#E38B93]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#E38B93]" /> {sample.teaser}
           </span>
         )}
         <span className="mt-auto flex flex-wrap items-center gap-2 pt-5 text-xs font-bold text-night-muted">

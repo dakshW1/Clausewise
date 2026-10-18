@@ -87,11 +87,11 @@ export default function CasePage() {
 
 function StatusPicker({ value, onChange }) {
   return (
-    <div className="flex flex-wrap gap-1 rounded-full bg-surface p-1 text-xs font-extrabold shadow-[0_1px_2px_rgba(18,20,31,0.05)]">
+    <div className="flex flex-wrap gap-1 rounded-full bg-surface p-1 text-xs font-extrabold shadow-[0_1px_2px_rgba(20,20,20,0.05)]">
       {Object.entries(STATUS).map(([k, s]) => (
         <button type="button" key={k} onClick={() => k !== value && onChange(k)} className="relative cursor-pointer rounded-full px-3.5 py-2">
           {value === k && <motion.span layoutId="case-status" className="absolute inset-0 rounded-full" style={{ background: s.soft }} transition={{ type: 'spring', stiffness: 380, damping: 32 }} />}
-          <span className="relative" style={{ color: value === k ? s.color : '#6B6A72' }}>{s.label}</span>
+          <span className="relative" style={{ color: value === k ? s.color : '#6E6C67' }}>{s.label}</span>
         </button>
       ))}
     </div>
@@ -120,7 +120,7 @@ function BeforeAfter({ c, onUpload }) {
               <motion.span initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.6, duration: 0.8, ease: EASE }} className="flex h-14 w-14 items-center justify-center rounded-full bg-white/10">
                 <ArrowRight size={26} />
               </motion.span>
-              <span className={`num text-[44px] font-extrabold leading-none ${delta >= 0 ? 'text-glow-money' : 'text-[#E8798C]'}`}>
+              <span className={`num text-[44px] font-extrabold leading-none ${delta >= 0 ? 'text-glow-money' : 'text-[#E38B93]'}`}>
                 <CountTo to={delta} prefix={delta >= 0 ? '+' : ''} onMount delay={0.8} duration={1.4} />
               </span>
               <span className="text-xs font-bold text-night-muted">points fairer</span>
@@ -150,13 +150,13 @@ function ClauseTracker({ c, onSet }) {
   const R = 26
   const C = 2 * Math.PI * R
   return (
-    <section className="rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(18,20,31,0.05)] sm:p-6 lg:col-span-7">
+    <section className="rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(20,20,20,0.05)] sm:p-6 lg:col-span-7">
       <div className="mb-5 flex items-center gap-4">
         <svg width="64" height="64" viewBox="0 0 64 64" className="shrink-0" aria-label={`${pct}% won`}>
-          <circle cx="32" cy="32" r={R} fill="none" stroke="#EFEADF" strokeWidth="7" />
-          <motion.circle cx="32" cy="32" r={R} fill="none" stroke="#1F6F55" strokeWidth="7" strokeLinecap="round" transform="rotate(-90 32 32)"
+          <circle cx="32" cy="32" r={R} fill="none" stroke="#EFEDE7" strokeWidth="7" />
+          <motion.circle cx="32" cy="32" r={R} fill="none" stroke="#2F6B4F" strokeWidth="7" strokeLinecap="round" transform="rotate(-90 32 32)"
             strokeDasharray={C} initial={{ strokeDashoffset: C }} animate={{ strokeDashoffset: C * (1 - pct / 100) }} transition={{ duration: 1.2, ease: EASE }} />
-          <text x="32" y="37" textAnchor="middle" className="num" fontSize="15" fontWeight="800" fill="#12141F">{pct}%</text>
+          <text x="32" y="37" textAnchor="middle" className="num" fontSize="15" fontWeight="800" fill="#141414">{pct}%</text>
         </svg>
         <div>
           <h2 className="text-[15px] font-extrabold">What changed, clause by clause</h2>
@@ -182,7 +182,7 @@ function TrackerRow({ x, index, onSet }) {
       viewport={{ once: true, amount: 0.4 }}
       transition={{ duration: 0.5, ease: EASE, delay: index * 0.05 }}
       className="rounded-2xl border p-3.5 transition"
-      style={{ borderColor: x.status === 'pending' ? '#E7E1D4' : out.color + '55', background: x.status === 'pending' ? '#FFFFFF' : out.soft + '80' }}
+      style={{ borderColor: x.status === 'pending' ? '#E4E1DA' : out.color + '55', background: x.status === 'pending' ? '#FFFFFF' : out.soft + '80' }}
     >
       <div className="flex flex-wrap items-center gap-3">
         <span className="num flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-sm font-extrabold" style={{ background: sev.soft, color: sev.text }}>{x.number}</span>
@@ -221,7 +221,7 @@ function NegotiationTimeline({ c, onLog }) {
   const events = [...c.events].reverse()
 
   return (
-    <section className="rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(18,20,31,0.05)] sm:p-6 lg:col-span-5">
+    <section className="rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(20,20,20,0.05)] sm:p-6 lg:col-span-5">
       <h2 className="text-[15px] font-extrabold">Negotiation timeline</h2>
       <p className="text-xs font-bold text-muted">Newest first</p>
 
@@ -243,7 +243,7 @@ function NegotiationTimeline({ c, onLog }) {
           {events.map((e, i) => {
             const status = e.meta?.status
             const Ico = e.kind === 'clause_update' ? (status === 'refused' ? CircleX : CircleCheckBig) : EVENT_ICON[e.kind] || FileText
-            const tone = e.kind === 'clause_update' ? OUTCOME[status] || OUTCOME.pending : e.kind === 'revised' ? OUTCOME.agreed : { color: '#12141F', soft: '#EFEADF' }
+            const tone = e.kind === 'clause_update' ? OUTCOME[status] || OUTCOME.pending : e.kind === 'revised' ? OUTCOME.agreed : { color: '#141414', soft: '#EFEDE7' }
             return (
               <motion.div
                 key={`${e.at}-${e.kind}-${i}`}

@@ -30,7 +30,7 @@ export default function MoneySimulator({ analysis, onFocus }) {
   const focusCat = (cat) => { const c = analysis.clauses.find((x) => x.category === cat); if (c) onFocus([c.id], c.rule_id ? [c.rule_id] : []) }
 
   const bars = [
-    { key: 'paid', name: 'Deposit paid', low: 0, high: D, cls: 'bg-[#E3DCCB]', label: rupees(D) },
+    { key: 'paid', name: 'Deposit paid', low: 0, high: D, cls: 'bg-[#E2DFD7]', label: rupees(D) },
     { key: 'pen', name: 'Lock-in penalty', low: best, high: D, cls: 'bg-danger', label: penalty ? '−' + rupees(penalty) : '₹0', cat: 'lock_in' },
     discretionary && { key: 'disc', name: 'No-limit deductions', low: worst, high: best, cls: 'hatch border border-amber', label: '?', cat: 'refund' },
     { key: 'back', name: 'You get back', low: 0, high: best, cls: 'bg-ink', label: rupees(best) },

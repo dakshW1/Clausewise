@@ -95,11 +95,11 @@ export default function Scanning() {
             )}
             <motion.div
               className="absolute inset-x-0 h-28"
-              style={{ background: 'linear-gradient(180deg, transparent, rgba(216,178,106,0.28), transparent)' }}
+              style={{ background: 'linear-gradient(180deg, transparent, rgba(233,229,220,0.28), transparent)' }}
               animate={{ top: ['-15%', '100%'] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut', repeatType: 'reverse' }}
             >
-              <div className="absolute inset-x-0 top-1/2 h-[2px] bg-glow-heat shadow-[0_0_20px_#D8B26A]" />
+              <div className="absolute inset-x-0 top-1/2 h-[2px] bg-glow-heat shadow-[0_0_20px_#E9E5DC]" />
             </motion.div>
           </motion.div>
         </div>

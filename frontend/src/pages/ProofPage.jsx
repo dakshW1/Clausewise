@@ -50,7 +50,7 @@ function PipelineStrip({ stats }) {
         {[0, 1, 2].map((i) => (
           <motion.span
             key={i}
-            className="absolute top-[31px] hidden h-1.5 w-1.5 rounded-full bg-glow-heat shadow-[0_0_10px_#D8B26A] md:block"
+            className="absolute top-[31px] hidden h-1.5 w-1.5 rounded-full bg-glow-heat shadow-[0_0_10px_#E9E5DC] md:block"
             animate={{ left: [`${12 + i * 25.3}%`, `${12 + (i + 1) * 25.3}%`], opacity: [0, 1, 1, 0] }}
             transition={{ duration: 1.6, repeat: Infinity, delay: i * 0.55, ease: 'easeInOut' }}
           />

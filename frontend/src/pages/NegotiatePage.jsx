@@ -79,7 +79,7 @@ export default function NegotiatePage() {
                   initial={{ opacity: 0, x: -16, filter: 'blur(6px)' }}
                   animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
                   transition={{ delay: 0.15 + i * 0.07, ease: EASE, duration: 0.5 }}
-                  className="flex items-center gap-3 rounded-2xl bg-surface px-3 py-3 text-sm font-bold shadow-[0_1px_2px_rgba(18,20,31,0.05)]"
+                  className="flex items-center gap-3 rounded-2xl bg-surface px-3 py-3 text-sm font-bold shadow-[0_1px_2px_rgba(20,20,20,0.05)]"
                 >
                   <span className="num flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-extrabold" style={{ background: s.soft, color: s.text }}>{c.number}</span>
                   <span className="flex flex-1 flex-col">
@@ -111,7 +111,7 @@ export default function NegotiatePage() {
           )}
         </div>
 
-        <motion.div initial={{ rotate: 5, y: 40, opacity: 0 }} animate={{ rotate: 0, y: 0, opacity: 1 }} transition={{ duration: 0.9, ease: EASE, delay: 0.1 }} className="mx-auto w-[320px] rounded-[44px] bg-ink p-2.5 shadow-[0_40px_100px_rgba(18,20,31,0.35)] lg:sticky lg:top-[140px]">
+        <motion.div initial={{ rotate: 5, y: 40, opacity: 0 }} animate={{ rotate: 0, y: 0, opacity: 1 }} transition={{ duration: 0.9, ease: EASE, delay: 0.1 }} className="mx-auto w-[320px] rounded-[44px] bg-ink p-2.5 shadow-[0_40px_100px_rgba(20,20,20,0.35)] lg:sticky lg:top-[140px]">
           <div className="overflow-hidden rounded-[36px] bg-[#0b141a] text-white">
             <div className="flex items-center gap-3 bg-[#202c33] px-4 pb-3 pt-7">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-glow-heat/30 text-sm font-extrabold text-glow-heat">{(analysis.parties?.them || 'Landlord')[0]}</span>

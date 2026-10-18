@@ -22,7 +22,7 @@ export default function AskPage() {
           <VoicePanel analysis={analysis} lang={lang} setLang={setLang} health={health} onCite={focus} onNegotiate={() => navigate('/report/negotiate')} />
         </div>
         <aside className="lg:col-span-5">
-          <div className="rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(18,20,31,0.05)] sm:p-6">
+          <div className="rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(20,20,20,0.05)] sm:p-6">
             <div className="mb-4 flex items-center gap-2 text-[15px] font-extrabold"><ShieldCheck size={17} className="text-money" /> Proof behind the answer</div>
             <AnimatePresence mode="popLayout">
               {cited.length === 0 ? (

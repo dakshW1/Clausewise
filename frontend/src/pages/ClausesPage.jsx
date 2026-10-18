@@ -31,7 +31,7 @@ export default function ClausesPage() {
         <aside className="hidden lg:col-span-5 lg:block">
           <div className="sticky top-[136px] flex gap-3">
             <DocumentMap clauses={analysis.clauses} spy={spy} onPick={(c) => focus([c.id], c.rule_id ? [c.rule_id] : [])} />
-            <div ref={pane} className="paper-doc scrollbar-thin relative max-h-[calc(100vh-170px)] flex-1 overflow-y-auto rounded-[24px] p-6 shadow-[0_1px_2px_rgba(18,20,31,0.05)]">
+            <div ref={pane} className="paper-doc scrollbar-thin relative max-h-[calc(100vh-170px)] flex-1 overflow-y-auto rounded-[24px] p-6 shadow-[0_1px_2px_rgba(20,20,20,0.05)]">
               <p className="mb-4 text-center font-sans text-[11px] font-extrabold uppercase tracking-[0.3em] text-black/45">{analysis.title}</p>
               <div className="flex flex-col gap-1 font-serif text-[15px] leading-snug">
                 {analysis.clauses.map((c) => {

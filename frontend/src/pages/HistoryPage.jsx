@@ -8,17 +8,17 @@ import { api } from '../lib/api'
 import { DOC_ICONS } from './SamplesPage'
 
 export const OUTCOME = {
-  agreed: { label: 'Agreed', color: '#1F6F55', soft: '#E3EFE8' },
-  partly: { label: 'Partly', color: '#C08A1E', soft: '#F8EED6' },
-  refused: { label: 'Refused', color: '#A3243B', soft: '#F7E4E7' },
-  pending: { label: 'Pending', color: '#9B9AA6', soft: '#EFEADF' },
+  agreed: { label: 'Agreed', color: '#2F6B4F', soft: '#E5EFE8' },
+  partly: { label: 'Partly', color: '#A8771E', soft: '#F6EEDB' },
+  refused: { label: 'Refused', color: '#9A2E3A', soft: '#F5E3E5' },
+  pending: { label: 'Pending', color: '#8F8D88', soft: '#EFEDE7' },
 }
 
 export const STATUS = {
-  reviewing: { label: 'Reviewing', color: '#3A5A8C', soft: '#E6ECF5' },
-  negotiating: { label: 'Negotiating', color: '#7A5512', soft: '#F8EED6' },
-  signed: { label: 'Signed', color: '#174F3D', soft: '#E3EFE8' },
-  walked_away: { label: 'Walked away', color: '#6B6A72', soft: '#EFEADF' },
+  reviewing: { label: 'Reviewing', color: '#3D5A80', soft: '#E5EAF2' },
+  negotiating: { label: 'Negotiating', color: '#6E4E12', soft: '#F6EEDB' },
+  signed: { label: 'Signed', color: '#23513C', soft: '#E5EFE8' },
+  walked_away: { label: 'Walked away', color: '#6E6C67', soft: '#EFEDE7' },
 }
 
 export function timeAgo(iso) {
@@ -81,7 +81,7 @@ export default function HistoryPage() {
       </section>
 
       <main className="mx-auto max-w-[1240px] px-4 py-8 sm:px-6">
-        <div className="mb-5 flex flex-wrap gap-1 rounded-full bg-surface p-1 text-sm font-extrabold shadow-[0_1px_2px_rgba(18,20,31,0.05)] sm:w-fit">
+        <div className="mb-5 flex flex-wrap gap-1 rounded-full bg-surface p-1 text-sm font-extrabold shadow-[0_1px_2px_rgba(20,20,20,0.05)] sm:w-fit">
           {FILTERS.map(([k, label]) => (
             <button type="button" key={k} onClick={() => setFilter(k)} className="relative cursor-pointer rounded-full px-4 py-2">
               {filter === k && <motion.span layoutId="history-filter" className="absolute inset-0 rounded-full bg-ink" />}
@@ -114,7 +114,7 @@ function CaseCard({ c, index }) {
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.7, ease: EASE, delay: (index % 2) * 0.08 }}
     >
-      <Link to={`/history/${c.id}`} className="group flex h-full flex-col gap-5 rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(18,20,31,0.05)] transition hover:-translate-y-1 hover:shadow-xl sm:p-6">
+      <Link to={`/history/${c.id}`} className="group flex h-full flex-col gap-5 rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(20,20,20,0.05)] transition hover:-translate-y-1 hover:shadow-xl sm:p-6">
         <div className="flex items-start gap-3">
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-paper"><Icon size={20} /></span>
           <span className="flex flex-1 flex-col">
@@ -175,11 +175,11 @@ function ScoreLine({ scores }) {
   const up = pts.at(-1) >= pts[0]
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="h-12 flex-1" aria-hidden="true">
-      <line x1="0" x2={w} y1={y(75)} y2={y(75)} stroke="#E7E1D4" strokeDasharray="3 4" />
-      <motion.path d={d} fill="none" stroke={scores.length > 1 && up ? '#1F6F55' : '#9B9AA6'} strokeWidth="2.5" strokeLinecap="round"
+      <line x1="0" x2={w} y1={y(75)} y2={y(75)} stroke="#E4E1DA" strokeDasharray="3 4" />
+      <motion.path d={d} fill="none" stroke={scores.length > 1 && up ? '#2F6B4F' : '#8F8D88'} strokeWidth="2.5" strokeLinecap="round"
         initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1.1, ease: EASE, delay: 0.3 }} />
       {pts.map((s, i) => (scores.length > 1 || i === 0) && (
-        <motion.circle key={i} cx={x(i)} cy={y(s)} r="4" fill={i === pts.length - 1 && scores.length > 1 ? '#1F6F55' : '#12141F'}
+        <motion.circle key={i} cx={x(i)} cy={y(s)} r="4" fill={i === pts.length - 1 && scores.length > 1 ? '#2F6B4F' : '#141414'}
           initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 + i * 0.4 }} />
       ))}
     </svg>

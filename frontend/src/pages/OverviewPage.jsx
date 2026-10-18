@@ -35,7 +35,7 @@ export default function OverviewPage() {
         accent="Here’s the proof."
       />
       {analysis.notice && (
-        <p role="status" className="mb-5 flex items-center gap-2 rounded-2xl bg-info-soft px-4 py-2.5 text-sm font-bold text-[#2D4670]">
+        <p role="status" className="mb-5 flex items-center gap-2 rounded-2xl bg-info-soft px-4 py-2.5 text-sm font-bold text-[#2C4466]">
           <Info size={15} /> {analysis.notice}
         </p>
       )}
@@ -62,7 +62,7 @@ export default function OverviewPage() {
                 viewport={{ once: true, amount: 0.4 }}
                 transition={{ duration: 0.6, ease: EASE, delay: i * 0.08 }}
                 whileHover={{ y: -3 }}
-                className="group flex cursor-pointer items-start gap-4 rounded-[20px] bg-surface p-5 text-left shadow-[0_1px_2px_rgba(18,20,31,0.05)] transition hover:shadow-md"
+                className="group flex cursor-pointer items-start gap-4 rounded-[20px] bg-surface p-5 text-left shadow-[0_1px_2px_rgba(20,20,20,0.05)] transition hover:shadow-md"
               >
                 <span className="num flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-lg font-extrabold" style={{ background: SEVERITY.red.soft, color: SEVERITY.red.text }}>{c.number}</span>
                 <span className="flex flex-1 flex-col">
@@ -90,7 +90,7 @@ export default function OverviewPage() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.7, ease: EASE, delay: i * 0.07 }}
             >
-              <Link to={e.to} className="group flex h-full flex-col justify-between gap-6 rounded-[20px] bg-surface p-5 shadow-[0_1px_2px_rgba(18,20,31,0.05)] transition hover:-translate-y-1 hover:bg-ink hover:text-white hover:shadow-xl">
+              <Link to={e.to} className="group flex h-full flex-col justify-between gap-6 rounded-[20px] bg-surface p-5 shadow-[0_1px_2px_rgba(20,20,20,0.05)] transition hover:-translate-y-1 hover:bg-ink hover:text-white hover:shadow-xl">
                 <span className="flex items-center justify-between">
                   <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-paper text-ink transition group-hover:bg-white/10 group-hover:text-glow-heat"><e.icon size={19} /></span>
                   <span className="num text-xs font-extrabold text-muted group-hover:text-white/60">{e.stat}</span>

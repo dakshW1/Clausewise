@@ -44,7 +44,7 @@ export default function ReportLayout() {
             <span className="num hidden h-9 items-center gap-2 rounded-full bg-ink px-3 text-xs font-extrabold text-white sm:flex">
               <span className="h-2 w-2 rounded-full" style={{ background: v.color }} /> {analysis.score}/100
             </span>
-            <span className={`hidden h-9 items-center gap-2 rounded-full px-3 text-xs font-extrabold lg:flex ${live ? 'bg-money-soft text-[#174F3D]' : 'bg-surface text-muted'}`}>
+            <span className={`hidden h-9 items-center gap-2 rounded-full px-3 text-xs font-extrabold lg:flex ${live ? 'bg-money-soft text-[#23513C]' : 'bg-surface text-muted'}`}>
               <span className={`h-1.5 w-1.5 rounded-full ${live ? 'bg-money' : 'bg-muted'}`} />
               {live ? `Live · ${health?.model || 'Gemma 4'}` : 'Demo mode'}
             </span>
@@ -87,7 +87,7 @@ export default function ReportLayout() {
 
       {!location.pathname.endsWith('/ask') && (
         <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.6, type: 'spring', stiffness: 260, damping: 18 }} className="fixed bottom-6 right-6 z-40">
-          <Link to="/report/ask" className="group flex h-14 items-center gap-2 rounded-full bg-night pl-2 pr-5 text-sm font-extrabold text-night-text shadow-[0_20px_50px_rgba(11,13,23,0.35)]">
+          <Link to="/report/ask" className="group flex h-14 items-center gap-2 rounded-full bg-night pl-2 pr-5 text-sm font-extrabold text-night-text shadow-[0_20px_50px_rgba(13,13,14,0.35)]">
             <span className="relative flex h-10 w-10 items-center justify-center rounded-full bg-glow-heat text-night">
               <span className="pulse-ring absolute inset-0 rounded-full bg-glow-heat/60" />
               <Mic size={18} className="relative" />

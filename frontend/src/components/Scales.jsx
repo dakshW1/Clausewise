@@ -29,19 +29,19 @@ export default function Scales({ angle = 0, idle = false, tenantCoins = [], land
   const ly = useTransform(rad, (r) => CY - L * Math.sin(r))
   const rx = useTransform(rad, (r) => CX + L * Math.cos(r))
   const ry = useTransform(rad, (r) => CY + L * Math.sin(r))
-  const label = dark ? '#EEEAE0' : '#12141F'
+  const label = dark ? '#EDEBE6' : '#141414'
 
   return (
     <svg viewBox="0 0 400 340" width="100%" style={{ maxWidth: size }} role="img" aria-label="Scales of justice">
       <defs>
         <linearGradient id="gold" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0%" stopColor="#F3E3BC" />
-          <stop offset="55%" stopColor="#D8B26A" />
-          <stop offset="100%" stopColor="#9C7A3C" />
+          <stop offset="0%" stopColor="#FAFAF8" />
+          <stop offset="55%" stopColor="#E9E5DC" />
+          <stop offset="100%" stopColor="#8E8B83" />
         </linearGradient>
         <radialGradient id="glow">
-          <stop offset="0%" stopColor="rgba(216,178,106,0.35)" />
-          <stop offset="100%" stopColor="rgba(216,178,106,0)" />
+          <stop offset="0%" stopColor="rgba(233,229,220,0.35)" />
+          <stop offset="100%" stopColor="rgba(233,229,220,0)" />
         </radialGradient>
       </defs>
 
@@ -52,7 +52,7 @@ export default function Scales({ angle = 0, idle = false, tenantCoins = [], land
       <rect x={CX - 90} y="298" width="180" height="10" rx="5" fill="url(#gold)" />
 
       <motion.line x1={lx} y1={ly} x2={rx} y2={ry} stroke="url(#gold)" strokeWidth="7" strokeLinecap="round" />
-      <circle cx={CX} cy={CY} r="11" fill={dark ? '#0B0D17' : '#FFFFFF'} stroke="url(#gold)" strokeWidth="4" />
+      <circle cx={CX} cy={CY} r="11" fill={dark ? '#0D0D0E' : '#FFFFFF'} stroke="url(#gold)" strokeWidth="4" />
       <circle cx={CX} cy={CY - 26} r="7" fill="url(#gold)" />
       <path d={`M${CX} ${CY - 19} V${CY - 10}`} stroke="url(#gold)" strokeWidth="4" />
 
@@ -66,7 +66,7 @@ function Pan({ x, y, label, coins, color }) {
   return (
     <motion.g style={{ x, y }}>
       <circle r="5" fill="url(#gold)" />
-      <path d="M0 0 L-48 92 M0 0 L48 92" stroke="rgba(216,178,106,0.75)" strokeWidth="1.5" />
+      <path d="M0 0 L-48 92 M0 0 L48 92" stroke="rgba(233,229,220,0.75)" strokeWidth="1.5" />
       <AnimatePresence>
         {coins.map((c, i) => (
           <motion.circle

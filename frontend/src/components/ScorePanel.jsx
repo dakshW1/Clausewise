@@ -34,8 +34,8 @@ export default function ScorePanel({ analysis }) {
                 strokeDasharray={C} initial={{ strokeDashoffset: C }} animate={{ strokeDashoffset: C * (1 - score / 100) }}
                 transition={{ duration: 1.6, ease: EASE, delay: 0.2 }}
               />
-              <text x="75" y="82" textAnchor="middle" className="num" fill="#EEEAE0" fontSize="34" fontWeight="800">{score}</text>
-              <text x="75" y="102" textAnchor="middle" fill="#9B9AA6" fontSize="11" fontWeight="700">of 100</text>
+              <text x="75" y="82" textAnchor="middle" className="num" fill="#EDEBE6" fontSize="34" fontWeight="800">{score}</text>
+              <text x="75" y="102" textAnchor="middle" fill="#8F8D88" fontSize="11" fontWeight="700">of 100</text>
             </svg>
             <div>
               <p className="font-serif text-[44px] italic leading-none" style={{ color: v.color }}>{v.text}</p>

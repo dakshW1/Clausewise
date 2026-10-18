@@ -8,7 +8,7 @@ import { Card, CardHead } from './ui'
 
 const KIND = {
   red: SEVERITY.red, amber: SEVERITY.amber, missing: SEVERITY.missing,
-  verify: SEVERITY.green, info: { soft: '#F6F3EC', text: '#3A3D4D' },
+  verify: SEVERITY.green, info: { soft: '#F4F3EF', text: '#3B3B3B' },
 }
 
 // Replays the pipeline's trace as a conversation between the agents, one message at a time.

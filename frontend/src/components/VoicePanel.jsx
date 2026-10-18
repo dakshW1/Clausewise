@@ -7,7 +7,7 @@ import { LANGUAGES, suggestionsFor } from '../lib/theme'
 import { EASE, PulseDot } from './motion-bits'
 
 const BARS = 32
-const MODE_COLOR = { idle: '#D8B26A', recording: '#E8798C', thinking: '#B9A5E6', speaking: '#7FD1AE' }
+const MODE_COLOR = { idle: '#E9E5DC', recording: '#E38B93', thinking: '#B8B0D8', speaking: '#8FCBA8' }
 
 function Orb({ mode, levels, onClick, small = false }) {
   const c = MODE_COLOR[mode]
@@ -240,7 +240,7 @@ export default function VoicePanel({ analysis, lang, setLang, health, onCite, on
                     )}
                   </div>
                   {m.confidence === 'low' && (
-                    <div className="mt-2 flex items-center gap-2 rounded-xl bg-info/25 px-3 py-2 text-xs font-bold text-[#C9D6EC]">
+                    <div className="mt-2 flex items-center gap-2 rounded-xl bg-info/25 px-3 py-2 text-xs font-bold text-[#CAD5E6]">
                       <LifeBuoy size={14} /> Free legal aid: call <b>15100</b> (NALSA)
                     </div>
                   )}
@@ -258,7 +258,7 @@ export default function VoicePanel({ analysis, lang, setLang, health, onCite, on
             <span className="text-sm font-bold text-night-muted">{status}</span>
           </div>
         )}
-        {hint && <p className="mb-2 text-xs font-bold text-[#E3B95C]">{hint}</p>}
+        {hint && <p className="mb-2 text-xs font-bold text-[#D9B56E]">{hint}</p>}
         <form onSubmit={(e) => { e.preventDefault(); ask(text); setText('') }} className="flex gap-2">
           <input
             value={text}

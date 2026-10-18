@@ -7,7 +7,7 @@ import { useStore } from '../lib/store'
 import { rupees } from '../lib/theme'
 import { hasTimeline, PageHead } from './ReportLayout'
 
-const C = { gold: '#D8B26A', green: '#7FD1AE', blue: '#93AEDB', red: '#E8798C', amber: '#E3B95C' }
+const C = { gold: '#E9E5DC', green: '#8FCBA8', blue: '#9DB4D8', red: '#E38B93', amber: '#D9B56E' }
 
 export default function TimelinePage() {
   const { analysis, focus: setFocus } = useStore()
@@ -104,7 +104,7 @@ function ScrubTimeline({ analysis, onFocus }) {
             {back != null && (
               <div className="rounded-2xl border border-night-line bg-night-2/80 p-4">
                 <p className="text-xs font-bold text-night-muted">If you left this month, you’d get back</p>
-                <p className={`num mt-1 text-[40px] font-extrabold leading-none tracking-[-0.03em] ${inLockIn ? 'text-[#E8798C]' : 'text-glow-money'}`}>{rupees(back)}</p>
+                <p className={`num mt-1 text-[40px] font-extrabold leading-none tracking-[-0.03em] ${inLockIn ? 'text-[#E38B93]' : 'text-glow-money'}`}>{rupees(back)}</p>
                 <p className="mt-2 text-xs font-semibold text-night-text/65">
                   {inLockIn ? `Inside the lock-in: ${rupees(penalty)} is kept.` : 'Past the lock-in: no penalty.'} Deductions under clause {clause('refund')?.number ?? '–'} may lower this.
                 </p>
@@ -122,10 +122,10 @@ function ScrubTimeline({ analysis, onFocus }) {
             <div className="relative h-16">
               <div className="absolute inset-x-0 top-[26px] h-3 rounded-full bg-white/10" />
               {kv.lock_in_months && (
-                <button type="button" onClick={() => focusCat('lock_in')} className="hatch absolute left-0 top-[22px] h-5 cursor-pointer rounded-full border border-[#E3B95C]/70" style={{ width: `${pct(kv.lock_in_months)}%` }} aria-label="Lock-in period" />
+                <button type="button" onClick={() => focusCat('lock_in')} className="hatch absolute left-0 top-[22px] h-5 cursor-pointer rounded-full border border-[#D9B56E]/70" style={{ width: `${pct(kv.lock_in_months)}%` }} aria-label="Lock-in period" />
               )}
               <motion.div className="absolute left-0 top-[26px] h-3 rounded-full bg-gradient-to-r from-glow-heat to-glow-money opacity-60" style={{ width: cursor }} />
-              <motion.div className="absolute top-[12px] h-10 w-[2px] -translate-x-1/2 bg-glow-heat shadow-[0_0_14px_#D8B26A]" style={{ left: cursor }} />
+              <motion.div className="absolute top-[12px] h-10 w-[2px] -translate-x-1/2 bg-glow-heat shadow-[0_0_14px_#E9E5DC]" style={{ left: cursor }} />
               {events.map((e) => {
                 const reached = month >= e.m - 0.02
                 return (
@@ -144,8 +144,8 @@ function ScrubTimeline({ analysis, onFocus }) {
           {risks.length > 0 && (
             <div className="mt-5 flex flex-wrap gap-2">
               {risks.map((r) => (
-                <button type="button" key={r.cat} onClick={() => focusCat(r.cat)} className="flex cursor-pointer items-center gap-2 rounded-full border border-[#E8798C]/40 bg-[#E8798C]/10 px-3 py-1.5 text-xs font-extrabold text-[#E8798C]">
-                  {r.kind === 'zap' ? <Zap size={12} fill="currentColor" /> : <span className="pulse-ring-dot relative flex h-2 w-2"><span className="pulse-ring absolute h-full w-full rounded-full bg-[#E8798C]" /><span className="relative h-2 w-2 rounded-full bg-[#E8798C]" /></span>}
+                <button type="button" key={r.cat} onClick={() => focusCat(r.cat)} className="flex cursor-pointer items-center gap-2 rounded-full border border-[#E38B93]/40 bg-[#E38B93]/10 px-3 py-1.5 text-xs font-extrabold text-[#E38B93]">
+                  {r.kind === 'zap' ? <Zap size={12} fill="currentColor" /> : <span className="pulse-ring-dot relative flex h-2 w-2"><span className="pulse-ring absolute h-full w-full rounded-full bg-[#E38B93]" /><span className="relative h-2 w-2 rounded-full bg-[#E38B93]" /></span>}
                   {r.text}
                 </button>
               ))}

@@ -40,7 +40,7 @@ function ClauseCard({ c, rule, active, first, activeT, onSpy }) {
       transition={{ ease: EASE, duration: 0.5 }}
       viewport={{ amount: 0.6 }}
       onViewportEnter={() => onSpy?.(c.id)}
-      className={`relative overflow-hidden rounded-2xl border transition ${active ? 'border-ink shadow-[0_10px_40px_rgba(18,20,31,0.12)]' : 'border-line'}`}
+      className={`relative overflow-hidden rounded-2xl border transition ${active ? 'border-ink shadow-[0_10px_40px_rgba(20,20,20,0.12)]' : 'border-line'}`}
     >
       {active && <motion.div className="pointer-events-none absolute inset-0" style={{ background: s.soft }} initial={{ opacity: 1 }} animate={{ opacity: 0 }} transition={{ duration: 2.4 }} />}
       <button type="button" onClick={() => setOpen((o) => !o)} className="relative flex w-full cursor-pointer items-start gap-3 p-4 text-left">
@@ -49,7 +49,7 @@ function ClauseCard({ c, rule, active, first, activeT, onSpy }) {
           <span className="flex flex-wrap items-center gap-2">
             <span className="text-[15px] font-extrabold">{c.title}</span>
             <Chip color={s.text} soft={s.soft}>{s.label}</Chip>
-            {rule && <Chip color="#EEEAE0" soft="#12141F">{rule.id} · {rule.title}</Chip>}
+            {rule && <Chip color="#EDEBE6" soft="#141414">{rule.id} · {rule.title}</Chip>}
           </span>
           <span className="mt-1 text-sm font-semibold text-ink-2">{c.simple}</span>
           {c.severity !== 'green' && <span className="mt-1 text-[13px] font-bold" style={{ color: s.text }}>{c.reason}</span>}
@@ -118,8 +118,8 @@ export default function ClauseList({ analysis, active, onSpy }) {
                 className="relative rounded-2xl border-2 border-dashed border-info/40 bg-info-soft p-4"
               >
                 <span className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-info text-white"><Plus size={14} /></span>
-                <p className="pr-8 text-[15px] font-extrabold text-[#2D4670]">{m.label}</p>
-                <p className="mt-1 text-[13px] font-semibold text-[#2D4670]/80">{m.why}</p>
+                <p className="pr-8 text-[15px] font-extrabold text-[#2C4466]">{m.label}</p>
+                <p className="mt-1 text-[13px] font-semibold text-[#2C4466]/80">{m.why}</p>
               </motion.div>
             ))}
           </div>

@@ -1,9 +1,9 @@
 // Each severity has a colour for light cards, a glow for night cards, and a soft tint for backgrounds.
 export const SEVERITY = {
-  red: { color: '#A3243B', glow: '#E8798C', soft: '#F7E4E7', text: '#8A1C30', label: 'Against model law', short: 'Unfair' },
-  amber: { color: '#C08A1E', glow: '#E3B95C', soft: '#F8EED6', text: '#7A5512', label: 'Unusual', short: 'Unusual' },
-  green: { color: '#1F6F55', glow: '#7FD1AE', soft: '#E3EFE8', text: '#174F3D', label: 'Standard', short: 'Fair' },
-  missing: { color: '#3A5A8C', glow: '#93AEDB', soft: '#E6ECF5', text: '#2D4670', label: 'Missing', short: 'Missing' },
+  red: { color: '#9A2E3A', glow: '#E38B93', soft: '#F5E3E5', text: '#7E2230', label: 'Against model law', short: 'Unfair' },
+  amber: { color: '#A8771E', glow: '#D9B56E', soft: '#F6EEDB', text: '#6E4E12', label: 'Unusual', short: 'Unusual' },
+  green: { color: '#2F6B4F', glow: '#8FCBA8', soft: '#E5EFE8', text: '#23513C', label: 'Standard', short: 'Fair' },
+  missing: { color: '#3D5A80', glow: '#9DB4D8', soft: '#E5EAF2', text: '#2C4466', label: 'Missing', short: 'Missing' },
 }
 
 export const LANGUAGES = [
@@ -47,9 +47,9 @@ export const rupees = (n) => (n == null ? '–' : '₹' + Math.round(n).toLocale
 
 export function verdict(score, them = 'landlord') {
   const side = them.toLowerCase()
-  if (score >= 75) return { text: 'Balanced.', sub: 'This document treats both sides fairly.', color: '#7FD1AE' }
-  if (score >= 50) return { text: 'Leaning.', sub: `A few clauses favour the ${side}.`, color: '#E3B95C' }
-  return { text: 'Tilted.', sub: `Heavily weighted toward the ${side}.`, color: '#E8798C' }
+  if (score >= 75) return { text: 'Balanced.', sub: 'This document treats both sides fairly.', color: '#8FCBA8' }
+  if (score >= 50) return { text: 'Leaning.', sub: `A few clauses favour the ${side}.`, color: '#D9B56E' }
+  return { text: 'Tilted.', sub: `Heavily weighted toward the ${side}.`, color: '#E38B93' }
 }
 
 export const scaleAngle = (score) => Math.min(18, Math.max(0, (75 - score) * 0.45))

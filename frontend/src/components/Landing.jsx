@@ -6,10 +6,10 @@ import { CountTo, EASE, Kicker, PulseDot, Reveal, Typewriter, Words } from './mo
 import Scales from './Scales'
 import { Logo } from './ui'
 
-const RED = '#E8798C'
-const AMBER = '#E3B95C'
-const GREEN = '#7FD1AE'
-const BLUE = '#93AEDB'
+const RED = '#E38B93'
+const AMBER = '#D9B56E'
+const GREEN = '#8FCBA8'
+const BLUE = '#9DB4D8'
 const coins = (color, n, tag) => Array.from({ length: n }, (_, i) => ({ id: `${tag}${i}`, color }))
 const FULL_LANDLORD = [...coins(RED, 4, 'r'), ...coins(AMBER, 3, 'a'), ...coins(BLUE, 3, 'm')]
 
@@ -85,8 +85,8 @@ export default function Landing({ onStart: start, onBrowse: browse }) {
             <Scales idle={ch.idle} angle={ch.angle} tenantCoins={ch.tenant} landlordCoins={ch.landlord} size={600} />
           </div>
         </motion.div>
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(11,13,23,0.95)_0%,rgba(11,13,23,0.7)_40%,rgba(11,13,23,0)_68%)]" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(11,13,23,0.9),rgba(11,13,23,0))]" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(13,13,14,0.95)_0%,rgba(13,13,14,0.7)_40%,rgba(13,13,14,0)_68%)]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(13,13,14,0.9),rgba(13,13,14,0))]" />
       </div>
 
       <header className="fixed inset-x-0 top-0 z-30">
@@ -239,7 +239,7 @@ function EvictChapter() {
             “The Landlord may terminate this agreement for any reason by giving 15 days’ notice…”
           </div>
           <div className="mt-3 flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-danger/20 text-[#E8798C]"><Link2 size={20} /></span>
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-danger/20 text-[#E38B93]"><Link2 size={20} /></span>
             <span className="flex flex-col">
               <span className="text-[15px] font-extrabold">Clause 9 ↔ Rule R4</span>
               <span className="text-xs font-bold text-night-muted">No eviction at will · against the model law</span>
@@ -298,10 +298,10 @@ function ReadChapter() {
                 <span className="num text-lg font-extrabold">Fairness check</span>
                 <span className="rounded-full bg-heat-soft px-2.5 py-1 text-[11px] font-extrabold text-heat">41 / 100</span>
               </div>
-              <div className="mb-3 rounded-2xl bg-money-soft px-3 py-2.5 text-[13px] font-bold text-[#174F3D]">✓ 11 clauses read · 8 citations verified</div>
+              <div className="mb-3 rounded-2xl bg-money-soft px-3 py-2.5 text-[13px] font-bold text-[#23513C]">✓ 11 clauses read · 8 citations verified</div>
               <div className="rounded-2xl bg-white px-4">
                 {DOC_ROWS.map(([n, t, note, c]) => (
-                  <div key={n} className="flex items-center gap-3 border-b border-[#EFEADF] py-3 last:border-0">
+                  <div key={n} className="flex items-center gap-3 border-b border-[#EFEDE7] py-3 last:border-0">
                     <span className="num w-5 text-sm font-extrabold text-muted">{n}</span>
                     <div className="flex flex-1 flex-col">
                       <span className="text-sm font-extrabold">{t}</span>

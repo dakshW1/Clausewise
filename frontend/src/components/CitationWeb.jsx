@@ -67,8 +67,8 @@ export default function CitationWeb({ analysis, active, onFocus }) {
             >
               <rect x="0" y={y - NODE_H / 2} width={LW} height={NODE_H} rx="14" fill={s.soft} />
               <circle cx="20" cy={y} r="5" fill={s.color} />
-              <text x="34" y={y - 3} fill="#12141F" fontSize="13" fontWeight="800">Clause {c.number}</text>
-              <text x="34" y={y + 13} fill="#6B6A72" fontSize="11.5" fontWeight="600">{c.title}</text>
+              <text x="34" y={y - 3} fill="#141414" fontSize="13" fontWeight="800">Clause {c.number}</text>
+              <text x="34" y={y + 13} fill="#6E6C67" fontSize="11.5" fontWeight="600">{c.title}</text>
               <circle cx={LW} cy={y} r="4" fill={s.color} />
             </motion.g>
           )
@@ -86,10 +86,10 @@ export default function CitationWeb({ analysis, active, onFocus }) {
               onMouseLeave={() => setHover(null)}
               style={{ cursor: isCited ? 'pointer' : 'default' }}
             >
-              <rect x={RX} y={y - NODE_H / 2} width={RW} height={NODE_H} rx="14" fill={isCited ? '#12141F' : '#F6F3EC'} />
-              <circle cx={RX} cy={y} r="4" fill={isCited ? '#12141F' : '#D9D2C2'} />
-              <text x={RX + 16} y={y - 3} fill={isCited ? '#7FD1AE' : '#6B6A72'} fontSize="13" fontWeight="800" className="num">{r.id}</text>
-              <text x={RX + 16} y={y + 13} fill={isCited ? 'rgba(255,255,255,0.75)' : '#6B6A72'} fontSize="11.5" fontWeight="600">{r.title}</text>
+              <rect x={RX} y={y - NODE_H / 2} width={RW} height={NODE_H} rx="14" fill={isCited ? '#141414' : '#F4F3EF'} />
+              <circle cx={RX} cy={y} r="4" fill={isCited ? '#141414' : '#D6D3CB'} />
+              <text x={RX + 16} y={y - 3} fill={isCited ? '#8FCBA8' : '#6E6C67'} fontSize="13" fontWeight="800" className="num">{r.id}</text>
+              <text x={RX + 16} y={y + 13} fill={isCited ? 'rgba(255,255,255,0.75)' : '#6E6C67'} fontSize="11.5" fontWeight="600">{r.title}</text>
             </motion.g>
           )
         })}
