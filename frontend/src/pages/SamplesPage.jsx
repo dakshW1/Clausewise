@@ -29,7 +29,7 @@ export default function SamplesPage() {
   return (
     <motion.div key="samples" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, filter: 'blur(8px)' }} className="grain relative min-h-screen bg-night text-night-text">
       <div className="pointer-events-none absolute -right-24 top-0 h-[28rem] w-[28rem] rounded-full bg-glow-heat/15 blur-[120px]" />
-      <input ref={fileRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => e.target.files?.[0] && start({ file: e.target.files[0] })} />
+      <input ref={fileRef} type="file" accept="image/*,application/pdf" hidden onChange={(e) => e.target.files?.[0] && start({ file: e.target.files[0] })} />
 
       <header className="relative z-10 mx-auto flex h-18 max-w-[1400px] items-center justify-between px-5 sm:px-8">
         <Link to="/" aria-label="Clausewise home"><Logo dark /></Link>
@@ -65,7 +65,7 @@ export default function SamplesPage() {
           <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-glow-heat text-night"><FileUp size={24} /></span>
           <span className="flex-1">
             <span className="block text-lg font-extrabold">Check your own document</span>
-            <span className="block text-sm font-semibold text-night-muted">Photograph a rent agreement, offer letter, loan or freelance contract. Clausewise works out the type and picks the right rulebook.</span>
+            <span className="block text-sm font-semibold text-night-muted">Upload a photo or PDF of a rent agreement, offer letter, loan or freelance contract. Clausewise works out the type and picks the right rulebook.</span>
           </span>
           <ArrowRight size={20} className="shrink-0 transition group-hover:translate-x-1" />
         </motion.button>

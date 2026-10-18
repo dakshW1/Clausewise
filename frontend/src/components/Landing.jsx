@@ -72,7 +72,7 @@ export default function Landing({ onStart: start, onBrowse: browse }) {
 
   return (
     <motion.div key="landing" exit={{ opacity: 0, filter: 'blur(8px)' }} transition={{ duration: 0.5 }} className="grain relative bg-night text-night-text">
-      <input ref={fileRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => e.target.files?.[0] && onStart(e.target.files[0])} />
+      <input ref={fileRef} type="file" accept="image/*,application/pdf" hidden onChange={(e) => e.target.files?.[0] && onStart(e.target.files[0])} />
 
       {/* Fixed scales behind every chapter */}
       <div className="fixed inset-0 z-0" aria-hidden="true">
@@ -162,7 +162,7 @@ function Hero({ onSample, onUpload, onBrowse }) {
             Check the sample agreement <ArrowRight size={18} className="transition group-hover:translate-x-0.5" />
           </button>
           <button type="button" onClick={onUpload} className="flex h-13 cursor-pointer items-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 text-[15px] font-bold text-white backdrop-blur transition hover:bg-white/10">
-            <Upload size={17} /> Upload yours
+            <Upload size={17} /> Upload photo or PDF
           </button>
           <button type="button" onClick={onBrowse} className="flex h-13 cursor-pointer items-center px-3 text-[15px] font-bold text-night-text/70 transition hover:text-white">
             Job offers, loans and more →

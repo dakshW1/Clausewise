@@ -48,7 +48,7 @@ export default function CasePage() {
 
   return (
     <motion.div key={`case-${id}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, filter: 'blur(8px)' }} className="min-h-screen bg-paper">
-      <input ref={fileRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => e.target.files?.[0] && uploadRevision(e.target.files[0])} />
+      <input ref={fileRef} type="file" accept="image/*,application/pdf" hidden onChange={(e) => e.target.files?.[0] && uploadRevision(e.target.files[0])} />
       <header className="sticky top-0 z-30 border-b border-line bg-paper/85 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-[1240px] items-center gap-4 px-4 sm:px-6">
           <Link to="/" aria-label="Clausewise home"><Logo /></Link>

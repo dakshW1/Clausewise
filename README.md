@@ -1,6 +1,6 @@
 # Clausewise
 
-Clausewise reads a legal document from a photo, checks every clause against a rulebook for that kind of document, and explains it by voice in Indian languages. Every answer cites the clause and the rule behind it.
+Clausewise reads a legal document from a photo or PDF, checks every clause against a rulebook for that kind of document, and explains it by voice in Indian languages. Every answer cites the clause and the rule behind it.
 
 - **Gemma 4** works out the document type, reads every clause, checks fairness and answers questions.
 - **Sarvam AI** handles speech-to-text, translation and text-to-speech.
@@ -29,6 +29,7 @@ Two example cases are added on first start so the history page shows what tracki
 
 ## Privacy
 
+- **PDFs:** digital PDFs are read as text in the browser (pdf.js), with ID numbers masked before upload; scanned PDFs are turned into page images that go through the blur step and are uploaded page by page (up to 8 pages).
 - **Blur before upload:** after picking a photo, drag over private details to blur them, or let Clausewise find Aadhaar, PAN and phone numbers automatically. Text recognition for this runs in the browser (Tesseract.js); only the blurred photo is uploaded.
 - **Redacted text:** Aadhaar, PAN and phone numbers are also masked in the extracted clauses, so they never reach the report, history, voice or WhatsApp messages.
 - **On-device option:** Gemma 4 is open-weight, so the same pipeline can run fully offline on a phone or laptop (for example through Ollama). This demo calls Gemma 4 through Google AI Studio.
