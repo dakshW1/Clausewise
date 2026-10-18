@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { CalendarClock, FileText, Handshake, History, LayoutGrid, Link2, Mic, RotateCcw } from 'lucide-react'
+import { CalendarClock, FileText, Handshake, History, Image, LayoutGrid, Link2, Mic, RotateCcw } from 'lucide-react'
 import { useEffect } from 'react'
 import { Link, Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { EASE, Words } from '../components/motion-bits'
@@ -27,6 +27,7 @@ export default function ReportLayout() {
   const tabs = [
     { to: '/report', end: true, label: 'Overview', icon: LayoutGrid },
     { to: '/report/clauses', label: 'Clauses', icon: FileText, count: analysis.clauses.length },
+    { to: '/report/pictures', label: 'Pictures', icon: Image },
     { to: '/report/proof', label: 'Proof', icon: Link2 },
     hasTimeline(analysis) && { to: '/report/timeline', label: 'Timeline', icon: CalendarClock },
     { to: '/report/ask', label: 'Ask', icon: Mic },

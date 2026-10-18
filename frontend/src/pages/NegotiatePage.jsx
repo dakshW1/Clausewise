@@ -57,7 +57,7 @@ export default function NegotiatePage() {
 
   return (
     <>
-      <PageHead kicker={['06', 'Negotiate']} title="Don’t argue." accent="Ask, with the law." sub="Every flagged clause becomes a respectful request that cites the rule, written in your language." />
+      <PageHead kicker={['07', 'Negotiate']} title="Don’t argue." accent="Ask, with the law." sub="Every flagged clause becomes a respectful request that cites the rule, written in your language." />
       <div className="grid items-start gap-8 lg:grid-cols-[1fr_340px]">
         <div>
           <div className="mb-5 flex flex-wrap gap-1.5">

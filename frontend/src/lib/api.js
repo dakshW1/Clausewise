@@ -1,5 +1,9 @@
 async function json(res) {
-  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
+  if (!res.ok) {
+    // FastAPI puts a readable reason in "detail"; show that instead of a bare status code.
+    const detail = await res.json().then((b) => b.detail).catch(() => null)
+    throw new Error(detail || `${res.status} ${res.statusText}`)
+  }
   return res.json()
 }
 
@@ -40,6 +44,13 @@ export const api = {
   setOutcome: (id, clauseId, status, note = '') => send('PUT', `/api/cases/${id}/clauses/${clauseId}`, { status, note }),
   setStatus: (id, status) => send('PATCH', `/api/cases/${id}`, { status }),
   deleteCase: (id) => fetch(`/api/cases/${id}`, { method: 'DELETE' }).then(json),
+
+  speak: (text, language_code) => send('POST', '/api/speak', { text, language_code }),
+  explain: (analysis, level) => send('POST', '/api/explain', { analysis, level }),
+  checklist: (analysis) => send('POST', '/api/checklist', { analysis }),
+  debate: (analysis) => send('POST', '/api/debate', { analysis }),
+  summary: (analysis, language_code) => send('POST', '/api/summary', { analysis, language_code }),
+  recheck: (analysis, corrections) => send('POST', '/api/recheck', { analysis, corrections }),
 
   negotiate: (language_code, analysis) =>
     fetch('/api/negotiate', {

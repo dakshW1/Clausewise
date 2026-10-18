@@ -9,6 +9,7 @@ import ClausesPage from './pages/ClausesPage'
 import HistoryPage from './pages/HistoryPage'
 import NegotiatePage from './pages/NegotiatePage'
 import OverviewPage from './pages/OverviewPage'
+import PicturesPage from './pages/PicturesPage'
 import ProofPage from './pages/ProofPage'
 import ReportLayout from './pages/ReportLayout'
 import SamplesPage from './pages/SamplesPage'
@@ -35,6 +36,7 @@ function AnimatedRoutes() {
         <Route path="/report" element={<ReportLayout />}>
           <Route index element={<OverviewPage />} />
           <Route path="clauses" element={<ClausesPage />} />
+          <Route path="pictures" element={<PicturesPage />} />
           <Route path="proof" element={<ProofPage />} />
           <Route path="timeline" element={<TimelinePage />} />
           <Route path="ask" element={<AskPage />} />
