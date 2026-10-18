@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useRef, useState } from 'react'
 import { SEVERITY } from '../lib/theme'
 import { Card, CardHead } from './ui'
 
@@ -21,6 +21,9 @@ export default function CitationWeb({ analysis, active, onFocus }) {
   const ruleIndex = Object.fromEntries(right.map((r, i) => [r.id, i]))
   const cited = new Set(left.map((c) => c.rule_id))
 
+  // Wires draw in step with scrolling: from the moment the card enters until it reaches the middle of the screen.
+  const box = useRef(null)
+  const { scrollYProgress } = useScroll({ target: box, offset: ['start end', 'center center'] })
   const lit = hover || (active.clauseIds.length ? active : null)
   const clauseOn = (c) => !lit || lit.clauseIds.includes(c.id) || lit.ruleIds.includes(c.rule_id)
   const ruleOn = (r) => cited.has(r.id) && (!lit || lit.ruleIds.includes(r.id) || left.some((c) => c.rule_id === r.id && lit.clauseIds.includes(c.id)))
@@ -32,7 +35,7 @@ export default function CitationWeb({ analysis, active, onFocus }) {
         <span>Your clauses</span>
         <span>Model Tenancy Act rulebook</span>
       </div>
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Clauses linked to the rules they break">
+      <svg ref={box} viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Clauses linked to the rules they break">
         {left.map((c, i) => {
           const y1 = ly(i)
           const y2 = ry(ruleIndex[c.rule_id])
@@ -41,11 +44,7 @@ export default function CitationWeb({ analysis, active, onFocus }) {
           const on = clauseOn(c)
           return (
             <g key={c.id} opacity={on ? 1 : 0.12} style={{ transition: 'opacity .3s' }}>
-              <motion.path
-                d={d} fill="none" stroke={color} strokeWidth={lit && on ? 2.6 : 1.6}
-                initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
-                transition={{ duration: 1.2, delay: 0.3 + i * 0.15, ease: 'easeInOut' }}
-              />
+              <Wire d={d} color={color} width={lit && on ? 2.6 : 1.6} progress={scrollYProgress} index={i} total={left.length} />
               <circle r="3.5" fill={color}>
                 <animateMotion dur={`${2 + (i % 3) * 0.4}s`} repeatCount="indefinite" path={d} begin={`${1.5 + i * 0.2}s`} />
               </circle>
@@ -98,4 +97,10 @@ export default function CitationWeb({ analysis, active, onFocus }) {
       <p className="mt-3 text-xs font-semibold text-muted">{analysis.rules_source}</p>
     </Card>
   )
+}
+
+function Wire({ d, color, width, progress, index, total }) {
+  const start = (index / Math.max(total, 1)) * 0.5
+  const pathLength = useTransform(progress, [start, start + 0.5], [0, 1])
+  return <motion.path d={d} fill="none" stroke={color} strokeWidth={width} style={{ pathLength }} />
 }

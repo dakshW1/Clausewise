@@ -12,7 +12,7 @@ const FILTERS = [
   { key: 'green', label: 'Fair' },
 ]
 
-function ClauseCard({ c, rule, active, first, activeT }) {
+function ClauseCard({ c, rule, active, first, activeT, onSpy }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
   const s = SEVERITY[c.severity]
@@ -38,6 +38,8 @@ function ClauseCard({ c, rule, active, first, activeT }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.97 }}
       transition={{ ease: EASE, duration: 0.5 }}
+      viewport={{ amount: 0.6 }}
+      onViewportEnter={() => onSpy?.(c.id)}
       className={`relative overflow-hidden rounded-2xl border transition ${active ? 'border-ink shadow-[0_10px_40px_rgba(18,20,31,0.12)]' : 'border-line'}`}
     >
       {active && <motion.div className="pointer-events-none absolute inset-0" style={{ background: s.soft }} initial={{ opacity: 1 }} animate={{ opacity: 0 }} transition={{ duration: 2.4 }} />}
@@ -76,7 +78,7 @@ function ClauseCard({ c, rule, active, first, activeT }) {
   )
 }
 
-export default function ClauseList({ analysis, active }) {
+export default function ClauseList({ analysis, active, onSpy }) {
   const [filter, setFilter] = useState('all')
   const rules = Object.fromEntries(analysis.rules.map((r) => [r.id, r]))
   const shown = analysis.clauses.filter((c) => filter === 'all' || c.severity === filter || active.clauseIds.includes(c.id))
@@ -98,7 +100,7 @@ export default function ClauseList({ analysis, active }) {
       />
       <div className="flex flex-col gap-2.5">
         <AnimatePresence mode="popLayout">
-          {shown.map((c) => <ClauseCard key={c.id} c={c} rule={rules[c.rule_id]} active={active.clauseIds.includes(c.id)} first={active.clauseIds[0] === c.id} activeT={active.t} />)}
+          {shown.map((c) => <ClauseCard key={c.id} c={c} rule={rules[c.rule_id]} active={active.clauseIds.includes(c.id)} first={active.clauseIds[0] === c.id} activeT={active.t} onSpy={onSpy} />)}
         </AnimatePresence>
       </div>
 

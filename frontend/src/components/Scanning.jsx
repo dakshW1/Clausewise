@@ -1,16 +1,52 @@
 import { motion } from 'framer-motion'
 import { CircleCheck, LoaderCircle } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AGENTS, PIPELINE } from '../lib/agents'
+import { api } from '../lib/api'
+import { useStore } from '../lib/store'
 import { EASE, Words } from './motion-bits'
 
-// Shown while the backend analyses the document: a scan beam over the page and the pipeline agents handing work along.
-export default function Scanning({ file, sampleText, done }) {
+const MIN_SCAN_MS = 3800
+const wait = (ms) => new Promise((r) => setTimeout(r, ms))
+
+// Runs the analysis for the pending job while a scan beam sweeps the page and the pipeline agents hand work along.
+export default function Scanning() {
+  const { job, setAnalysis, clearFocus } = useStore()
+  const navigate = useNavigate()
+  const file = job?.file ?? null
   const [stage, setStage] = useState(0)
+  const [done, setDone] = useState(false)
+  const [error, setError] = useState(null)
+  const [sampleText, setSampleText] = useState('')
   const preview = useMemo(() => (file ? URL.createObjectURL(file) : null), [file])
 
   useEffect(() => {
+    if (!job) {
+      navigate('/', { replace: true })
+      return
+    }
     window.scrollTo(0, 0)
+    let cancelled = false
+    if (!file) fetch('/api/sample').then((r) => r.json()).then((d) => !cancelled && setSampleText(d.text)).catch(() => {})
+    Promise.all([api.analyze(file), wait(MIN_SCAN_MS)])
+      .then(async ([result]) => {
+        if (cancelled) return
+        setAnalysis(result)
+        clearFocus()
+        setDone(true)
+        await wait(700)
+        // Leave the job in place: this screen is still mounted during its exit animation,
+        // and clearing the job would trigger the "no job, go home" redirect above.
+        if (!cancelled) navigate('/report', { replace: true })
+      })
+      .catch((e) => !cancelled && setError(e.message))
+    return () => { cancelled = true }
+    // The job is the only input; re-running on other changes would start a second analysis.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [job])
+
+  useEffect(() => {
     const timers = [1100, 2200, 3100].map((t, i) => setTimeout(() => setStage((s) => Math.max(s, i + 1)), t))
     return () => timers.forEach(clearTimeout)
   }, [])
@@ -95,6 +131,12 @@ export default function Scanning({ file, sampleText, done }) {
               )
             })}
           </ol>
+          {error && (
+            <div className="mt-6 flex max-w-[520px] items-center justify-between gap-3 rounded-2xl border border-danger/40 bg-danger/15 px-4 py-3 text-sm font-bold">
+              Could not analyse the document: {error}
+              <button type="button" onClick={() => navigate('/')} className="shrink-0 cursor-pointer rounded-full bg-white px-4 py-1.5 text-xs font-extrabold text-ink">Go back</button>
+            </div>
+          )}
         </div>
       </div>
     </motion.main>

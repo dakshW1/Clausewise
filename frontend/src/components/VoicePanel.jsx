@@ -170,7 +170,7 @@ export default function VoicePanel({ analysis, lang, setLang, health, onCite, on
   const status = { idle: 'Tap and ask in your language', recording: 'Listening… tap to stop', thinking: 'Checking your agreement…', speaking: 'Speaking · tap to stop' }[mode]
 
   return (
-    <div className="grain relative flex h-full flex-col overflow-hidden rounded-[24px] bg-night text-night-text">
+    <div className="relative flex h-full flex-col overflow-hidden rounded-[24px] bg-night text-night-text">
       <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-glow-heat/20 blur-[70px]" />
       <div className="relative border-b border-night-line p-5">
         <div className="mb-3 flex items-center justify-between">
