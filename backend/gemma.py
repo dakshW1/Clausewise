@@ -27,11 +27,12 @@ def _parse_json(text: str) -> dict:
     return json.loads(text[start : end + 1])
 
 
-async def generate_json(prompt: str, image: bytes | None = None, mime: str = "image/jpeg") -> dict:
-    """Send a prompt (and optional image) and parse the JSON reply. Retries once on bad JSON."""
+async def generate_json(prompt: str, image: bytes | None = None, mime: str = "image/jpeg",
+                        images: list[tuple[bytes, str]] | None = None) -> dict:
+    """Send a prompt (and optional page images) and parse the JSON reply. Retries once on bad JSON."""
     parts: list[dict] = []
-    if image:
-        parts.append({"inline_data": {"mime_type": mime, "data": base64.b64encode(image).decode()}})
+    for data, kind in ([(image, mime)] if image else []) + list(images or []):
+        parts.append({"inline_data": {"mime_type": kind, "data": base64.b64encode(data).decode()}})
     parts.append({"text": prompt})
     config: dict = {"temperature": 0.2}
     # Minimal thinking cuts a full extraction from ~85 s to ~30 s on Gemma 4 with no loss in output.

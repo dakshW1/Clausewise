@@ -14,10 +14,10 @@ const wait = (ms) => new Promise((r) => setTimeout(r, ms))
 export default function Scanning() {
   const { job, setAnalysis, clearFocus } = useStore()
   const navigate = useNavigate()
-  const file = job?.file ?? null
+  // A photo, the first page of a scanned PDF, or nothing (text and samples show their words instead).
+  const file = job?.file ?? job?.files?.[0] ?? null
   const [stage, setStage] = useState(0)
   const [done, setDone] = useState(false)
-  const [error, setError] = useState(null)
   const [sampleText, setSampleText] = useState('')
   const preview = useMemo(() => (file ? URL.createObjectURL(file) : null), [file])
 
@@ -28,10 +28,16 @@ export default function Scanning() {
     }
     window.scrollTo(0, 0)
     let cancelled = false
-    if (!file) api.sampleText(job.sampleId || 'rent').then((d) => !cancelled && setSampleText(d.text)).catch(() => {})
-    Promise.all([api.analyze(file, job.sampleId), wait(MIN_SCAN_MS)])
+    if (job.text) setSampleText(job.text)
+    else if (!file) api.sampleText(job.sampleId || 'rent').then((d) => !cancelled && setSampleText(d.text)).catch(() => {})
+    Promise.all([api.analyze(job), wait(MIN_SCAN_MS)])
       .then(async ([result]) => {
         if (cancelled) return
+        // Not an agreement, unreadable, or the model failed: explain on a dedicated page; nothing is saved.
+        if (result.error) {
+          navigate('/unsupported', { replace: true, state: { ...result, caseId: job.caseId ?? null } })
+          return
+        }
         // Every scan is saved to history: a new case, or a new version of the case being revised.
         let caseId = job.caseId ?? null
         try {
@@ -50,14 +56,16 @@ export default function Scanning() {
         // and clearing the job would trigger the "no job, go home" redirect above.
         if (!cancelled) navigate(job.caseId ? `/history/${job.caseId}` : '/report', { replace: true })
       })
-      .catch((e) => !cancelled && setError(e.message))
+      .catch((e) => !cancelled && navigate('/unsupported', { replace: true, state: { error: 'failed', detail: e.message, caseId: job.caseId ?? null } }))
     return () => { cancelled = true }
     // The job is the only input; re-running on other changes would start a second analysis.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [job])
 
+  const [slow, setSlow] = useState(false)
   useEffect(() => {
     const timers = [1100, 2200, 3100].map((t, i) => setTimeout(() => setStage((s) => Math.max(s, i + 1)), t))
+    timers.push(setTimeout(() => setSlow(true), 40000))
     return () => timers.forEach(clearTimeout)
   }, [])
 
@@ -141,11 +149,10 @@ export default function Scanning() {
               )
             })}
           </ol>
-          {error && (
-            <div className="mt-6 flex max-w-[520px] items-center justify-between gap-3 rounded-2xl border border-danger/40 bg-danger/15 px-4 py-3 text-sm font-bold">
-              Could not analyse the document: {error}
-              <button type="button" onClick={() => navigate('/')} className="shrink-0 cursor-pointer rounded-full bg-white px-4 py-1.5 text-xs font-extrabold text-ink">Go back</button>
-            </div>
+          {slow && !done && (
+            <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6 max-w-[520px] text-sm font-semibold text-night-muted">
+              This is taking longer than usual. Long or multi-page documents can take up to a few minutes; if it doesn’t finish, you’ll be able to try again.
+            </motion.p>
           )}
         </div>
       </div>

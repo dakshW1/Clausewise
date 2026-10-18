@@ -188,9 +188,24 @@ def sample_fallback(sample_id: str, notice: str | None = None) -> dict:
     return result
 
 
-async def gemma_analysis(image: bytes | None, mime: str, text: str | None, doc_type: str | None) -> dict:
+class NotAnAgreement(Exception):
+    """The upload was read, but it isn't an agreement Clausewise can check (or it couldn't be read at all)."""
+
+    def __init__(self, kind: str, document_kind: str):
+        super().__init__(kind)
+        self.kind = kind
+        self.document_kind = document_kind
+
+
+async def gemma_analysis(images: list[tuple[bytes, str]], text: str | None, doc_type: str | None) -> dict:
     prompt = prompts.EXTRACT + (f"\n\nDOCUMENT TEXT:\n{text}" if text else "")
-    extraction = await gemma.generate_json(prompt, image=image, mime=mime)
+    extraction = await gemma.generate_json(prompt, images=images)
+    # Samples are known agreements; anything uploaded must pass the check first.
+    if not doc_type:
+        if extraction.get("readable") is False:
+            raise NotAnAgreement("unreadable", extraction.get("document_kind") or "")
+        if extraction.get("is_agreement") is False or not extraction.get("clauses"):
+            raise NotAnAgreement("not_agreement", extraction.get("document_kind") or "")
     book = rulebook_for(doc_type or extraction.get("doc_type"))
     fairness = await gemma.generate_json(prompts.FAIRNESS.format(
         doc_label=book["label"].lower(),
@@ -253,32 +268,60 @@ def sample_text(sample_id: str):
     return {"text": SAMPLE_TEXT[sample_id]}
 
 
+MAX_PAGES = 8
+MAX_TEXT = 60_000
+ANALYSIS_TIMEOUT = 180  # seconds; past this the user gets a 'try again' page instead of an endless scan
+
+
+def upload_error(kind: str, document_kind: str = "") -> dict:
+    """An analysis that couldn't be produced; the frontend shows a dedicated page for each kind."""
+    return {"error": kind, "document_kind": document_kind}
+
+
 @app.post("/api/analyze")
-async def analyze(file: UploadFile | None = File(None), sample_id: str | None = Form(None)):
-    image = await file.read() if file else None
-    if not image:
-        sample_id = sample_id if sample_id in SAMPLE_TEXT else "rent"
-    else:
-        sample_id = None
-    text = SAMPLE_TEXT[sample_id] if sample_id else None
+async def analyze(
+    file: UploadFile | None = File(None),
+    files: list[UploadFile] | None = File(None),
+    text: str | None = Form(None),
+    sample_id: str | None = Form(None),
+):
+    """Analyse a photo, several page images (a scanned PDF), text from a digital PDF, or a sample."""
+    uploads = [f for f in ([file] if file else []) + list(files or []) if f][:MAX_PAGES]
+    images = [(await f.read(), f.content_type or "image/jpeg") for f in uploads]
+    images = [(data, kind) for data, kind in images if data]
+    text = (text or "").strip()[:MAX_TEXT] or None
+    own = bool(images or text)
+    sample_id = None if own else (sample_id if sample_id in SAMPLE_TEXT else "rent")
+    if sample_id:
+        text = SAMPLE_TEXT[sample_id]
     sample_type = next((s["type"] for s in SAMPLES if s["id"] == sample_id), None)
 
-    key = hashlib.sha256(image or text.encode()).hexdigest()[:16]
-    cached = CACHE_DIR / f"{key}.json"
+    digest = hashlib.sha256()
+    for data, _ in images:
+        digest.update(data)
+    if text:
+        digest.update(text.encode())
+    cached = CACHE_DIR / f"{digest.hexdigest()[:16]}.json"
     if cached.exists():
-        return with_meta(json.loads(cached.read_text(encoding="utf-8")), sample_id)
+        saved = json.loads(cached.read_text(encoding="utf-8"))
+        return saved if saved.get("error") else with_meta(saved, sample_id)
 
     if not gemma.enabled():
         if sample_id:
             return sample_fallback(sample_id, "Demo mode: showing a saved analysis. Add GEMINI_API_KEY for live results.")
-        return sample_fallback("rent", "Demo mode: add GEMINI_API_KEY to analyse your own document. Showing the sample agreement.")
+        return upload_error("no_key")
     try:
-        result = await gemma_analysis(image, file.content_type if file else "image/jpeg", text, sample_type)
+        result = await asyncio.wait_for(gemma_analysis(images, text, sample_type), ANALYSIS_TIMEOUT)
+    except NotAnAgreement as e:
+        result = upload_error(e.kind, e.document_kind)
     except Exception as e:
         log.exception("Gemma analysis failed")
-        return sample_fallback(sample_id or "rent", f"Couldn't reach Gemma ({type(e).__name__}). Showing a saved analysis.")
+        if sample_id:
+            return sample_fallback(sample_id, f"Couldn't reach Gemma ({type(e).__name__}). Showing a saved analysis.")
+        # Never show someone else's analysis for their own document: say it failed instead.
+        return upload_error("failed")
     cached.write_text(json.dumps(result, ensure_ascii=False), encoding="utf-8")
-    return with_meta(result, sample_id)
+    return result if result.get("error") else with_meta(result, sample_id)
 
 
 @app.post("/api/voice")

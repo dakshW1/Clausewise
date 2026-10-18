@@ -16,10 +16,13 @@ export const api = {
   samples: () => fetch('/api/samples').then(json),
   sampleText: (id) => fetch(`/api/samples/${id}`).then(json),
 
-  analyze: (file, sampleId = 'rent') => {
+  // One photo, several page images (a scanned PDF), text from a digital PDF, or a sample.
+  analyze: ({ file, files, text, sampleId } = {}) => {
     const form = new FormData()
     if (file) form.append('file', file)
-    else form.append('sample_id', sampleId)
+    for (const f of files || []) form.append('files', f)
+    if (text) form.append('text', text)
+    if (!file && !files?.length && !text) form.append('sample_id', sampleId || 'rent')
     return fetch('/api/analyze', { method: 'POST', body: form }).then(json)
   },
 

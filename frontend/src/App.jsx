@@ -1,5 +1,6 @@
 import { AnimatePresence } from 'framer-motion'
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import ErrorBoundary from './components/ErrorBoundary'
 import Landing from './components/Landing'
 import Scanning from './components/Scanning'
 import { StoreProvider, useStore } from './lib/store'
@@ -16,6 +17,7 @@ import ProofPage from './pages/ProofPage'
 import ReportLayout from './pages/ReportLayout'
 import SamplesPage from './pages/SamplesPage'
 import TimelinePage from './pages/TimelinePage'
+import UnsupportedPage from './pages/UnsupportedPage'
 
 function Home() {
   const { setJob } = useStore()
@@ -37,6 +39,7 @@ function AnimatedRoutes() {
         <Route path="/history/:id" element={<CasePage />} />
         <Route path="/prepare" element={<PreparePage />} />
         <Route path="/scan" element={<Scanning />} />
+        <Route path="/unsupported" element={<UnsupportedPage />} />
         <Route path="/report" element={<ReportLayout />}>
           <Route index element={<OverviewPage />} />
           <Route path="clauses" element={<ClausesPage />} />
@@ -57,7 +60,9 @@ export default function App() {
   return (
     <HashRouter>
       <StoreProvider>
-        <AnimatedRoutes />
+        <ErrorBoundary>
+          <AnimatedRoutes />
+        </ErrorBoundary>
       </StoreProvider>
     </HashRouter>
   )

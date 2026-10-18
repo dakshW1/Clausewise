@@ -16,8 +16,14 @@ CATEGORIES = (
 
 EXTRACT = f"""You are reading a legal document from India. It may be a rent agreement, a job offer or employment
 contract, a loan agreement, a freelance or service contract, or another contract.
-Extract EVERY numbered clause, in order. Return ONLY valid JSON, no markdown, in this shape:
+First decide whether this really is an agreement: a contract, lease, offer letter, loan agreement, service
+contract or similar terms that someone signs. Bills, receipts, menus, IDs, letters, notices, court papers, forms,
+photos and screenshots are NOT agreements.
+Then extract EVERY numbered clause, in order. Return ONLY valid JSON, no markdown, in this shape:
 {{
+  "is_agreement": true|false,
+  "readable": true|false,
+  "document_kind": "what the document actually is, in 2-6 words, e.g. 'restaurant bill' or 'rent agreement'",
   "doc_type": "{DOC_TYPES}",
   "title": "short descriptive title in Title Case, e.g. 'Rental Agreement: Flat 304, Bengaluru'",
   "clauses": [
@@ -34,7 +40,8 @@ Extract EVERY numbered clause, in order. Return ONLY valid JSON, no markdown, in
     "rent_due_day": number|null
   }}
 }}
-Rules: "key_facts" = the 4 to 6 most important amounts, dates and durations, values as short strings.
+Rules: if "is_agreement" is false, or the text is too blurry or cut off to read ("readable": false), return
+"clauses": [] and stop there. "key_facts" = the 4 to 6 most important amounts, dates and durations, values as short strings.
 "key_values" is only for rent agreements; for any other document type return an empty object {{}}.
 Use null for anything not stated. Never invent clauses or numbers.
 If a rent clause allows cutting water or electricity, use category "essential_services".
