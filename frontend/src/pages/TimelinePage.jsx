@@ -1,8 +1,9 @@
 import { motion, useMotionValueEvent, useScroll, useTransform } from 'framer-motion'
-import { Zap } from 'lucide-react'
+import { CalendarPlus, Repeat, Zap } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import MoneySimulator from '../components/MoneySimulator'
+import { downloadIcs, keyDates } from '../lib/calendar'
 import { useStore } from '../lib/store'
 import { rupees } from '../lib/theme'
 import { hasTimeline, PageHead } from './ReportLayout'
@@ -18,16 +19,60 @@ export default function TimelinePage() {
   return (
     <>
       <PageHead
-        kicker={['04', 'Timeline']}
+        kicker={['05', 'Timeline']}
         title="Scroll through"
         accent="your tenancy."
         sub="Each month shows what you can do, what it costs to leave, and the risks that can land at any time."
       />
+      <KeyDates analysis={analysis} />
       <ScrubTimeline analysis={analysis} onFocus={focus} />
       <div className="mt-8">
         <MoneySimulator analysis={analysis} onFocus={focus} />
       </div>
     </>
+  )
+}
+
+// Calendar-leaf tiles for each key date, and an .ics download with reminders two days before.
+function KeyDates({ analysis }) {
+  const dates = keyDates(analysis)
+  if (!dates.length) return null
+  return (
+    <section className="mb-6 rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(20,20,20,0.05)] sm:p-6">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 className="text-[15px] font-extrabold">Key dates</h2>
+          <p className="text-xs font-bold text-muted">Reminders arrive two days before each one</p>
+        </div>
+        <button type="button" onClick={() => downloadIcs(analysis, dates)} className="flex h-11 cursor-pointer items-center gap-2 rounded-full bg-ink px-5 text-sm font-extrabold text-white transition hover:bg-ink-2">
+          <CalendarPlus size={16} /> Add to calendar
+        </button>
+      </div>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {dates.map((d, i) => (
+          <motion.div
+            key={d.key}
+            initial={{ opacity: 0, rotateX: -60, y: 20 }}
+            whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.6, delay: i * 0.1, type: 'spring', stiffness: 140, damping: 16 }}
+            style={{ transformPerspective: 600, transformOrigin: 'top' }}
+            className="flex gap-3"
+          >
+            <div className="w-16 shrink-0 overflow-hidden rounded-xl border border-line text-center">
+              <div className="bg-ink py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-white">{d.date.toLocaleString('en-IN', { month: 'short' })}</div>
+              <div className="num py-1.5 text-2xl font-extrabold leading-none">{d.date.getDate()}</div>
+              <div className="pb-1 text-[10px] font-bold text-muted">{d.date.getFullYear()}</div>
+            </div>
+            <div className="min-w-0 pt-1">
+              <p className="text-sm font-extrabold leading-tight">{d.title}</p>
+              <p className="mt-0.5 text-xs font-semibold text-muted">{d.detail}</p>
+              {d.repeat && <p className="mt-1 flex items-center gap-1 text-[11px] font-extrabold text-ink-2"><Repeat size={11} /> Monthly × {d.repeat}</p>}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </section>
   )
 }
 
