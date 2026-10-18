@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { CalendarClock, FileText, Handshake, History, Image, LayoutGrid, Link2, Mic, RotateCcw } from 'lucide-react'
+import { CalendarClock, ClipboardCheck, FileText, Handshake, History, Image, LayoutGrid, Link2, Mic, RotateCcw } from 'lucide-react'
 import { useEffect } from 'react'
 import { Link, Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { EASE, Words } from '../components/motion-bits'
@@ -32,6 +32,7 @@ export default function ReportLayout() {
     hasTimeline(analysis) && { to: '/report/timeline', label: 'Timeline', icon: CalendarClock },
     { to: '/report/ask', label: 'Ask', icon: Mic },
     { to: '/report/negotiate', label: 'Negotiate', icon: Handshake },
+    { to: '/report/checklist', label: 'Checklist', icon: ClipboardCheck },
   ].filter(Boolean)
 
   return (

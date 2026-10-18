@@ -5,6 +5,7 @@ import Scanning from './components/Scanning'
 import { StoreProvider, useStore } from './lib/store'
 import AskPage from './pages/AskPage'
 import CasePage from './pages/CasePage'
+import ChecklistPage from './pages/ChecklistPage'
 import ClausesPage from './pages/ClausesPage'
 import HistoryPage from './pages/HistoryPage'
 import NegotiatePage from './pages/NegotiatePage'
@@ -41,6 +42,7 @@ function AnimatedRoutes() {
           <Route path="timeline" element={<TimelinePage />} />
           <Route path="ask" element={<AskPage />} />
           <Route path="negotiate" element={<NegotiatePage />} />
+          <Route path="checklist" element={<ChecklistPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
