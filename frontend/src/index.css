@@ -60,6 +60,8 @@
 }
 
 html { background: var(--paper); }
+/* The grain overlay can extend past the viewport inside animated containers; never let it cause sideways scrolling. */
+html, body { overflow-x: clip; }
 body {
   background: var(--paper);
   color: var(--ink);

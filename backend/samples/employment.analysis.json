@@ -1,0 +1,243 @@
+{
+ "source": "gemma",
+ "doc_type": "employment",
+ "title": "Offer Of Employment: Software Engineer",
+ "clauses": [
+  {
+   "id": "C1",
+   "number": "1",
+   "category": "salary",
+   "title": "Compensation",
+   "text": "Your annual cost to company (CTC) will be Rs. 9,00,000, paid monthly, with the breakdown attached as Annexure A.",
+   "simple": "You will be paid a total of Rs. 9,00,000 per year, paid in monthly installments.",
+   "severity": "green",
+   "rule_id": null,
+   "reason": ""
+  },
+  {
+   "id": "C2",
+   "number": "2",
+   "category": "probation",
+   "title": "Probation",
+   "text": "You will be on probation for 6 months, after which your employment will be confirmed subject to satisfactory performance.",
+   "simple": "You will have a 6-month trial period to show you can do the job well.",
+   "severity": "green",
+   "rule_id": null,
+   "reason": ""
+  },
+  {
+   "id": "C3",
+   "number": "3",
+   "category": "working_hours",
+   "title": "Working Hours",
+   "text": "You will work 6 days a week, 10 hours a day. No overtime will be paid for additional hours.",
+   "simple": "You will work 10 hours a day, 6 days a week, and won't get extra money for working more.",
+   "severity": "amber",
+   "rule_id": "E7",
+   "reason": "60 hours a week with no overtime pay is unusual."
+  },
+  {
+   "id": "C4",
+   "number": "4",
+   "category": "leave",
+   "title": "Leave",
+   "text": "You are entitled to 18 days of paid leave per year, in addition to public holidays.",
+   "simple": "You get 18 paid days off every year plus public holidays.",
+   "severity": "green",
+   "rule_id": null,
+   "reason": ""
+  },
+  {
+   "id": "C5",
+   "number": "5",
+   "category": "bond",
+   "title": "Training Bond",
+   "text": "If you leave the Company within 2 years of joining for any reason, you shall pay the Company Rs. 3,00,000 as liquidated damages towards training.",
+   "simple": "If you quit before 2 years, you must pay the company Rs. 3,00,000.",
+   "severity": "amber",
+   "rule_id": "E2",
+   "reason": "A fixed 3,00,000 penalty for leaving within 2 years is unusual."
+  },
+  {
+   "id": "C6",
+   "number": "6",
+   "category": "termination",
+   "title": "Notice Period",
+   "text": "You must give 90 days' written notice to resign. The Company may terminate your employment with 7 days' notice.",
+   "simple": "You must tell the company 90 days before quitting, but they only have to tell you 7 days before letting you go.",
+   "severity": "amber",
+   "rule_id": "E3",
+   "reason": "Employer notice of 7 days is much less than your 90 days."
+  },
+  {
+   "id": "C7",
+   "number": "7",
+   "category": "final_settlement",
+   "title": "Final Settlement",
+   "text": "Your full and final settlement will be processed within 90 days of your exit. If the full notice period is not served, the Company may withhold your last month's salary.",
+   "simple": "You will get your final pay within 90 days of leaving, but they might keep your last month's pay if you don't give enough notice.",
+   "severity": "red",
+   "rule_id": "E4",
+   "reason": "Withholding last month's salary is against the law."
+  },
+  {
+   "id": "C8",
+   "number": "8",
+   "category": "ip",
+   "title": "Intellectual Property",
+   "text": "All inventions, code and creative works made by you during your employment, whether or not during working hours or using Company resources, shall belong to the Company.",
+   "simple": "Anything you create or code while working here belongs to the company.",
+   "severity": "amber",
+   "rule_id": "E5",
+   "reason": "Claiming inventions made outside working hours is unusual."
+  },
+  {
+   "id": "C9",
+   "number": "9",
+   "category": "non_compete",
+   "title": "Non-Compete",
+   "text": "For 2 years after leaving the Company, you shall not join or work for any competitor or client of the Company in India.",
+   "simple": "For 2 years after you leave, you cannot work for the company's competitors or clients in India.",
+   "severity": "red",
+   "rule_id": "E1",
+   "reason": "A 2-year post-employment non-compete is against the law."
+  },
+  {
+   "id": "C10",
+   "number": "10",
+   "category": "unilateral_changes",
+   "title": "Changes To Terms",
+   "text": "The Company may change your salary, role, or work location at its sole discretion.",
+   "simple": "The company can change your pay, job, or where you work whenever they want.",
+   "severity": "amber",
+   "rule_id": "E6",
+   "reason": "Changing salary or role at sole discretion is unusual."
+  },
+  {
+   "id": "C11",
+   "number": "11",
+   "category": "confidentiality",
+   "title": "Confidentiality",
+   "text": "You shall keep the Company's confidential information secret during and after your employment.",
+   "simple": "You must keep the company's private information a secret even after you stop working there.",
+   "severity": "green",
+   "rule_id": null,
+   "reason": ""
+  }
+ ],
+ "key_values": {},
+ "key_facts": [
+  {
+   "label": "Annual CTC",
+   "value": "Rs. 9,00,000"
+  },
+  {
+   "label": "Probation Period",
+   "value": "6 months"
+  },
+  {
+   "label": "Training Bond Amount",
+   "value": "Rs. 3,00,000"
+  },
+  {
+   "label": "Bond Duration",
+   "value": "2 years"
+  },
+  {
+   "label": "Employee Notice Period",
+   "value": "90 days"
+  },
+  {
+   "label": "Company Notice Period",
+   "value": "7 days"
+  }
+ ],
+ "missing": [],
+ "comparisons": [
+  {
+   "label": "Weekly Working Hours",
+   "yours": 60,
+   "benchmark": 48,
+   "unit": "hours",
+   "clause_id": "C3",
+   "rule_id": "E7"
+  }
+ ],
+ "counts": {
+  "red": 2,
+  "amber": 5,
+  "green": 4,
+  "missing": 0
+ },
+ "score": 59,
+ "trace": [
+  {
+   "from": "Reader",
+   "to": "Law Checker",
+   "kind": "info",
+   "text": "Read 11 clauses. Annual CTC: Rs. 9,00,000. Probation Period: 6 months."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "amber",
+   "clause_id": "C3",
+   "rule_id": "E7",
+   "text": "Clause 3 vs E7 (Working hours and overtime): 60 hours a week with no overtime pay is unusual."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "amber",
+   "clause_id": "C5",
+   "rule_id": "E2",
+   "text": "Clause 5 vs E2 (Reasonable training bond): A fixed 3,00,000 penalty for leaving within 2 years is unusual."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "amber",
+   "clause_id": "C6",
+   "rule_id": "E3",
+   "text": "Clause 6 vs E3 (Equal notice period): Employer notice of 7 days is much less than your 90 days."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "red",
+   "clause_id": "C7",
+   "rule_id": "E4",
+   "text": "Clause 7 vs E4 (Wages can't be withheld): Withholding last month's salary is against the law."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "amber",
+   "clause_id": "C8",
+   "rule_id": "E5",
+   "text": "Clause 8 vs E5 (IP limited to the job): Claiming inventions made outside working hours is unusual."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "red",
+   "clause_id": "C9",
+   "rule_id": "E1",
+   "text": "Clause 9 vs E1 (No post-exit non-compete): A 2-year post-employment non-compete is against the law."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "amber",
+   "clause_id": "C10",
+   "rule_id": "E6",
+   "text": "Clause 10 vs E6 (Changes need consent): Changing salary or role at sole discretion is unusual."
+  },
+  {
+   "from": "Verifier",
+   "to": "You",
+   "kind": "verify",
+   "text": "Checked 7 rule citations against the rulebook; all are real rules."
+  }
+ ]
+}

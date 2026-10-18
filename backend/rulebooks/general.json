@@ -1,0 +1,76 @@
+{
+  "type": "general",
+  "label": "Contract",
+  "parties": {
+    "you": "You",
+    "them": "Other party"
+  },
+  "law_name": "fair contract practice",
+  "source": "Indian Contract Act, 1872 and common contract practice. Verify against the law that applies to your document.",
+  "rules": [
+    {
+      "id": "G1",
+      "category": "termination",
+      "title": "Balanced termination",
+      "benchmark": "Both sides should be able to end the contract on similar terms and notice.",
+      "flag": "Only one side being able to end the contract is unusual."
+    },
+    {
+      "id": "G2",
+      "category": "unilateral_changes",
+      "title": "Changes need consent",
+      "benchmark": "Terms should change only with both sides' written agreement.",
+      "flag": "One side changing terms at its sole discretion is unusual."
+    },
+    {
+      "id": "G3",
+      "category": "liability",
+      "title": "Capped liability",
+      "benchmark": "Liability is normally limited to a reasonable amount, often the contract value.",
+      "flag": "Unlimited liability or indemnity is unusual."
+    },
+    {
+      "id": "G4",
+      "category": "renewal",
+      "title": "No silent auto-renewal",
+      "benchmark": "Renewals should need notice and a clear way to opt out.",
+      "flag": "Automatic renewal without notice is unusual."
+    },
+    {
+      "id": "G5",
+      "category": "fees",
+      "title": "All charges disclosed",
+      "benchmark": "Every charge should be stated in the contract.",
+      "flag": "Open-ended or undisclosed charges are unusual."
+    },
+    {
+      "id": "G6",
+      "category": "restraint",
+      "title": "No restraint of trade",
+      "benchmark": "Agreements that stop someone carrying on a lawful trade are void under Section 27 of the Indian Contract Act.",
+      "flag": "A restraint of trade is against the law."
+    }
+  ],
+  "checklist": [
+    {
+      "category": "parties",
+      "label": "Parties named"
+    },
+    {
+      "category": "fees",
+      "label": "Price and charges"
+    },
+    {
+      "category": "term",
+      "label": "Duration"
+    },
+    {
+      "category": "termination",
+      "label": "Termination terms"
+    },
+    {
+      "category": "dispute_resolution",
+      "label": "Dispute resolution"
+    }
+  ]
+}

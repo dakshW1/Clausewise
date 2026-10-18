@@ -7,7 +7,7 @@ import { Card } from './ui'
 // The headline card: the scales weighed down by clause coins, and the fairness score as a ring.
 export default function ScorePanel({ analysis }) {
   const { score, counts, clauses, missing } = analysis
-  const v = verdict(score)
+  const v = verdict(score, analysis.parties?.them)
   const tenantCoins = clauses.filter((c) => c.severity === 'green').map((c) => ({ id: c.id, color: SEVERITY.green.glow }))
   const landlordCoins = [
     ...clauses.filter((c) => c.severity === 'red').map((c) => ({ id: c.id, color: SEVERITY.red.glow })),
@@ -22,7 +22,7 @@ export default function ScorePanel({ analysis }) {
       <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full blur-[70px]" style={{ background: `${v.color}33` }} />
       <div className="relative grid items-center gap-4 sm:grid-cols-[1.1fr_1fr]">
         <div className="-my-2">
-          <Scales angle={scaleAngle(score)} tenantCoins={tenantCoins} landlordCoins={landlordCoins} size={380} />
+          <Scales angle={scaleAngle(score)} tenantCoins={tenantCoins} landlordCoins={landlordCoins} labels={[analysis.parties?.you, analysis.parties?.them]} size={380} />
         </div>
         <div className="flex flex-col gap-1.5">
           <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-night-muted">Fairness score</span>

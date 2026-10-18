@@ -1,0 +1,91 @@
+{
+  "type": "loan",
+  "label": "Loan agreement",
+  "parties": {
+    "you": "Borrower",
+    "them": "Lender"
+  },
+  "law_name": "RBI's fair lending rules",
+  "source": "Reserve Bank of India rules on fair lending, Key Fact Statements, penal charges and digital lending. Verify against current RBI directions before relying on it.",
+  "rules": [
+    {
+      "id": "L1",
+      "category": "interest",
+      "title": "Key Fact Statement and APR",
+      "benchmark": "RBI requires lenders to give a Key Fact Statement with the all-inclusive annual percentage rate (APR) before you sign.",
+      "flag": "No APR or Key Fact Statement, or only a 'flat' monthly rate, is against RBI rules."
+    },
+    {
+      "id": "L2",
+      "category": "fees",
+      "title": "No hidden charges",
+      "benchmark": "Any fee not listed in the Key Fact Statement can't be charged.",
+      "flag": "Open-ended fees such as 'other charges as applicable' are against RBI rules."
+    },
+    {
+      "id": "L3",
+      "category": "prepayment",
+      "title": "No foreclosure charge on floating loans",
+      "benchmark": "Lenders can't charge foreclosure or prepayment penalties on floating-rate loans to individuals for non-business use.",
+      "flag": "A foreclosure charge on a floating-rate personal loan is against RBI rules."
+    },
+    {
+      "id": "L4",
+      "category": "penal_charges",
+      "title": "Fair penal charges",
+      "benchmark": "Late payment can attract a reasonable penal charge, but it can't be added to the interest rate or compounded.",
+      "flag": "Compounding penal interest is against RBI rules."
+    },
+    {
+      "id": "L5",
+      "category": "recovery",
+      "title": "No harassment in recovery",
+      "benchmark": "Recovery agents can't harass or threaten you, contact your family or friends to shame you, or call before 8 am or after 7 pm.",
+      "flag": "Recovery contact at any time, or with family and references, is against RBI rules."
+    },
+    {
+      "id": "L6",
+      "category": "data_access",
+      "title": "No access to your phone data",
+      "benchmark": "Digital lenders must not access your contacts, photos, files or call logs.",
+      "flag": "Access to contacts or the photo gallery is against RBI digital lending rules."
+    },
+    {
+      "id": "L7",
+      "category": "rate_change",
+      "title": "Rate changes with notice",
+      "benchmark": "Interest rate changes must be told to you in advance, with the option to switch or close the loan.",
+      "flag": "The lender changing the rate at its sole discretion is unusual."
+    }
+  ],
+  "checklist": [
+    {
+      "category": "interest",
+      "label": "Interest rate and APR"
+    },
+    {
+      "category": "emi",
+      "label": "EMI schedule"
+    },
+    {
+      "category": "fees",
+      "label": "All fees listed"
+    },
+    {
+      "category": "prepayment",
+      "label": "Prepayment terms"
+    },
+    {
+      "category": "penal_charges",
+      "label": "Late payment charges"
+    },
+    {
+      "category": "grievance",
+      "label": "Grievance officer"
+    },
+    {
+      "category": "cooling_off",
+      "label": "Cooling-off period"
+    }
+  ]
+}

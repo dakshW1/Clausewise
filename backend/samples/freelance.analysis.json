@@ -1,0 +1,233 @@
+{
+ "source": "gemma",
+ "doc_type": "freelance",
+ "title": "Freelance Design Services Agreement",
+ "clauses": [
+  {
+   "id": "C1",
+   "number": "1",
+   "category": "scope",
+   "title": "Scope",
+   "text": "The Designer will create a brand identity for the Client: logo, colour palette, typography and a 20-page brand guideline.",
+   "simple": "The designer will make a logo, colors, fonts, and a brand guide for the client.",
+   "severity": "green",
+   "rule_id": null,
+   "reason": ""
+  },
+  {
+   "id": "C2",
+   "number": "2",
+   "category": "payment",
+   "title": "Fees",
+   "text": "The total fee for the project is Rs. 2,40,000.",
+   "simple": "The total cost for the work is 2,40,000 rupees.",
+   "severity": "green",
+   "rule_id": null,
+   "reason": ""
+  },
+  {
+   "id": "C3",
+   "number": "3",
+   "category": "payment",
+   "title": "Payment",
+   "text": "The fee will be paid within 90 days after the Client's final approval of all deliverables, at the Client's discretion.",
+   "simple": "The client will pay the money within 90 days after they approve the final work.",
+   "severity": "amber",
+   "rule_id": "F1",
+   "reason": "Payment within 90 days or at client discretion is unusual compared to 45 days."
+  },
+  {
+   "id": "C4",
+   "number": "4",
+   "category": "revisions",
+   "title": "Revisions",
+   "text": "The Designer shall make unlimited revisions until the Client is fully satisfied.",
+   "simple": "The designer must keep changing the work until the client is happy.",
+   "severity": "amber",
+   "rule_id": "F5",
+   "reason": "Unlimited revisions are unusual; revision rounds should be defined."
+  },
+  {
+   "id": "C5",
+   "number": "5",
+   "category": "ip",
+   "title": "Ownership",
+   "text": "All designs, drafts and ideas become the property of the Client as soon as they are created, whether or not payment has been made.",
+   "simple": "The client owns everything the designer makes immediately, even if they haven't paid yet.",
+   "severity": "amber",
+   "rule_id": "F2",
+   "reason": "IP transferring upon creation before full payment is unusual."
+  },
+  {
+   "id": "C6",
+   "number": "6",
+   "category": "termination",
+   "title": "Termination",
+   "text": "The Client may terminate this agreement at any time, without paying for work in progress.",
+   "simple": "The client can end the contract whenever they want without paying for unfinished work.",
+   "severity": "red",
+   "rule_id": "F4",
+   "reason": "Termination without paying for work in progress is against fair practice."
+  },
+  {
+   "id": "C7",
+   "number": "7",
+   "category": "liability",
+   "title": "Liability",
+   "text": "The Designer shall indemnify the Client against all losses, claims and damages of any kind, without limit.",
+   "simple": "The designer is responsible for paying for any losses or legal problems the client faces.",
+   "severity": "amber",
+   "rule_id": "F3",
+   "reason": "Unlimited liability and indemnity is unusual."
+  },
+  {
+   "id": "C8",
+   "number": "8",
+   "category": "exclusivity",
+   "title": "Exclusivity",
+   "text": "During this agreement and for 12 months after it ends, the Designer shall not work for any other retail brand.",
+   "simple": "The designer cannot work for other retail companies during the contract or for one year after it ends.",
+   "severity": "red",
+   "rule_id": "F6",
+   "reason": "Exclusivity lasting 12 months after contract ends is against the law."
+  },
+  {
+   "id": "C9",
+   "number": "9",
+   "category": "confidentiality",
+   "title": "Confidentiality",
+   "text": "Both parties shall keep each other's confidential information private.",
+   "simple": "Both sides must keep each other's secrets safe.",
+   "severity": "green",
+   "rule_id": null,
+   "reason": ""
+  },
+  {
+   "id": "C10",
+   "number": "10",
+   "category": "other",
+   "title": "Timeline",
+   "text": "The first concepts will be delivered within 3 weeks of signing.",
+   "simple": "The first ideas must be sent within three weeks of signing the contract.",
+   "severity": "green",
+   "rule_id": null,
+   "reason": ""
+  }
+ ],
+ "key_values": {},
+ "key_facts": [
+  {
+   "label": "Total Fee",
+   "value": "Rs. 2,40,000"
+  },
+  {
+   "label": "Payment Terms",
+   "value": "Within 90 days of approval"
+  },
+  {
+   "label": "Exclusivity Period",
+   "value": "12 months after contract ends"
+  },
+  {
+   "label": "First Delivery",
+   "value": "Within 3 weeks"
+  }
+ ],
+ "missing": [
+  {
+   "category": "late_payment",
+   "label": "Late payment interest",
+   "why": "Protects freelancer against delayed payments via interest."
+  },
+  {
+   "category": "dispute_resolution",
+   "label": "Dispute resolution",
+   "why": "Essential to define how legal conflicts are settled."
+  }
+ ],
+ "comparisons": [
+  {
+   "label": "Payment Days",
+   "yours": 90,
+   "benchmark": 45,
+   "unit": "days",
+   "clause_id": "C3",
+   "rule_id": "F1"
+  }
+ ],
+ "counts": {
+  "red": 2,
+  "amber": 4,
+  "green": 4,
+  "missing": 2
+ },
+ "score": 54,
+ "trace": [
+  {
+   "from": "Reader",
+   "to": "Law Checker",
+   "kind": "info",
+   "text": "Read 10 clauses. Total Fee: Rs. 2,40,000. Payment Terms: Within 90 days of approval."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "amber",
+   "clause_id": "C3",
+   "rule_id": "F1",
+   "text": "Clause 3 vs F1 (Timely payment): Payment within 90 days or at client discretion is unusual compared to 45 days."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "amber",
+   "clause_id": "C4",
+   "rule_id": "F5",
+   "text": "Clause 4 vs F5 (Defined scope and revisions): Unlimited revisions are unusual; revision rounds should be defined."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "amber",
+   "clause_id": "C5",
+   "rule_id": "F2",
+   "text": "Clause 5 vs F2 (IP passes on payment): IP transferring upon creation before full payment is unusual."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "red",
+   "clause_id": "C6",
+   "rule_id": "F4",
+   "text": "Clause 6 vs F4 (Paid for work done): Termination without paying for work in progress is against fair practice."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "amber",
+   "clause_id": "C7",
+   "rule_id": "F3",
+   "text": "Clause 7 vs F3 (Capped liability): Unlimited liability and indemnity is unusual."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "red",
+   "clause_id": "C8",
+   "rule_id": "F6",
+   "text": "Clause 8 vs F6 (Freedom to work): Exclusivity lasting 12 months after contract ends is against the law."
+  },
+  {
+   "from": "Gap Finder",
+   "to": "You",
+   "kind": "missing",
+   "text": "Not in your document: Late payment interest, Dispute resolution."
+  },
+  {
+   "from": "Verifier",
+   "to": "You",
+   "kind": "verify",
+   "text": "Checked 6 rule citations against the rulebook; all are real rules."
+  }
+ ]
+}

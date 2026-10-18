@@ -1,0 +1,34 @@
+[
+  {
+    "id": "rent",
+    "type": "rent",
+    "title": "Rental agreement",
+    "subtitle": "11-month lease for a flat in HSR Layout, Bengaluru",
+    "person": "Priya, first-time renter",
+    "teaser": "5 months' deposit and eviction on 15 days' notice"
+  },
+  {
+    "id": "employment",
+    "type": "employment",
+    "title": "Job offer letter",
+    "subtitle": "Software engineer offer from a Pune IT company",
+    "person": "Arjun, fresh graduate",
+    "teaser": "₹3 lakh training bond and a 2-year non-compete"
+  },
+  {
+    "id": "loan",
+    "type": "loan",
+    "title": "Personal loan agreement",
+    "subtitle": "₹1.5 lakh app loan from a digital lender",
+    "person": "Meena, salaried professional",
+    "teaser": "Flat 2.5% a month, compounding penalties, contacts access"
+  },
+  {
+    "id": "freelance",
+    "type": "freelance",
+    "title": "Freelance design contract",
+    "subtitle": "Brand identity project for a retail company",
+    "person": "Sana, independent designer",
+    "teaser": "Paid in 90 days, unlimited revisions, no kill fee"
+  }
+]

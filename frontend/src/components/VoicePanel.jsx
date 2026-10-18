@@ -3,7 +3,7 @@ import { ArrowRight, Handshake, LifeBuoy, LoaderCircle, Mic, Send, Square, Volum
 import { useEffect, useRef, useState } from 'react'
 import { api } from '../lib/api'
 import { browserRecognition, speak, stopSpeaking } from '../lib/speech'
-import { LANGUAGES, SUGGESTIONS } from '../lib/theme'
+import { LANGUAGES, suggestionsFor } from '../lib/theme'
 import { EASE, PulseDot } from './motion-bits'
 
 const BARS = 32
@@ -166,7 +166,7 @@ export default function VoicePanel({ analysis, lang, setLang, health, onCite, on
     }
   }
 
-  const suggestions = SUGGESTIONS[lang] || SUGGESTIONS['en-IN']
+  const suggestions = suggestionsFor(analysis.doc_type, lang)
   const status = { idle: 'Tap and ask in your language', recording: 'Listening… tap to stop', thinking: 'Checking your agreement…', speaking: 'Speaking · tap to stop' }[mode]
 
   return (

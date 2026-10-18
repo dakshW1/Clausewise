@@ -136,3 +136,9 @@ QA_RETRY = {
     "hi": "माफ़ कीजिए, जवाब देने में बहुत समय लग गया। कृपया थोड़ी देर में दोबारा पूछें।",
     "clause_ids": [], "rule_ids": [], "confidence": "low",
 }
+
+QA_NO_KEY = {
+    "en": "Live answers for this document need a Gemini API key. The full report above still shows every flagged clause.",
+    "hi": "इस दस्तावेज़ पर सवालों के लाइव जवाब के लिए Gemini API key चाहिए। ऊपर की रिपोर्ट में सभी चिह्नित क्लॉज़ दिखाए गए हैं।",
+    "clause_ids": [], "rule_ids": [], "confidence": "low",
+}

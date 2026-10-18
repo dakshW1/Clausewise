@@ -1,6 +1,43 @@
+import { motion } from 'framer-motion'
+import { CalendarClock, FileText, Percent, Wallet } from 'lucide-react'
 import { rupees } from '../lib/theme'
-import { CountTo } from './motion-bits'
+import { CountTo, EASE } from './motion-bits'
 import { Card, CardHead } from './ui'
+
+// Pick an icon from what the value looks like: money, a duration or date, a percentage, or anything else.
+function factIcon(value) {
+  if (/rs\.?|₹|inr|lakh/i.test(value)) return Wallet
+  if (/%/.test(value)) return Percent
+  if (/day|month|year|week|\d{4}/i.test(value)) return CalendarClock
+  return FileText
+}
+
+function KeyFacts({ analysis }) {
+  const facts = analysis.key_facts || []
+  return (
+    <Card className="lg:col-span-5" delay={0.05}>
+      <CardHead title="Key facts" sub={analysis.doc_label} />
+      <div className="grid grid-cols-2 gap-2.5">
+        {facts.map((f, i) => {
+          const Icon = factIcon(String(f.value))
+          const lead = i === 0
+          return (
+            <motion.div
+              key={f.label}
+              initial={{ opacity: 0, y: 14, filter: 'blur(6px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.2 + i * 0.07 }}
+              className={`flex flex-col gap-2 rounded-2xl p-3.5 ${lead ? 'col-span-2 bg-ink text-white' : 'bg-paper'}`}
+            >
+              <span className={`flex items-center gap-1.5 text-xs font-bold ${lead ? 'text-white/70' : 'text-muted'}`}><Icon size={13} /> {f.label}</span>
+              <span className={`num font-extrabold leading-tight ${lead ? 'text-[28px] text-glow-money' : 'text-[17px]'}`}>{f.value}</span>
+            </motion.div>
+          )
+        })}
+      </div>
+    </Card>
+  )
+}
 
 function Line({ k, v, bad = false, onClick }) {
   return (
@@ -13,7 +50,8 @@ function Line({ k, v, bad = false, onClick }) {
 
 // "What you're asked vs what the law allows", in the same shape as a struck-out price and the real one.
 export default function KeyStats({ analysis, onFocus }) {
-  const kv = analysis.key_values
+  const kv = analysis.key_values || {}
+  if (!kv.rent) return <KeyFacts analysis={analysis} />
   const clause = (cat) => analysis.clauses.find((c) => c.category === cat)
   const focus = (cat) => () => { const c = clause(cat); if (c) onFocus([c.id], c.rule_id ? [c.rule_id] : []) }
   const fair = kv.rent ? Math.min(kv.deposit ?? Infinity, 2 * kv.rent) : null

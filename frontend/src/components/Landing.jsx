@@ -26,7 +26,7 @@ const CHAPTERS = [
 
 const LANGS = ['English', 'हिंदी', 'தமிழ்', 'ಕನ್ನಡ', 'বাংলা', 'मराठी', 'తెలుగు', 'ગુજરાતી', 'മലയാളം', 'ਪੰਜਾਬੀ']
 
-export default function Landing({ onStart: start }) {
+export default function Landing({ onStart: start, onBrowse: browse }) {
   const lenisRef = useRef(null)
   // Stop smooth scrolling before leaving, or Lenis keeps animating the next screen's scroll position.
   const onStart = (file) => {
@@ -34,6 +34,12 @@ export default function Landing({ onStart: start }) {
     lenisRef.current = null
     window.scrollTo({ top: 0, behavior: 'instant' })
     start(file)
+  }
+  const onBrowse = () => {
+    lenisRef.current?.destroy()
+    lenisRef.current = null
+    window.scrollTo({ top: 0, behavior: 'instant' })
+    browse()
   }
   const fileRef = useRef(null)
   const [chapter, setChapter] = useState(0)
@@ -88,8 +94,8 @@ export default function Landing({ onStart: start }) {
           <button type="button" onClick={() => goTo(0)} aria-label="Clausewise home" className="cursor-pointer"><Logo dark /></button>
           <nav className="flex items-center gap-2">
             <button type="button" onClick={upload} className="hidden h-11 cursor-pointer items-center rounded-full px-4 text-sm font-bold text-night-text/80 transition hover:text-white sm:flex">Upload a photo</button>
-            <button type="button" onClick={() => onStart(null)} className="flex h-11 cursor-pointer items-center gap-2 rounded-full bg-white px-5 text-sm font-extrabold text-ink transition hover:bg-white/90">
-              Try the sample <ArrowRight size={16} />
+            <button type="button" onClick={onBrowse} className="flex h-11 cursor-pointer items-center gap-2 rounded-full bg-white px-5 text-sm font-extrabold text-ink transition hover:bg-white/90">
+              Sample documents <ArrowRight size={16} />
             </button>
           </nav>
         </div>
@@ -112,13 +118,13 @@ export default function Landing({ onStart: start }) {
       </div>
 
       <main className="relative z-10">
-        <Hero onSample={() => onStart(null)} onUpload={upload} goNext={() => goTo(1)} />
+        <Hero onSample={() => onStart(null)} onUpload={upload} onBrowse={onBrowse} />
         <DepositChapter />
         <EvictChapter />
         <ReadChapter />
         <VoiceChapter />
         <NegotiateChapter />
-        <JoinChapter onSample={() => onStart(null)} onUpload={upload} />
+        <JoinChapter onSample={onBrowse} onUpload={upload} />
       </main>
     </motion.div>
   )
@@ -132,12 +138,12 @@ function Chapter({ id, children }) {
   )
 }
 
-function Hero({ onSample, onUpload, goNext }) {
+function Hero({ onSample, onUpload, onBrowse }) {
   return (
     <section id="top" className="relative flex h-screen flex-col justify-end pb-24 pt-24 sm:justify-center sm:pb-16">
       <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         <Reveal y={12} className="mb-7 inline-flex items-center gap-2 rounded-full border border-night-line bg-white/5 px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.18em] text-night-text/85 backdrop-blur">
-          <span className="h-1.5 w-1.5 rounded-full bg-glow-money" /> For every tenant in India · Free
+          <span className="h-1.5 w-1.5 rounded-full bg-glow-money" /> For tenants, employees, borrowers and freelancers · Free
         </Reveal>
         <h1 className="font-display text-[clamp(44px,min(9.6vw,12.5vh),148px)] font-extrabold leading-[0.9] tracking-[-0.045em]">
           <Words text="Know what" />
@@ -148,7 +154,7 @@ function Hero({ onSample, onUpload, goNext }) {
           </span>
         </h1>
         <Reveal delay={0.7} className="mt-6 max-w-[560px] text-[17px] font-medium leading-relaxed text-night-text/75 sm:text-lg">
-          Clausewise reads your rent agreement, <strong className="font-extrabold text-night-text">checks every clause against the law</strong>, explains it <strong className="font-extrabold text-night-text">in your language, by voice</strong>, and writes the polite reply that gets unfair terms changed.
+          Clausewise reads your rent agreement, job offer, loan or freelance contract, <strong className="font-extrabold text-night-text">checks every clause against the law</strong>, explains it <strong className="font-extrabold text-night-text">in your language, by voice</strong>, and writes the polite reply that gets unfair terms changed.
         </Reveal>
         <Reveal delay={0.85} className="mt-7 flex flex-wrap gap-3">
           <button type="button" onClick={onSample} className="group flex h-13 cursor-pointer items-center gap-2 rounded-full bg-glow-heat px-7 text-[15px] font-extrabold text-night transition hover:brightness-110">
@@ -157,8 +163,8 @@ function Hero({ onSample, onUpload, goNext }) {
           <button type="button" onClick={onUpload} className="flex h-13 cursor-pointer items-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 text-[15px] font-bold text-white backdrop-blur transition hover:bg-white/10">
             <Upload size={17} /> Upload yours
           </button>
-          <button type="button" onClick={goNext} className="flex h-13 cursor-pointer items-center px-3 text-[15px] font-bold text-night-text/70 transition hover:text-white">
-            See how it works
+          <button type="button" onClick={onBrowse} className="flex h-13 cursor-pointer items-center px-3 text-[15px] font-bold text-night-text/70 transition hover:text-white">
+            Job offers, loans and more →
           </button>
         </Reveal>
       </div>
@@ -397,7 +403,7 @@ function JoinChapter({ onSample, onUpload }) {
         </h2>
         <Reveal delay={0.35} className="mt-10 flex flex-wrap gap-3">
           <button type="button" onClick={onSample} className="group flex h-14 cursor-pointer items-center gap-2 rounded-full bg-glow-heat px-8 text-base font-extrabold text-night transition hover:brightness-110">
-            Check the sample agreement <ArrowRight size={18} className="transition group-hover:translate-x-0.5" />
+            Browse sample documents <ArrowRight size={18} className="transition group-hover:translate-x-0.5" />
           </button>
           <button type="button" onClick={onUpload} className="flex h-14 cursor-pointer items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 text-base font-bold backdrop-blur transition hover:bg-white/10">
             <Upload size={18} /> Upload your agreement

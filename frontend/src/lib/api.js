@@ -6,10 +6,13 @@ async function json(res) {
 export const api = {
   health: () => fetch('/api/health').then(json),
 
-  analyze: (file) => {
+  samples: () => fetch('/api/samples').then(json),
+  sampleText: (id) => fetch(`/api/samples/${id}`).then(json),
+
+  analyze: (file, sampleId = 'rent') => {
     const form = new FormData()
     if (file) form.append('file', file)
-    else form.append('sample', 'true')
+    else form.append('sample_id', sampleId)
     return fetch('/api/analyze', { method: 'POST', body: form }).then(json)
   },
 

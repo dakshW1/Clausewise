@@ -1,4 +1,11 @@
 {
+  "type": "rent",
+  "label": "Rent agreement",
+  "parties": {
+    "you": "Tenant",
+    "them": "Landlord"
+  },
+  "law_name": "the national Model Tenancy Act",
   "source": "Model Tenancy Act, 2021 (national model law; states adopt and modify it). Verify against the Act text before relying on it.",
   "rules": [
     {
@@ -59,15 +66,45 @@
     }
   ],
   "checklist": [
-    {"category": "deposit", "label": "Deposit amount"},
-    {"category": "refund_timeline", "label": "Deposit refund timeline"},
-    {"category": "rent", "label": "Rent and due date"},
-    {"category": "rent_revision", "label": "Rent revision terms"},
-    {"category": "notice", "label": "Notice period"},
-    {"category": "repairs", "label": "Repairs and maintenance"},
-    {"category": "utilities", "label": "Utility bills"},
-    {"category": "lock_in", "label": "Lock-in and penalty"},
-    {"category": "maintenance_charges", "label": "Society / maintenance charges"},
-    {"category": "dispute_resolution", "label": "Dispute resolution"}
+    {
+      "category": "deposit",
+      "label": "Deposit amount"
+    },
+    {
+      "category": "refund_timeline",
+      "label": "Deposit refund timeline"
+    },
+    {
+      "category": "rent",
+      "label": "Rent and due date"
+    },
+    {
+      "category": "rent_revision",
+      "label": "Rent revision terms"
+    },
+    {
+      "category": "notice",
+      "label": "Notice period"
+    },
+    {
+      "category": "repairs",
+      "label": "Repairs and maintenance"
+    },
+    {
+      "category": "utilities",
+      "label": "Utility bills"
+    },
+    {
+      "category": "lock_in",
+      "label": "Lock-in and penalty"
+    },
+    {
+      "category": "maintenance_charges",
+      "label": "Society / maintenance charges"
+    },
+    {
+      "category": "dispute_resolution",
+      "label": "Dispute resolution"
+    }
   ]
 }

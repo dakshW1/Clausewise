@@ -1,0 +1,236 @@
+{
+ "source": "gemma",
+ "doc_type": "loan",
+ "title": "Personal Loan Agreement: Meena Iyer",
+ "clauses": [
+  {
+   "id": "C1",
+   "number": "1",
+   "category": "loan_amount",
+   "title": "Loan Amount",
+   "text": "The Lender agrees to lend Rs. 1,50,000 to the Borrower.",
+   "simple": "The lender is giving the borrower 1,50,000 rupees.",
+   "severity": "green",
+   "rule_id": null,
+   "reason": ""
+  },
+  {
+   "id": "C2",
+   "number": "2",
+   "category": "emi",
+   "title": "Tenure And EMI",
+   "text": "The loan is repayable in 24 monthly instalments of Rs. 9,650 each, due on the 3rd of every month.",
+   "simple": "The borrower must pay 9,650 rupees every month for 24 months.",
+   "severity": "green",
+   "rule_id": null,
+   "reason": ""
+  },
+  {
+   "id": "C3",
+   "number": "3",
+   "category": "interest",
+   "title": "Interest",
+   "text": "Interest is charged at 2.5% per month on a flat basis. The interest rate is floating and linked to the Lender's internal benchmark.",
+   "simple": "The interest rate is 2.5% per month and can change based on the lender's rules.",
+   "severity": "red",
+   "rule_id": "L1",
+   "reason": "Only a flat monthly rate of 2.5% is provided without an APR."
+  },
+  {
+   "id": "C4",
+   "number": "4",
+   "category": "fees",
+   "title": "Fees",
+   "text": "A processing fee of 4% of the loan amount will be deducted at disbursal, along with other charges as applicable from time to time.",
+   "simple": "The lender will take a 4% fee from the money before giving it to the borrower.",
+   "severity": "red",
+   "rule_id": "L2",
+   "reason": "Includes open-ended 'other charges as applicable' which are against RBI rules."
+  },
+  {
+   "id": "C5",
+   "number": "5",
+   "category": "rate_change",
+   "title": "Rate Changes",
+   "text": "The Lender may revise the interest rate at its sole discretion without prior notice.",
+   "simple": "The lender can change the interest rate whenever they want without telling you first.",
+   "severity": "amber",
+   "rule_id": "L7",
+   "reason": "Lender can change rates at sole discretion without prior notice."
+  },
+  {
+   "id": "C6",
+   "number": "6",
+   "category": "prepayment",
+   "title": "Prepayment",
+   "text": "The Borrower may close the loan early by paying a foreclosure charge of 5% of the outstanding principal.",
+   "simple": "If you pay the loan back early, you have to pay an extra 5% fee.",
+   "severity": "red",
+   "rule_id": "L3",
+   "reason": "Charging 5% foreclosure fee on a floating-rate loan is against RBI rules."
+  },
+  {
+   "id": "C7",
+   "number": "7",
+   "category": "penal_charges",
+   "title": "Late Payment",
+   "text": "Delayed EMIs attract penal interest of 3% per month, compounded monthly and added to the outstanding loan.",
+   "simple": "If you miss a payment, you will be charged an extra 3% interest every month.",
+   "severity": "red",
+   "rule_id": "L4",
+   "reason": "Compounding penal interest of 3% per month is against RBI rules."
+  },
+  {
+   "id": "C8",
+   "number": "8",
+   "category": "recovery",
+   "title": "Recovery",
+   "text": "In case of default, the Lender and its recovery agents may contact the Borrower, her family members and the references provided, at any time, by phone, message or visit.",
+   "simple": "If you don't pay, the lender can call or visit you and your family to get the money.",
+   "severity": "red",
+   "rule_id": "L5",
+   "reason": "Contacting family and references at any time is against RBI rules."
+  },
+  {
+   "id": "C9",
+   "number": "9",
+   "category": "data_access",
+   "title": "App Permissions",
+   "text": "By accepting this agreement, the Borrower allows the QuickCash app to access her phone contacts, photo gallery and location for verification and recovery.",
+   "simple": "The app is allowed to look at your contacts, photos, and location.",
+   "severity": "red",
+   "rule_id": "L6",
+   "reason": "Accessing phone contacts and photo gallery violates digital lending rules."
+  },
+  {
+   "id": "C10",
+   "number": "10",
+   "category": "dispute_resolution",
+   "title": "Governing Law",
+   "text": "This agreement is governed by the laws of India, and courts in Mumbai shall have exclusive jurisdiction.",
+   "simple": "Indian laws apply to this deal, and any legal fights will happen in Mumbai courts.",
+   "severity": "green",
+   "rule_id": null,
+   "reason": ""
+  }
+ ],
+ "key_values": {},
+ "key_facts": [
+  {
+   "label": "Loan Amount",
+   "value": "Rs. 1,50,000"
+  },
+  {
+   "label": "Monthly EMI",
+   "value": "Rs. 9,650"
+  },
+  {
+   "label": "Tenure",
+   "value": "24 months"
+  },
+  {
+   "label": "Interest Rate",
+   "value": "2.5% per month"
+  },
+  {
+   "label": "Agreement Date",
+   "value": "12 October 2026"
+  }
+ ],
+ "missing": [
+  {
+   "category": "grievance",
+   "label": "Grievance officer",
+   "why": "Need contact for complaints to ensure fair treatment."
+  },
+  {
+   "category": "cooling_off",
+   "label": "Cooling-off period",
+   "why": "Borrower needs a period to exit the loan without penalty."
+  }
+ ],
+ "comparisons": [],
+ "counts": {
+  "red": 6,
+  "amber": 1,
+  "green": 3,
+  "missing": 2
+ },
+ "score": 29,
+ "trace": [
+  {
+   "from": "Reader",
+   "to": "Law Checker",
+   "kind": "info",
+   "text": "Read 10 clauses. Loan Amount: Rs. 1,50,000. Monthly EMI: Rs. 9,650."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "red",
+   "clause_id": "C3",
+   "rule_id": "L1",
+   "text": "Clause 3 vs L1 (Key Fact Statement and APR): Only a flat monthly rate of 2.5% is provided without an APR."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "red",
+   "clause_id": "C4",
+   "rule_id": "L2",
+   "text": "Clause 4 vs L2 (No hidden charges): Includes open-ended 'other charges as applicable' which are against RBI rules."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "amber",
+   "clause_id": "C5",
+   "rule_id": "L7",
+   "text": "Clause 5 vs L7 (Rate changes with notice): Lender can change rates at sole discretion without prior notice."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "red",
+   "clause_id": "C6",
+   "rule_id": "L3",
+   "text": "Clause 6 vs L3 (No foreclosure charge on floating loans): Charging 5% foreclosure fee on a floating-rate loan is against RBI rules."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "red",
+   "clause_id": "C7",
+   "rule_id": "L4",
+   "text": "Clause 7 vs L4 (Fair penal charges): Compounding penal interest of 3% per month is against RBI rules."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "red",
+   "clause_id": "C8",
+   "rule_id": "L5",
+   "text": "Clause 8 vs L5 (No harassment in recovery): Contacting family and references at any time is against RBI rules."
+  },
+  {
+   "from": "Law Checker",
+   "to": "You",
+   "kind": "red",
+   "clause_id": "C9",
+   "rule_id": "L6",
+   "text": "Clause 9 vs L6 (No access to your phone data): Accessing phone contacts and photo gallery violates digital lending rules."
+  },
+  {
+   "from": "Gap Finder",
+   "to": "You",
+   "kind": "missing",
+   "text": "Not in your document: Grievance officer, Cooling-off period."
+  },
+  {
+   "from": "Verifier",
+   "to": "You",
+   "kind": "verify",
+   "text": "Checked 7 rule citations against the rulebook; all are real rules."
+  }
+ ]
+}

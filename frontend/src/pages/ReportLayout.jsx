@@ -23,7 +23,7 @@ export default function ReportLayout() {
   if (!analysis) return <Navigate to="/" replace />
 
   const live = analysis.source === 'gemma'
-  const v = verdict(analysis.score)
+  const v = verdict(analysis.score, analysis.parties?.them)
   const tabs = [
     { to: '/report', end: true, label: 'Overview', icon: LayoutGrid },
     { to: '/report/clauses', label: 'Clauses', icon: FileText, count: analysis.clauses.length },

@@ -9,12 +9,13 @@ import NegotiatePage from './pages/NegotiatePage'
 import OverviewPage from './pages/OverviewPage'
 import ProofPage from './pages/ProofPage'
 import ReportLayout from './pages/ReportLayout'
+import SamplesPage from './pages/SamplesPage'
 import TimelinePage from './pages/TimelinePage'
 
 function Home() {
   const { setJob } = useStore()
   const navigate = useNavigate()
-  return <Landing onStart={(file) => { setJob({ file }); navigate('/scan') }} />
+  return <Landing onStart={(file) => { setJob({ file }); navigate('/scan') }} onBrowse={() => navigate('/samples')} />
 }
 
 function AnimatedRoutes() {
@@ -25,6 +26,7 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={top}>
         <Route path="/" element={<Home />} />
+        <Route path="/samples" element={<SamplesPage />} />
         <Route path="/scan" element={<Scanning />} />
         <Route path="/report" element={<ReportLayout />}>
           <Route index element={<OverviewPage />} />

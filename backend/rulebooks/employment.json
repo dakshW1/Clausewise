@@ -1,0 +1,91 @@
+{
+  "type": "employment",
+  "label": "Job offer / employment contract",
+  "parties": {
+    "you": "Employee",
+    "them": "Employer"
+  },
+  "law_name": "Indian employment law",
+  "source": "Indian Contract Act, 1872 and Code on Wages, 2019, plus common Indian employment practice. Verify against the current law before relying on it.",
+  "rules": [
+    {
+      "id": "E1",
+      "category": "non_compete",
+      "title": "No post-exit non-compete",
+      "benchmark": "Under Section 27 of the Indian Contract Act, 1872, a clause that stops you working for others after you leave is void. Restrictions during the job are allowed.",
+      "flag": "A non-compete that applies after you leave is against the law."
+    },
+    {
+      "id": "E2",
+      "category": "bond",
+      "title": "Reasonable training bond",
+      "benchmark": "A bond can recover only reasonable, actual training costs (Section 74, Indian Contract Act). A fixed penalty unrelated to real costs is generally unenforceable.",
+      "flag": "A large fixed bond or exit penalty is unusual."
+    },
+    {
+      "id": "E3",
+      "category": "notice",
+      "title": "Equal notice period",
+      "benchmark": "Notice should be the same for both sides; 30 to 90 days is common practice.",
+      "flag": "The employer giving much less notice than you must give is unusual."
+    },
+    {
+      "id": "E4",
+      "category": "salary",
+      "title": "Wages can't be withheld",
+      "benchmark": "Earned wages can't be withheld as a penalty. The Code on Wages, 2019 requires dues to be paid within two working days of leaving.",
+      "flag": "Withholding earned salary or delaying final dues is against the law."
+    },
+    {
+      "id": "E5",
+      "category": "ip",
+      "title": "IP limited to the job",
+      "benchmark": "The employer may own work made for the job. Claiming your personal projects made outside work, with your own resources, is unusual.",
+      "flag": "Claiming all inventions, including personal-time work, is unusual."
+    },
+    {
+      "id": "E6",
+      "category": "unilateral_changes",
+      "title": "Changes need consent",
+      "benchmark": "Changes to salary, role or location should need your written consent.",
+      "flag": "The employer changing pay, role or location at its sole discretion is unusual."
+    },
+    {
+      "id": "E7",
+      "category": "working_hours",
+      "title": "Working hours and overtime",
+      "benchmark": "The common legal standard is 48 hours a week, with extra hours paid as overtime.",
+      "flag": "Long fixed hours with no overtime pay are unusual."
+    }
+  ],
+  "checklist": [
+    {
+      "category": "salary",
+      "label": "Salary breakdown (CTC)"
+    },
+    {
+      "category": "probation",
+      "label": "Probation terms"
+    },
+    {
+      "category": "notice",
+      "label": "Notice period"
+    },
+    {
+      "category": "leave",
+      "label": "Leave policy"
+    },
+    {
+      "category": "termination",
+      "label": "Termination grounds"
+    },
+    {
+      "category": "final_settlement",
+      "label": "Final settlement timeline"
+    },
+    {
+      "category": "working_hours",
+      "label": "Working hours"
+    }
+  ]
+}

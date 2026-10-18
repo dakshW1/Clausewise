@@ -28,8 +28,8 @@ export default function Scanning() {
     }
     window.scrollTo(0, 0)
     let cancelled = false
-    if (!file) fetch('/api/sample').then((r) => r.json()).then((d) => !cancelled && setSampleText(d.text)).catch(() => {})
-    Promise.all([api.analyze(file), wait(MIN_SCAN_MS)])
+    if (!file) api.sampleText(job.sampleId || 'rent').then((d) => !cancelled && setSampleText(d.text)).catch(() => {})
+    Promise.all([api.analyze(file, job.sampleId), wait(MIN_SCAN_MS)])
       .then(async ([result]) => {
         if (cancelled) return
         setAnalysis(result)
@@ -75,7 +75,7 @@ export default function Scanning() {
             className="paper-doc relative h-[520px] overflow-hidden rounded-[28px] p-7 shadow-[0_40px_120px_rgba(0,0,0,0.6)]"
           >
             {preview ? (
-              <img src={preview} alt="Your agreement" className="h-full w-full rounded-xl object-cover" />
+              <img src={preview} alt="Your document" className="h-full w-full rounded-xl object-cover" />
             ) : (
               <div className="space-y-2 font-serif text-[13px] leading-snug">
                 {lines.map((l, i) => (
@@ -96,7 +96,7 @@ export default function Scanning() {
 
         <div>
           <div className="mb-6 flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.2em] text-night-muted">
-            <span className="num text-glow-heat">··</span><span className="h-px w-10 bg-white/25" /> Reading your agreement
+            <span className="num text-glow-heat">··</span><span className="h-px w-10 bg-white/25" /> Reading your document
           </div>
           <h2 className="font-display text-[clamp(38px,6vw,84px)] font-extrabold leading-[0.92] tracking-[-0.045em]">
             <Words text="Four checks." />

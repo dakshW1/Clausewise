@@ -61,7 +61,7 @@ function ClauseCard({ c, rule, active, first, activeT, onSpy }) {
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="relative overflow-hidden">
             <div className="grid gap-3 px-4 pb-4 pl-[68px] md:grid-cols-2">
               <div className="paper-doc rounded-xl p-3.5 font-serif text-[16px] leading-snug">
-                <span className="mb-1 flex items-center gap-1 font-sans text-[10px] font-extrabold uppercase tracking-[0.16em] text-black/45"><Quote size={11} /> Your agreement says</span>
+                <span className="mb-1 flex items-center gap-1 font-sans text-[10px] font-extrabold uppercase tracking-[0.16em] text-black/45"><Quote size={11} /> The document says</span>
                 {c.text}
               </div>
               {rule && (
@@ -106,7 +106,7 @@ export default function ClauseList({ analysis, active, onSpy }) {
 
       {analysis.missing.length > 0 && (
         <div className="mt-6">
-          <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.18em] text-info">Missing from your agreement</p>
+          <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.18em] text-info">Missing from your document</p>
           <div className="grid gap-3 md:grid-cols-3">
             {analysis.missing.map((m, i) => (
               <motion.div

@@ -62,7 +62,7 @@ export default function AskPage() {
                         <Chip color={s.text} soft={s.soft}>{s.label}</Chip>
                       </div>
                       <div className="paper-doc rounded-xl p-3.5 font-serif text-[16px] leading-snug">
-                        <span className="mb-1 flex items-center gap-1 font-sans text-[10px] font-extrabold uppercase tracking-[0.16em] text-black/45"><Quote size={11} /> Your agreement says</span>
+                        <span className="mb-1 flex items-center gap-1 font-sans text-[10px] font-extrabold uppercase tracking-[0.16em] text-black/45"><Quote size={11} /> The document says</span>
                         {c.text}
                       </div>
                       {rule && (

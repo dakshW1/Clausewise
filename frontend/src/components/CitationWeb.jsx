@@ -33,7 +33,7 @@ export default function CitationWeb({ analysis, active, onFocus }) {
       <CardHead title="Every flag is wired to a written rule" sub="hover a clause or a rule to trace it" />
       <div className="mb-2 flex justify-between px-1 text-[11px] font-extrabold uppercase tracking-[0.18em] text-muted">
         <span>Your clauses</span>
-        <span>Model Tenancy Act rulebook</span>
+        <span>The rulebook</span>
       </div>
       <svg ref={box} viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Clauses linked to the rules they break">
         {left.map((c, i) => {

@@ -7,7 +7,7 @@ const L = 138
 
 // A scale of justice whose beam tilts toward whichever side the agreement favours.
 // `angle` > 0 tips the landlord (right) side down. Coins on each pan show what weighs it down.
-export default function Scales({ angle = 0, idle = false, tenantCoins = [], landlordCoins = [], dark = true, size = 420 }) {
+export default function Scales({ angle = 0, idle = false, tenantCoins = [], landlordCoins = [], labels = [], dark = true, size = 420 }) {
   const a = useSpring(0, { stiffness: 30, damping: 6, mass: 1.2 })
 
   useEffect(() => {
@@ -56,8 +56,8 @@ export default function Scales({ angle = 0, idle = false, tenantCoins = [], land
       <circle cx={CX} cy={CY - 26} r="7" fill="url(#gold)" />
       <path d={`M${CX} ${CY - 19} V${CY - 10}`} stroke="url(#gold)" strokeWidth="4" />
 
-      <Pan x={lx} y={ly} label="Tenant" coins={tenantCoins} color={label} />
-      <Pan x={rx} y={ry} label="Landlord" coins={landlordCoins} color={label} />
+      <Pan x={lx} y={ly} label={labels[0] || 'Tenant'} coins={tenantCoins} color={label} />
+      <Pan x={rx} y={ry} label={labels[1] || 'Landlord'} coins={landlordCoins} color={label} />
     </svg>
   )
 }

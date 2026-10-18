@@ -1,0 +1,88 @@
+{
+  "type": "freelance",
+  "label": "Freelance / service contract",
+  "parties": {
+    "you": "Freelancer",
+    "them": "Client"
+  },
+  "law_name": "fair freelance practice and the law",
+  "source": "MSMED Act, 2006, Indian Contract Act, 1872, and common freelance practice. Verify against the current law before relying on it.",
+  "rules": [
+    {
+      "id": "F1",
+      "category": "payment",
+      "title": "Timely payment",
+      "benchmark": "Payment within 30 to 45 days of invoice is normal. The MSMED Act, 2006 caps it at 45 days for Udyam-registered micro and small enterprises.",
+      "flag": "Payment later than 45 days, or at the client's discretion, is unusual."
+    },
+    {
+      "id": "F2",
+      "category": "ip",
+      "title": "IP passes on payment",
+      "benchmark": "Ownership of the work should pass to the client only once you are paid in full.",
+      "flag": "IP transferring on creation, before payment, is unusual."
+    },
+    {
+      "id": "F3",
+      "category": "liability",
+      "title": "Capped liability",
+      "benchmark": "Your liability is usually capped at the fees paid under the contract.",
+      "flag": "Unlimited liability or indemnity is unusual."
+    },
+    {
+      "id": "F4",
+      "category": "termination",
+      "title": "Paid for work done",
+      "benchmark": "If the client ends the project early, work completed so far should be paid.",
+      "flag": "Termination without paying for work done is against fair practice."
+    },
+    {
+      "id": "F5",
+      "category": "scope",
+      "title": "Defined scope and revisions",
+      "benchmark": "Scope and the number of revision rounds should be defined; extra work is billed separately.",
+      "flag": "Unlimited revisions or open-ended scope is unusual."
+    },
+    {
+      "id": "F6",
+      "category": "exclusivity",
+      "title": "Freedom to work",
+      "benchmark": "Freelancers can take other clients. Restraints after the contract ends are void under Section 27 of the Indian Contract Act.",
+      "flag": "Exclusivity that continues after the contract is against the law; blanket exclusivity during it is unusual."
+    }
+  ],
+  "checklist": [
+    {
+      "category": "scope",
+      "label": "Scope of work"
+    },
+    {
+      "category": "fees",
+      "label": "Fees"
+    },
+    {
+      "category": "payment",
+      "label": "Payment timeline"
+    },
+    {
+      "category": "revisions",
+      "label": "Revision rounds"
+    },
+    {
+      "category": "ip",
+      "label": "IP terms"
+    },
+    {
+      "category": "termination",
+      "label": "Termination terms"
+    },
+    {
+      "category": "late_payment",
+      "label": "Late payment interest"
+    },
+    {
+      "category": "dispute_resolution",
+      "label": "Dispute resolution"
+    }
+  ]
+}
