@@ -27,6 +27,12 @@ Every scan is saved as a case in a local SQLite database (`backend/data/`, not c
 
 Two example cases are added on first start so the history page shows what tracking looks like.
 
+## Privacy
+
+- **Blur before upload:** after picking a photo, drag over private details to blur them, or let Clausewise find Aadhaar, PAN and phone numbers automatically. Text recognition for this runs in the browser (Tesseract.js); only the blurred photo is uploaded.
+- **Redacted text:** Aadhaar, PAN and phone numbers are also masked in the extracted clauses, so they never reach the report, history, voice or WhatsApp messages.
+- **On-device option:** Gemma 4 is open-weight, so the same pipeline can run fully offline on a phone or laptop (for example through Ollama). This demo calls Gemma 4 through Google AI Studio.
+
 ## Run it
 
 ```bash

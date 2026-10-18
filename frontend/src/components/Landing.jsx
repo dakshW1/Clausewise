@@ -412,7 +412,7 @@ function JoinChapter({ onSample, onUpload }) {
         </Reveal>
         <Reveal delay={0.45} className="mt-10 grid max-w-[900px] gap-4 sm:grid-cols-3">
           {[
-            ['Gemma 4 inside', 'Open-weight model reads and reasons. It can run on your own machine.'],
+            ['Private by design', 'Gemma 4 is open-weight, so it can run fully offline on a phone. ID numbers are blurred before anything is uploaded.'],
             ['Sarvam voice', 'Ask and listen in 10+ Indian languages.'],
             ['Proof, not opinions', 'Every flag cites a clause and a written rule you can check.'],
           ].map(([h, p]) => (

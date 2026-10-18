@@ -24,7 +24,7 @@ export default function SamplesPage() {
     }).catch(() => setSamples([]))
   }, [])
 
-  const start = (job) => { setJob(job); navigate('/scan') }
+  const start = (job) => { setJob(job); navigate(job.file ? '/prepare' : '/scan') }
 
   return (
     <motion.div key="samples" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, filter: 'blur(8px)' }} className="grain relative min-h-screen bg-night text-night-text">

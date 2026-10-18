@@ -10,6 +10,7 @@ import ClausesPage from './pages/ClausesPage'
 import HistoryPage from './pages/HistoryPage'
 import NegotiatePage from './pages/NegotiatePage'
 import OverviewPage from './pages/OverviewPage'
+import PreparePage from './pages/PreparePage'
 import PicturesPage from './pages/PicturesPage'
 import ProofPage from './pages/ProofPage'
 import ReportLayout from './pages/ReportLayout'
@@ -19,7 +20,8 @@ import TimelinePage from './pages/TimelinePage'
 function Home() {
   const { setJob } = useStore()
   const navigate = useNavigate()
-  return <Landing onStart={(file) => { setJob({ file }); navigate('/scan') }} onBrowse={() => navigate('/samples')} />
+  // A photo goes through the redaction step first; the sample goes straight to scanning.
+  return <Landing onStart={(file) => { setJob({ file }); navigate(file ? '/prepare' : '/scan') }} onBrowse={() => navigate('/samples')} />
 }
 
 function AnimatedRoutes() {
@@ -33,6 +35,7 @@ function AnimatedRoutes() {
         <Route path="/samples" element={<SamplesPage />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/history/:id" element={<CasePage />} />
+        <Route path="/prepare" element={<PreparePage />} />
         <Route path="/scan" element={<Scanning />} />
         <Route path="/report" element={<ReportLayout />}>
           <Route index element={<OverviewPage />} />

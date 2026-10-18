@@ -38,7 +38,7 @@ export default function CasePage() {
   }
   const uploadRevision = (file) => {
     setJob({ file, caseId: c.id })
-    navigate('/scan')
+    navigate('/prepare')
   }
   const remove = async () => {
     if (!confirmDelete) { setConfirmDelete(true); return }
