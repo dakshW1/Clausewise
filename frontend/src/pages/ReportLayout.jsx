@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { CalendarClock, FileText, Handshake, LayoutGrid, Link2, Mic, RotateCcw } from 'lucide-react'
+import { CalendarClock, FileText, Handshake, History, LayoutGrid, Link2, Mic, RotateCcw } from 'lucide-react'
 import { useEffect } from 'react'
 import { Link, Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { EASE, Words } from '../components/motion-bits'
@@ -48,7 +48,10 @@ export default function ReportLayout() {
               <span className={`h-1.5 w-1.5 rounded-full ${live ? 'bg-money' : 'bg-muted'}`} />
               {live ? `Live · ${health?.model || 'Gemma 4'}` : 'Demo mode'}
             </span>
-            <button type="button" onClick={() => navigate('/')} className="flex h-10 cursor-pointer items-center gap-2 rounded-xl border border-line bg-surface px-4 text-sm font-extrabold hover:border-ink/30">
+            <Link to={analysis.case_id ? `/history/${analysis.case_id}` : '/history'} className="flex h-10 items-center gap-2 rounded-xl px-3 text-sm font-extrabold text-muted hover:text-ink">
+              <History size={15} /> {analysis.case_id ? 'Track this case' : 'History'}
+            </Link>
+            <button type="button" onClick={() => navigate('/samples')} className="flex h-10 cursor-pointer items-center gap-2 rounded-xl border border-line bg-surface px-4 text-sm font-extrabold hover:border-ink/30">
               <RotateCcw size={15} /> New scan
             </button>
           </div>

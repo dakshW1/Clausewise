@@ -33,6 +33,7 @@ export default function SamplesPage() {
 
       <header className="relative z-10 mx-auto flex h-18 max-w-[1400px] items-center justify-between px-5 sm:px-8">
         <Link to="/" aria-label="Clausewise home"><Logo dark /></Link>
+        <Link to="/history" className="flex h-11 items-center rounded-full px-4 text-sm font-bold text-night-text/80 transition hover:text-white">Your history</Link>
       </header>
 
       <main className="relative z-10 mx-auto max-w-[1400px] px-5 pb-24 pt-10 sm:px-8">

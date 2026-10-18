@@ -4,7 +4,9 @@ import Landing from './components/Landing'
 import Scanning from './components/Scanning'
 import { StoreProvider, useStore } from './lib/store'
 import AskPage from './pages/AskPage'
+import CasePage from './pages/CasePage'
 import ClausesPage from './pages/ClausesPage'
+import HistoryPage from './pages/HistoryPage'
 import NegotiatePage from './pages/NegotiatePage'
 import OverviewPage from './pages/OverviewPage'
 import ProofPage from './pages/ProofPage'
@@ -27,6 +29,8 @@ function AnimatedRoutes() {
       <Routes location={location} key={top}>
         <Route path="/" element={<Home />} />
         <Route path="/samples" element={<SamplesPage />} />
+        <Route path="/history" element={<HistoryPage />} />
+        <Route path="/history/:id" element={<CasePage />} />
         <Route path="/scan" element={<Scanning />} />
         <Route path="/report" element={<ReportLayout />}>
           <Route index element={<OverviewPage />} />

@@ -32,13 +32,23 @@ export default function Scanning() {
     Promise.all([api.analyze(file, job.sampleId), wait(MIN_SCAN_MS)])
       .then(async ([result]) => {
         if (cancelled) return
+        // Every scan is saved to history: a new case, or a new version of the case being revised.
+        let caseId = job.caseId ?? null
+        try {
+          if (caseId) await api.addVersion(caseId, result)
+          else caseId = (await api.createCase(result)).id
+        } catch {
+          caseId = job.caseId ?? null
+        }
+        if (cancelled) return
+        result = { ...result, case_id: caseId }
         setAnalysis(result)
         clearFocus()
         setDone(true)
         await wait(700)
         // Leave the job in place: this screen is still mounted during its exit animation,
         // and clearing the job would trigger the "no job, go home" redirect above.
-        if (!cancelled) navigate('/report', { replace: true })
+        if (!cancelled) navigate(job.caseId ? `/history/${job.caseId}` : '/report', { replace: true })
       })
       .catch((e) => !cancelled && setError(e.message))
     return () => { cancelled = true }

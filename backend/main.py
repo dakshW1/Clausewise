@@ -18,6 +18,7 @@ load_dotenv()
 
 import demo_data  # noqa: E402
 import gemma  # noqa: E402
+import history  # noqa: E402
 import prompts  # noqa: E402
 import sarvam  # noqa: E402
 
@@ -364,6 +365,151 @@ async def negotiate(body: NegotiateBody):
         "whatsapp_url": "https://wa.me/?text=" + quote(message),
         "audio_base64": await speak(message, message_lang),
     }
+
+
+# ---------- case history ----------
+
+def rescore(analysis: dict) -> dict:
+    """Recount verdicts and recompute the score after clauses change (same formula as build_analysis)."""
+    clauses = analysis["clauses"]
+    counts = {s: sum(1 for c in clauses if c["severity"] == s) for s in ("red", "amber", "green")}
+    counts["missing"] = len(analysis.get("missing", []))
+    score = round(100 * (counts["green"] + 0.5 * counts["amber"]) / max(len(clauses), 1)) - 3 * counts["missing"]
+    return {**analysis, "counts": counts, "score": max(0, min(100, score))}
+
+
+def seed_examples():
+    """Two clearly-labelled example cases so the history page shows what tracking looks like."""
+    def at(days):
+        return history._now(-days)
+
+    def clause_id(analysis, number):
+        return next(c["id"] for c in analysis["clauses"] if str(c["number"]) == str(number))
+
+    # Example 1: a rent agreement negotiated, revised and signed.
+    rent = sample_fallback("rent")
+    rent["title"] = "Example: Rental Agreement, Flat 304, Bengaluru"
+    case = history.create_case(rent, example=True, when=at(9))
+    history.set_status(case, "negotiating", at(8.9))
+    history.add_event(case, "message_sent", "Sent the negotiation message to the landlord on WhatsApp.", when=at(8.8))
+    history.add_event(case, "reply", "Landlord: “Fine on the deposit, notice for rent and entry. I want to keep the repairs clause.”", when=at(7.2))
+    for number, status, note in [
+        (3, "agreed", "Deposit cut to Rs. 36,000 (2 months)."),
+        (5, "agreed", "Rent rises only with 3 months' written notice."),
+        (10, "agreed", "Disconnection clause removed."),
+        (8, "agreed", "Entry with 24 hours' notice."),
+        (4, "agreed", "Itemised refund within 30 days."),
+        (9, "partly", "Landlord's notice raised from 15 to 60 days."),
+        (7, "refused", "Tenant still pays all repairs."),
+    ]:
+        history.set_outcome(case, clause_id(rent, number), status, note, "Landlord", at(7.1))
+    revised = copy.deepcopy(rent)
+    fixes = {
+        "3": ("green", "The Tenant shall pay a refundable security deposit of Rs. 36,000 (two months' rent)."),
+        "4": ("green", "The deposit shall be refunded within 30 days of handover, after itemised deductions for damage."),
+        "5": ("green", "The rent may be revised once a year by up to 5%, with 3 months' written notice."),
+        "8": ("green", "The Landlord may inspect the premises with 24 hours' written notice, between 9 am and 7 pm."),
+        "9": ("amber", "The Landlord may terminate this agreement by giving 60 days' notice."),
+        "10": ("green", "Electricity and water charges shall be paid by the Tenant as per meter readings."),
+    }
+    for c in revised["clauses"]:
+        if str(c["number"]) in fixes:
+            c["severity"], c["text"] = fixes[str(c["number"])]
+            if c["severity"] == "green":
+                c["reason"] = ""
+    revised["missing"] = [m for m in revised["missing"] if m["category"] == "dispute_resolution"]
+    history.add_version(case, rescore(revised), when=at(5))
+    history.set_status(case, "signed", at(4))
+
+    # Example 2: a job offer, mid-negotiation.
+    job = sample_fallback("employment")
+    job["title"] = "Example: Software Engineer Offer, Pune"
+    case = history.create_case(job, example=True, when=at(3))
+    history.set_status(case, "negotiating", at(2.9))
+    history.add_event(case, "message_sent", "Emailed HR with the requested changes.", when=at(2.8))
+    history.add_event(case, "reply", "HR: “We'll drop the non-compete and cut the bond. The notice period stays.”", when=at(1))
+    for number, status, note in [
+        (9, "agreed", "Non-compete removed."),
+        (5, "partly", "Bond cut to Rs. 1,00,000, tied to actual training cost."),
+        (6, "refused", "90-day notice period stays."),
+    ]:
+        history.set_outcome(case, clause_id(job, number), status, note, "Employer", at(0.9))
+
+
+history.init(seed_examples)
+
+
+class CaseCreate(BaseModel):
+    analysis: dict
+
+
+class CaseEvent(BaseModel):
+    kind: str
+    text: str
+
+
+class CaseOutcome(BaseModel):
+    status: str
+    note: str = ""
+
+
+class CaseStatus(BaseModel):
+    status: str
+
+
+def _case_or_404(fn, *args, **kwargs):
+    try:
+        return fn(*args, **kwargs)
+    except KeyError:
+        raise HTTPException(404, "Case not found")
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+
+
+@app.get("/api/cases")
+def cases():
+    return history.list_cases()
+
+
+@app.post("/api/cases")
+def create_case(body: CaseCreate):
+    case_id = history.create_case(body.analysis)
+    return history.get_case(case_id)
+
+
+@app.get("/api/cases/{case_id}")
+def get_case(case_id: str):
+    return _case_or_404(history.get_case, case_id)
+
+
+@app.post("/api/cases/{case_id}/versions")
+def add_version(case_id: str, body: CaseCreate):
+    _case_or_404(history.get_case, case_id)
+    return history.add_version(case_id, body.analysis)
+
+
+@app.post("/api/cases/{case_id}/events")
+def add_event(case_id: str, body: CaseEvent):
+    _case_or_404(history.get_case, case_id)
+    history.add_event(case_id, body.kind, body.text)
+    return history.get_case(case_id)
+
+
+@app.put("/api/cases/{case_id}/clauses/{clause_id}")
+def set_outcome(case_id: str, clause_id: str, body: CaseOutcome):
+    case = _case_or_404(history.get_case, case_id)
+    return _case_or_404(history.set_outcome, case_id, clause_id, body.status, body.note, case["parties"].get("them", "They"))
+
+
+@app.patch("/api/cases/{case_id}")
+def set_status(case_id: str, body: CaseStatus):
+    return _case_or_404(history.set_status, case_id, body.status)
+
+
+@app.delete("/api/cases/{case_id}")
+def delete_case(case_id: str):
+    history.delete_case(case_id)
+    return {"ok": True}
 
 
 # Serve the built frontend from the same server for the demo (npm run build in ../frontend).

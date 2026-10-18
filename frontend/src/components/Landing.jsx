@@ -93,7 +93,8 @@ export default function Landing({ onStart: start, onBrowse: browse }) {
         <div className="mx-auto flex h-18 max-w-[1400px] items-center justify-between px-5 sm:px-8">
           <button type="button" onClick={() => goTo(0)} aria-label="Clausewise home" className="cursor-pointer"><Logo dark /></button>
           <nav className="flex items-center gap-2">
-            <button type="button" onClick={upload} className="hidden h-11 cursor-pointer items-center rounded-full px-4 text-sm font-bold text-night-text/80 transition hover:text-white sm:flex">Upload a photo</button>
+            <a href="#/history" onClick={() => { lenisRef.current?.destroy(); lenisRef.current = null; window.scrollTo({ top: 0, behavior: 'instant' }) }} className="hidden h-11 items-center rounded-full px-4 text-sm font-bold text-night-text/80 transition hover:text-white sm:flex">History</a>
+            <button type="button" onClick={upload} className="hidden h-11 cursor-pointer items-center rounded-full px-4 text-sm font-bold text-night-text/80 transition hover:text-white md:flex">Upload a photo</button>
             <button type="button" onClick={onBrowse} className="flex h-11 cursor-pointer items-center gap-2 rounded-full bg-white px-5 text-sm font-extrabold text-ink transition hover:bg-white/90">
               Sample documents <ArrowRight size={16} />
             </button>

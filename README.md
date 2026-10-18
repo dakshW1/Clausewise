@@ -16,6 +16,17 @@ Clausewise reads a legal document from a photo, checks every clause against a ru
 
 Sample documents live in `backend/samples/`, each with a saved Gemma 4 analysis so the samples work without an API key.
 
+## History and negotiation tracking
+
+Every scan is saved as a case in a local SQLite database (`backend/data/`, not committed). For each case you can:
+
+- mark each flagged clause as agreed, partly agreed, refused or pending, with a note
+- log the other side's replies and when you sent the negotiation message
+- upload the revised version: Clausewise rescans it, marks clauses that are now fair as agreed, and shows the score before and after
+- set the status: reviewing, negotiating, signed or walked away
+
+Two example cases are added on first start so the history page shows what tracking looks like.
+
 ## Run it
 
 ```bash

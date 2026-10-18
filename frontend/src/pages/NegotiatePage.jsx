@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
-import { Check, Copy, LoaderCircle, MessageCircle, Volume2 } from 'lucide-react'
+import { ArrowRight, Check, Copy, LoaderCircle, MessageCircle, Volume2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { EASE } from '../components/motion-bits'
 import { api } from '../lib/api'
 import { speak, stopSpeaking } from '../lib/speech'
@@ -13,6 +14,18 @@ const written = new Map()
 
 export default function NegotiatePage() {
   const { analysis, lang, setLang } = useStore()
+  const navigate = useNavigate()
+  const them = (analysis.parties?.them || 'other side').toLowerCase()
+  // Sending the message moves the case into negotiation and records it on the timeline.
+  const logSent = async () => {
+    if (!analysis.case_id) return
+    try {
+      await api.addEvent(analysis.case_id, 'message_sent', `Sent the negotiation message to the ${them}.`)
+      await api.setStatus(analysis.case_id, 'negotiating')
+    } catch {
+      // history is optional; the message itself was still sent
+    }
+  }
   const key = `${analysis.title}|${analysis.score}|${analysis.clauses.length}|${lang}`
   const [data, setData] = useState(() => written.get(key) ?? null)
   const [typed, setTyped] = useState(() => (written.has(key) ? Infinity : 0))
@@ -86,11 +99,16 @@ export default function NegotiatePage() {
             <button type="button" disabled={!data} onClick={() => { navigator.clipboard.writeText(data.message); setCopied(true) }} className="flex h-12 cursor-pointer items-center gap-2 rounded-full border border-line bg-surface px-5 text-sm font-extrabold hover:border-ink/30 disabled:opacity-40">
               {copied ? <Check size={16} className="text-money" /> : <Copy size={16} />} {copied ? 'Copied' : 'Copy'}
             </button>
-            <a href={data?.whatsapp_url} target="_blank" rel="noreferrer" className={`flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-sm font-extrabold text-white transition hover:bg-ink-2 ${data ? '' : 'pointer-events-none opacity-40'}`}>
+            <a href={data?.whatsapp_url} target="_blank" rel="noreferrer" onClick={logSent} className={`flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-sm font-extrabold text-white transition hover:bg-ink-2 ${data ? '' : 'pointer-events-none opacity-40'}`}>
               <MessageCircle size={16} /> Send on WhatsApp
             </a>
           </div>
           {error && <p className="mt-3 text-sm font-bold text-danger">Could not write the message: {error}</p>}
+          {analysis.case_id && (
+            <button type="button" onClick={async () => { await logSent(); navigate(`/history/${analysis.case_id}`) }} className="group mt-4 flex h-12 cursor-pointer items-center gap-2 rounded-full bg-money px-6 text-sm font-extrabold text-white transition hover:brightness-110">
+              I’ve sent it · track the replies <ArrowRight size={16} className="transition group-hover:translate-x-0.5" />
+            </button>
+          )}
         </div>
 
         <motion.div initial={{ rotate: 5, y: 40, opacity: 0 }} animate={{ rotate: 0, y: 0, opacity: 1 }} transition={{ duration: 0.9, ease: EASE, delay: 0.1 }} className="mx-auto w-[320px] rounded-[44px] bg-ink p-2.5 shadow-[0_40px_100px_rgba(18,20,31,0.35)] lg:sticky lg:top-[140px]">

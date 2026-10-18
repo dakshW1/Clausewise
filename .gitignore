@@ -19,3 +19,6 @@ backend/cache/
 Thumbs.db
 .vscode/
 .idea/
+
+# Case history database
+backend/data/
