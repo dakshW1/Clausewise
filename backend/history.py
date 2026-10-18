@@ -182,6 +182,10 @@ def get_case(case_id: str) -> dict:
         out = _summary(con, row)
         latest = con.execute("SELECT analysis FROM versions WHERE case_id=? ORDER BY id DESC LIMIT 1", (case_id,)).fetchone()
         out["latest_analysis"] = json.loads(latest["analysis"]) if latest else None
+        out["versions"] = [
+            {"label": v["label"], "score": v["score"], "at": v["created_at"], "analysis": json.loads(v["analysis"])}
+            for v in con.execute("SELECT label, score, created_at, analysis FROM versions WHERE case_id=? ORDER BY id", (case_id,)).fetchall()
+        ]
         out["events"] = [
             {"kind": e["kind"], "text": e["text"], "meta": json.loads(e["meta"] or "{}"), "at": e["created_at"]}
             for e in con.execute("SELECT * FROM events WHERE case_id=? ORDER BY created_at, id", (case_id,)).fetchall()

@@ -5,6 +5,7 @@ import copy
 import hashlib
 import json
 import logging
+import re
 from pathlib import Path
 from urllib.parse import quote
 
@@ -76,6 +77,22 @@ def with_meta(result: dict, sample_id: str | None = None) -> dict:
     return out
 
 
+# ID numbers are hidden in everything Clausewise stores, speaks or shares.
+REDACTIONS = [
+    (re.compile(r"\b[2-9]\d{3}[\s-]?\d{4}[\s-]?\d{4}\b"), "[Aadhaar hidden]"),
+    (re.compile(r"\b[A-Z]{5}\d{4}[A-Z]\b"), "[PAN hidden]"),
+    (re.compile(r"(?:\+91[\s-]?)?\b[6-9]\d{9}\b"), "[phone hidden]"),
+]
+
+
+def redact(text: str) -> tuple[str, int]:
+    hits = 0
+    for pattern, mask in REDACTIONS:
+        text, n = pattern.subn(mask, text or "")
+        hits += n
+    return text, hits
+
+
 def build_analysis(extraction: dict, fairness: dict, source: str, book: dict) -> dict:
     """Merge Gemma's two outputs, drop citations that aren't in the rulebook, score, and build the reasoning trace."""
     rules = {r["id"]: r for r in book["rules"]}
@@ -83,7 +100,11 @@ def build_analysis(extraction: dict, fairness: dict, source: str, book: dict) ->
     clauses = extraction.get("clauses", [])
     flags = {f.get("clause_id"): f for f in fairness.get("flags", [])}
     dropped = 0
+    hidden = 0
     for c in clauses:
+        for field in ("text", "simple"):
+            c[field], n = redact(c.get(field, ""))
+            hidden += n
         f = flags.get(c["id"], {})
         rule_id = f.get("rule_id")
         if rule_id and rule_id not in rules:
@@ -133,7 +154,8 @@ def build_analysis(extraction: dict, fairness: dict, source: str, book: dict) ->
     cited = sum(1 for c in clauses if c["rule_id"])
     trace.append({"from": "Verifier", "to": "You", "kind": "verify",
                   "text": f"Checked {cited + dropped} rule citations against the rulebook"
-                  + (f"; removed {dropped} that did not exist." if dropped else "; all are real rules.")})
+                  + (f"; removed {dropped} that did not exist." if dropped else "; all are real rules.")
+                  + (f" Hid {hidden} ID or phone number{'s' if hidden != 1 else ''}." if hidden else "")})
 
     return {
         "source": source,
@@ -147,6 +169,7 @@ def build_analysis(extraction: dict, fairness: dict, source: str, book: dict) ->
         "counts": counts,
         "score": score,
         "trace": trace,
+        "redacted": hidden,
     }
 
 
@@ -189,10 +212,10 @@ async def speak(text: str, lang: str) -> str | None:
         return None
 
 
-async def live_or_none(call):
-    """Run a Gemma call, but give up after LIVE_TIMEOUT seconds so a slow free-tier response can't stall the demo."""
+async def live_or_none(call, timeout: float | None = None):
+    """Run a Gemma call, but give up after a timeout so a slow free-tier response can't stall the demo."""
     try:
-        return await asyncio.wait_for(call, LIVE_TIMEOUT)
+        return await asyncio.wait_for(call, timeout or LIVE_TIMEOUT)
     except Exception as e:
         log.warning("Gemma call failed or timed out, using fallback: %s", type(e).__name__)
         return None
@@ -411,12 +434,16 @@ def seed_examples():
         "8": ("green", "The Landlord may inspect the premises with 24 hours' written notice, between 9 am and 7 pm."),
         "9": ("amber", "The Landlord may terminate this agreement by giving 60 days' notice."),
         "10": ("green", "Electricity and water charges shall be paid by the Tenant as per meter readings."),
+        # A quiet change for the worse, so the version comparison has something to catch.
+        "11": ("amber", "The Tenant may vacate the premises by giving 3 months' written notice to the Landlord after the lock-in period."),
     }
     for c in revised["clauses"]:
         if str(c["number"]) in fixes:
             c["severity"], c["text"] = fixes[str(c["number"])]
             if c["severity"] == "green":
                 c["reason"] = ""
+            elif str(c["number"]) == "11":
+                c["reason"] = "Your notice to leave quietly went up from 2 to 3 months."
     revised["missing"] = [m for m in revised["missing"] if m["category"] == "dispute_resolution"]
     history.add_version(case, rescore(revised), when=at(5))
     history.set_status(case, "signed", at(4))
@@ -510,6 +537,186 @@ def set_status(case_id: str, body: CaseStatus):
 def delete_case(case_id: str):
     history.delete_case(case_id)
     return {"ok": True}
+
+
+# ---------- understand, verify, act: extra tools ----------
+
+class AnalysisBody(BaseModel):
+    analysis: dict
+    language_code: str = "en-IN"
+    level: str = "normal"
+
+
+class SpeakBody(BaseModel):
+    text: str
+    language_code: str = "en-IN"
+
+
+class RecheckBody(BaseModel):
+    analysis: dict
+    corrections: dict[str, str]
+
+
+def _analysis_key(analysis: dict, *parts) -> str:
+    base = json.dumps([[c.get("id"), c.get("text"), c.get("severity")] for c in analysis.get("clauses", [])], ensure_ascii=False)
+    return hashlib.sha256((base + "|" + "|".join(map(str, parts))).encode()).hexdigest()[:16]
+
+
+async def cached_gemma(kind: str, analysis: dict, prompt: str, *parts, timeout: float = 90) -> dict | None:
+    """Ask Gemma once per document and setting; later requests come from the cache."""
+    path = CACHE_DIR / f"{kind}-{_analysis_key(analysis, *parts)}.json"
+    if path.exists():
+        return json.loads(path.read_text(encoding="utf-8"))
+    if not gemma.enabled():
+        return None
+    out = await live_or_none(gemma.generate_json(prompt), timeout)
+    if out:
+        path.write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
+    return out
+
+
+def _flagged(analysis: dict, limit: int = 99) -> list[dict]:
+    order = {"red": 0, "amber": 1}
+    flagged = [c for c in analysis.get("clauses", []) if c.get("severity") in order]
+    return sorted(flagged, key=lambda c: order[c["severity"]])[:limit]
+
+
+def _flagged_text(clauses: list[dict]) -> str:
+    return "\n".join(f"{c['id']} (Clause {c.get('number')}, {c.get('title')}, rule {c.get('rule_id') or '-'}): "
+                     f"{c.get('text')} | Issue: {c.get('reason')}" for c in clauses) or "None"
+
+
+@app.post("/api/speak")
+async def speak_text(body: SpeakBody):
+    text, lang = await in_language(body.text, body.language_code or "en-IN")
+    return {"text": text, "language_code": lang, "audio_base64": await speak(text, lang)}
+
+
+@app.post("/api/explain")
+async def explain(body: AnalysisBody):
+    analysis = body.analysis
+    level = body.level if body.level in prompts.EXPLAIN_LEVELS else "normal"
+    if level == "normal":
+        return {"level": level, "explanations": {c["id"]: c.get("simple", "") for c in analysis.get("clauses", [])}}
+    book = rulebook_for(analysis.get("doc_type"))
+    you = book["parties"]["you"].lower()
+    out = await cached_gemma("explain", analysis, prompts.EXPLAIN.format(
+        doc_label=book["label"].lower(), you=you, level_rule=prompts.EXPLAIN_LEVELS[level].format(you=you),
+        clauses=_clauses_for_prompt(analysis.get("clauses", []))), level)
+    if not out:
+        msg = "Other reading levels need a Gemini API key." if not gemma.enabled() else "Gemma took too long. Try again."
+        return {"level": level, "explanations": None, "notice": msg}
+    return {"level": level, "explanations": {e["clause_id"]: redact(e.get("text", ""))[0] for e in out.get("explanations", []) if e.get("clause_id")}}
+
+
+BRING = {
+    "rent": ["Photo ID for you and the landlord", "Proof the landlord owns the flat", "Receipt for any advance or deposit paid"],
+    "employment": ["The salary breakdown annexure", "Relieving letter from your last job", "A signed copy of the offer"],
+    "loan": ["The Key Fact Statement with the APR", "The full repayment schedule", "The lender's RBI registration details"],
+    "freelance": ["A written scope of work", "Your invoice and payment schedule", "Permission to show the work in your portfolio"],
+    "general": ["A signed copy for yourself", "ID proof for both parties"],
+}
+
+
+@app.post("/api/checklist")
+async def checklist(body: AnalysisBody):
+    analysis = body.analysis
+    book = rulebook_for(analysis.get("doc_type"))
+    flagged = _flagged(analysis)
+    missing = analysis.get("missing", [])
+    out = await cached_gemma("checklist", analysis, prompts.CHECKLIST.format(
+        you=book["parties"]["you"].lower(), them=book["parties"]["them"].lower(), doc_label=book["label"].lower(),
+        flagged=_flagged_text(flagged), missing="\n".join(f"{m['label']}: {m.get('why', '')}" for m in missing) or "None"),
+        timeout=45)
+    if not out:
+        # Built from the analysis itself when Gemma isn't available.
+        them = book["parties"]["them"].lower()
+        asks = [f"Can we add a clause on {m['label'].lower()}?" for m in missing[:2]]
+        asks += [f"Can we change Clause {c['number']} ({c['title'].lower()})?" for c in flagged[: 2 - len(asks)]]
+        out = {
+            "check": [f"Clause {c['number']}: {c['reason']}" for c in flagged[:3]] or ["Read every clause once more before signing."],
+            "ask": asks or [f"Will the {them} give me a signed copy?"],
+            "bring": BRING.get(book["type"], BRING["general"]),
+        }
+    return {k: out.get(k, [])[:4] for k in ("check", "ask", "bring")}
+
+
+@app.post("/api/debate")
+async def debate(body: AnalysisBody):
+    analysis = body.analysis
+    book = rulebook_for(analysis.get("doc_type"))
+    flagged = _flagged(analysis, 4)
+    if not flagged:
+        return {"debate": [], "overall": "Nothing was flagged, so there is nothing to debate."}
+    out = await cached_gemma("debate", analysis, prompts.DEBATE.format(
+        you=book["parties"]["you"].lower(), them=book["parties"]["them"].lower(), doc_label=book["label"].lower(),
+        flagged=_flagged_text(flagged), rules=_rules_for_prompt(book)))
+    if not out and analysis.get("sample_id") == "rent":
+        out = demo_data.DEBATE
+    if not out:
+        msg = "The debate needs a Gemini API key." if not gemma.enabled() else "Gemma took too long. Try again."
+        return {"debate": [], "overall": "", "notice": msg}
+    valid = {c["id"] for c in flagged}
+    return {"debate": [d for d in out.get("debate", []) if d.get("clause_id") in valid], "overall": out.get("overall", "")}
+
+
+@app.post("/api/summary")
+async def summary(body: AnalysisBody):
+    analysis = body.analysis
+    book = rulebook_for(analysis.get("doc_type"))
+    flagged = _flagged(analysis, 4)
+    out = await cached_gemma("summary", analysis, prompts.SUMMARY.format(
+        you=book["parties"]["you"].lower(), them=book["parties"]["them"].lower(), score=analysis.get("score"),
+        flagged=_flagged_text(flagged)), timeout=45)
+    summary_en = (out or {}).get("summary") or (
+        f"Hi, I'm checking a {book['label'].split(' / ')[0].lower()}. Clausewise rates it {analysis.get('score')} out of 100. "
+        + (f"The biggest problems: {'; '.join(c['title'].lower() for c in flagged[:3])}. " if flagged else "")
+        + f"I plan to ask the {book['parties']['them'].lower()} to change these. What do you think?"
+    )
+    text, lang = await in_language(summary_en, body.language_code or "en-IN")
+    return {"summary_en": summary_en, "summary": text, "language_code": lang, "audio_base64": await speak(text, lang)}
+
+
+@app.post("/api/recheck")
+async def recheck(body: RecheckBody):
+    """Apply the user's corrections to misread clauses and run the fairness check again."""
+    if not gemma.enabled():
+        raise HTTPException(503, "Rechecking needs a Gemini API key.")
+    old = body.analysis
+    book = rulebook_for(old.get("doc_type"))
+    clauses = [
+        {k: c.get(k) for k in ("id", "number", "category", "title", "text", "simple")}
+        | ({"text": body.corrections[c["id"]].strip(), "corrected": True} if body.corrections.get(c["id"], "").strip() else {})
+        for c in old.get("clauses", [])
+    ]
+    jobs = [gemma.generate_json(prompts.FAIRNESS.format(
+        doc_label=book["label"].lower(), you=book["parties"]["you"].lower(), clauses=_clauses_for_prompt(clauses),
+        rules=_rules_for_prompt(book), checklist=json.dumps(book["checklist"])))]
+    if book["type"] == "rent":
+        jobs.append(gemma.generate_json(prompts.KEY_VALUES.format(clauses=_clauses_for_prompt(clauses))))
+    try:
+        results = await asyncio.wait_for(asyncio.gather(*jobs), 150)
+    except Exception as e:
+        raise HTTPException(504, f"Gemma could not recheck the document ({type(e).__name__}). Try again.")
+    key_values = {**(old.get("key_values") or {}), **{k: v for k, v in (results[1] if len(results) > 1 else {}).items() if v is not None}}
+    extraction = {"title": old.get("title"), "clauses": clauses, "key_values": key_values, "key_facts": old.get("key_facts")}
+    new = with_meta(build_analysis(extraction, results[0], "gemma", book))
+    new["case_id"] = old.get("case_id")
+
+    before = {c["id"]: c for c in old.get("clauses", [])}
+    changes = [
+        {"clause_id": c["id"], "number": c.get("number"), "title": c.get("title"),
+         "before": before.get(c["id"], {}).get("severity"), "after": c["severity"], "corrected": bool(c.get("corrected"))}
+        for c in new["clauses"]
+        if c.get("corrected") or before.get(c["id"], {}).get("severity") != c["severity"]
+    ]
+    if new.get("case_id"):
+        try:
+            nums = ", ".join(f"Clause {c['number']}" for c in changes if c["corrected"])
+            history.add_event(new["case_id"], "note", f"Corrected {nums} and rechecked: {old.get('score')} → {new['score']}/100.")
+        except Exception:
+            log.warning("Could not log the correction to the case")
+    return {"analysis": new, "changes": changes, "score_before": old.get("score"), "score_after": new["score"]}
 
 
 # Serve the built frontend from the same server for the demo (npm run build in ../frontend).

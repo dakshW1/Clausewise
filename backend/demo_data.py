@@ -142,3 +142,26 @@ QA_NO_KEY = {
     "hi": "इस दस्तावेज़ पर सवालों के लाइव जवाब के लिए Gemini API key चाहिए। ऊपर की रिपोर्ट में सभी चिह्नित क्लॉज़ दिखाए गए हैं।",
     "clause_ids": [], "rule_ids": [], "confidence": "low",
 }
+
+# The two-sided debate for the rent sample, used when Gemma isn't available.
+DEBATE = {
+    "debate": [
+        {"clause_id": "C3",
+         "advocate": "Five months' rent locks away Rs. 90,000. The model law caps a residential deposit at two months, Rs. 36,000.",
+         "other_side": "Landlords in big cities often ask for more because unpaid rent and damage are hard to recover through courts.",
+         "verdict": "Two months is the benchmark. A middle ground is two months plus a clear, itemised damage process."},
+        {"clause_id": "C5",
+         "advocate": "A 10% rise at any time makes the rent unpredictable. The model law needs three months' written notice.",
+         "other_side": "Maintenance and taxes rise during the year, and the landlord wants room to keep up.",
+         "verdict": "A fixed yearly increase, announced three months ahead, protects both sides."},
+        {"clause_id": "C9",
+         "advocate": "Eviction for any reason on 15 days' notice leaves the tenant homeless at short notice. The model law requires the Rent Court.",
+         "other_side": "The landlord may need the flat back quickly for family or sale and fears a long legal process.",
+         "verdict": "Termination should need listed reasons and at least two to three months' notice."},
+        {"clause_id": "C10",
+         "advocate": "Cutting water and electricity over a late payment is forbidden under the model law.",
+         "other_side": "The landlord pays the bills upfront and wants a way to make sure they are repaid.",
+         "verdict": "Late fees are fair; cutting essential supplies is not. Replace it with a late-payment charge."},
+    ],
+    "overall": "The agreement protects the landlord well but leaves the tenant exposed on money and security of the home. Four changes would make it balanced.",
+}

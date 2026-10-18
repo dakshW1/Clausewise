@@ -30,7 +30,8 @@ Extract EVERY numbered clause, in order. Return ONLY valid JSON, no markdown, in
     "rent": number|null, "deposit": number|null, "deposit_months": number|null,
     "lock_in_months": number|null, "lock_in_penalty_months": number|null,
     "tenant_notice_days": number|null, "landlord_notice_days": number|null,
-    "term_months": number|null, "start_date": "YYYY-MM-DD"|null, "rent_increase_pct": number|null
+    "term_months": number|null, "start_date": "YYYY-MM-DD"|null, "rent_increase_pct": number|null,
+    "rent_due_day": number|null
   }}
 }}
 Rules: "key_facts" = the 4 to 6 most important amounts, dates and durations, values as short strings.
@@ -90,4 +91,68 @@ CONCERNS:
 {concerns}
 
 Return ONLY valid JSON: {{"message": "..."}}
+"""
+
+EXPLAIN = """Rewrite every clause of this {doc_label} for a {you}, at this reading level: {level_rule}
+Keep the meaning exact, keep every number, and never add advice that isn't in the clause.
+
+CLAUSES:
+{clauses}
+
+Return ONLY valid JSON: {{"explanations": [{{"clause_id": "C1", "text": "..."}}]}}
+"""
+
+EXPLAIN_LEVELS = {
+    "simple": "very simple: at most 12 words, everyday words a child knows, no legal terms.",
+    "detailed": "detailed: 2 to 3 sentences covering what it means, what it could cost or risk the {you}, and what to watch for.",
+}
+
+CHECKLIST = """A {you} is about to sign this {doc_label}. Using ONLY the flagged clauses and missing items below, write a
+before-you-sign checklist. Each item at most 14 words, plain English.
+- "check": exactly 3 things to verify or get changed in the document
+- "ask": exactly 2 questions to ask the {them}
+- "bring": 2 to 4 documents or proofs to keep ready
+
+FLAGGED:
+{flagged}
+
+MISSING:
+{missing}
+
+Return ONLY valid JSON: {{"check": ["..."], "ask": ["..."], "bring": ["..."]}}
+"""
+
+DEBATE = """Hold a short, fair debate about each flagged clause in this {doc_label}. Three voices:
+- "advocate": the {you}'s advocate, why the clause is unfair, citing the rule in plain words (max 30 words)
+- "other_side": the {them}'s honest, reasonable view of why they wrote it (max 30 words)
+- "verdict": a neutral judge's balanced view and a fair middle ground (max 25 words)
+
+FLAGGED CLAUSES:
+{flagged}
+
+RULES:
+{rules}
+
+Return ONLY valid JSON:
+{{"debate": [{{"clause_id": "C3", "advocate": "...", "other_side": "...", "verdict": "..."}}],
+  "overall": "the judge's overall view of the whole document in 2 sentences"}}
+"""
+
+SUMMARY = """Write a warm, simple spoken summary (max 70 words, about 30 seconds aloud) that a {you} can send to a family
+member for a second opinion. Cover: what the document is, its fairness score of {score}/100, the 2 or 3 biggest
+problems, and what the {you} plans to ask the {them} to change. No legal jargon.
+
+FLAGGED:
+{flagged}
+
+Return ONLY valid JSON: {{"summary": "..."}}
+"""
+
+KEY_VALUES = """From these rent agreement clauses, return ONLY valid JSON with these numbers (null if not stated):
+{{"rent": number|null, "deposit": number|null, "deposit_months": number|null, "lock_in_months": number|null,
+  "lock_in_penalty_months": number|null, "tenant_notice_days": number|null, "landlord_notice_days": number|null,
+  "term_months": number|null, "start_date": "YYYY-MM-DD"|null, "rent_increase_pct": number|null, "rent_due_day": number|null}}
+
+CLAUSES:
+{clauses}
 """
