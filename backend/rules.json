@@ -1,0 +1,73 @@
+{
+  "source": "Model Tenancy Act, 2021 (national model law; states adopt and modify it). Verify against the Act text before relying on it.",
+  "rules": [
+    {
+      "id": "R1",
+      "category": "deposit",
+      "title": "Deposit cap",
+      "benchmark": "Security deposit for a residential home should be at most 2 months' rent.",
+      "flag": "Deposit above 2 months' rent is against the model law."
+    },
+    {
+      "id": "R2",
+      "category": "refund",
+      "title": "Deposit refund",
+      "benchmark": "The deposit is refunded when the tenant hands back the home, after only lawful, itemised deductions.",
+      "flag": "No refund clause, or refund at the landlord's sole discretion, is unusual."
+    },
+    {
+      "id": "R3",
+      "category": "rent_revision",
+      "title": "Rent revision notice",
+      "benchmark": "Rent can be revised only as agreed, with written notice 3 months before the new rent applies.",
+      "flag": "Rent increase allowed at any time or without notice is against the model law."
+    },
+    {
+      "id": "R4",
+      "category": "eviction",
+      "title": "No eviction at will",
+      "benchmark": "A tenant can be evicted during the tenancy only through the Rent Authority or Rent Court, on listed grounds.",
+      "flag": "Landlord may evict at will or on short notice: against the model law."
+    },
+    {
+      "id": "R5",
+      "category": "essential_services",
+      "title": "Essential services",
+      "benchmark": "A landlord may not cut off water, electricity or other essential supplies to the home.",
+      "flag": "A clause allowing supplies to be cut is against the model law."
+    },
+    {
+      "id": "R6",
+      "category": "entry",
+      "title": "Landlord entry",
+      "benchmark": "The landlord enters only after at least 24 hours' written notice, at reasonable hours.",
+      "flag": "Entry at any time without notice is unusual."
+    },
+    {
+      "id": "R7",
+      "category": "repairs",
+      "title": "Repairs split",
+      "benchmark": "Structural repairs are the landlord's job; small day-to-day repairs are the tenant's.",
+      "flag": "Tenant paying for all repairs, including structural ones, is unusual."
+    },
+    {
+      "id": "R8",
+      "category": "lock_in",
+      "title": "Lock-in and penalty",
+      "benchmark": "Common practice: lock-in of 6 months or less, early-exit penalty of at most 1 month's rent.",
+      "flag": "Lock-in over 6 months or a penalty above 1 month's rent is unusual."
+    }
+  ],
+  "checklist": [
+    {"category": "deposit", "label": "Deposit amount"},
+    {"category": "refund_timeline", "label": "Deposit refund timeline"},
+    {"category": "rent", "label": "Rent and due date"},
+    {"category": "rent_revision", "label": "Rent revision terms"},
+    {"category": "notice", "label": "Notice period"},
+    {"category": "repairs", "label": "Repairs and maintenance"},
+    {"category": "utilities", "label": "Utility bills"},
+    {"category": "lock_in", "label": "Lock-in and penalty"},
+    {"category": "maintenance_charges", "label": "Society / maintenance charges"},
+    {"category": "dispute_resolution", "label": "Dispute resolution"}
+  ]
+}

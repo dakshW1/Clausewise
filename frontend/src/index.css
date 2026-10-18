@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #F6F3EC;
+  --surface: #FFFFFF;
+  --ink: #12141F;
+  --ink-2: #3A3D4D;
+  --muted: #6B6A72;
+  --line: #E7E1D4;
+  --money: #1F6F55;
+  --money-soft: #E3EFE8;
+  --heat: #A8792A;
+  --heat-soft: #F6EEDC;
+  --amber: #C08A1E;
+  --amber-soft: #F8EED6;
+  --danger: #A3243B;
+  --danger-soft: #F7E4E7;
+  --info: #3A5A8C;
+  --info-soft: #E6ECF5;
+
+  --night: #0B0D17;
+  --night-2: #141827;
+  --night-line: rgba(255, 255, 255, 0.1);
+  --night-text: #EEEAE0;
+  --night-muted: #9B9AA6;
+  --glow-heat: #D8B26A;
+  --glow-money: #7FD1AE;
+  --glow-gold: #D8B26A;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-money: var(--money);
+  --color-money-soft: var(--money-soft);
+  --color-heat: var(--heat);
+  --color-heat-soft: var(--heat-soft);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-night: var(--night);
+  --color-night-2: var(--night-2);
+  --color-night-line: var(--night-line);
+  --color-night-text: var(--night-text);
+  --color-night-muted: var(--night-muted);
+  --color-glow-heat: var(--glow-heat);
+  --color-glow-money: var(--glow-money);
+  --color-glow-gold: var(--glow-gold);
+
+  --font-display: "Bricolage Grotesque", "Noto Sans Devanagari", sans-serif;
+  --font-sans: "Manrope", "Noto Sans Devanagari", "Noto Sans Tamil", system-ui, sans-serif;
+  --font-serif: "Instrument Serif", serif;
+}
+
+html { background: var(--paper); }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.num { font-family: "Bricolage Grotesque", sans-serif; font-variant-numeric: tabular-nums; }
+
+/* Grain overlay for the night sections so they don't look like flat CSS */
+.grain::after {
+  content: "";
+  position: fixed; inset: -50%;
+  pointer-events: none; z-index: 5; opacity: 0.06;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee { animation: marquee 38s linear infinite; }
+
+@keyframes pulse-ring { 0% { transform: scale(0.6); opacity: 0.9; } 100% { transform: scale(2.4); opacity: 0; } }
+.pulse-ring { animation: pulse-ring 1.8s ease-out infinite; }
+
+@keyframes caret { 50% { opacity: 0; } }
+.caret { animation: caret 1s step-end infinite; }
+
+.paper-doc {
+  background: linear-gradient(180deg, #fffdf7, #f6f1e4);
+  color: #2a2418;
+}
+
+.hatch {
+  background-image: repeating-linear-gradient(135deg, rgba(192, 138, 30, 0.55) 0 6px, transparent 6px 12px);
+}
+
+.scrollbar-thin::-webkit-scrollbar { width: 6px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(127, 127, 127, 0.25); border-radius: 99px; }
+
+input[type="range"] { accent-color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee, .pulse-ring, .caret { animation: none; }
+}
