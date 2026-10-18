@@ -43,15 +43,30 @@ export default function Landing({ onStart: start, onBrowse: browse }) {
   }
   const fileRef = useRef(null)
   const [chapter, setChapter] = useState(0)
+  const [scrolled, setScrolled] = useState(false)
+  const [wide, setWide] = useState(() => window.matchMedia('(min-width: 1024px)').matches)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)')
+    const onChange = () => setWide(mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
 
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (!reduce) lenisRef.current = new Lenis({ autoRaf: true, lerp: 0.085 })
     let raf = 0
     let last = -1
+    let lastScrolled = false
     const tick = () => {
-      const ch = Math.min(CHAPTERS.length - 1, Math.max(0, Math.round(window.scrollY / window.innerHeight)))
+      // The active chapter is the last one whose top has passed the middle of the screen
+      // (chapters can be taller than the screen on phones).
+      let ch = 0
+      CHAPTERS.forEach((c, i) => { const el = document.getElementById(c.id); if (el && el.getBoundingClientRect().top <= window.innerHeight / 2) ch = i })
       if (ch !== last) { last = ch; setChapter(ch) }
+      const sc = window.scrollY > 40
+      if (sc !== lastScrolled) { lastScrolled = sc; setScrolled(sc) }
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
@@ -63,7 +78,7 @@ export default function Landing({ onStart: start, onBrowse: browse }) {
   }, [])
 
   const goTo = (i) => {
-    const y = i * window.innerHeight
+    const y = document.getElementById(CHAPTERS[i].id)?.offsetTop ?? i * window.innerHeight
     if (lenisRef.current) lenisRef.current.scrollTo(y, { duration: 1.6 })
     else window.scrollTo({ top: y, behavior: 'smooth' })
   }
@@ -77,8 +92,9 @@ export default function Landing({ onStart: start, onBrowse: browse }) {
       {/* Fixed scales behind every chapter */}
       <div className="fixed inset-0 z-0" aria-hidden="true">
         <motion.div
-          className="absolute inset-y-0 right-0 flex w-full items-center justify-center opacity-25 lg:right-16 lg:w-[46%] lg:opacity-100"
-          animate={{ opacity: ch.dim ? 0.16 : 1, scale: ch.dim ? 0.92 : 1, filter: ch.dim ? 'blur(3px)' : 'blur(0px)' }}
+          className="absolute inset-y-0 right-0 flex w-full items-center justify-center lg:right-16 lg:w-[46%]"
+          // On phones the scales sit behind the text, so keep them faint there.
+          animate={{ opacity: !wide ? 0.14 : ch.dim ? 0.16 : 1, scale: ch.dim ? 0.92 : 1, filter: ch.dim ? 'blur(3px)' : 'blur(0px)' }}
           transition={{ duration: 0.8, ease: EASE }}
         >
           <div className="w-[min(600px,92%)]">
@@ -89,14 +105,14 @@ export default function Landing({ onStart: start, onBrowse: browse }) {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(13,13,14,0.9),rgba(13,13,14,0))]" />
       </div>
 
-      <header className="fixed inset-x-0 top-0 z-30">
+      <header className={`fixed inset-x-0 top-0 z-30 transition-colors duration-300 ${scrolled ? 'border-b border-night-line bg-night/75 backdrop-blur-md' : ''}`}>
         <div className="mx-auto flex h-18 max-w-[1400px] items-center justify-between px-5 sm:px-8">
           <button type="button" onClick={() => goTo(0)} aria-label="Clausewise home" className="cursor-pointer"><Logo dark /></button>
           <nav className="flex items-center gap-2">
             <a href="#/history" onClick={() => { lenisRef.current?.destroy(); lenisRef.current = null; window.scrollTo({ top: 0, behavior: 'instant' }) }} className="hidden h-11 items-center rounded-full px-4 text-sm font-bold text-night-text/80 transition hover:text-white sm:flex">History</a>
             <button type="button" onClick={upload} className="hidden h-11 cursor-pointer items-center rounded-full px-4 text-sm font-bold text-night-text/80 transition hover:text-white md:flex">Upload a photo</button>
             <button type="button" onClick={onBrowse} className="flex h-11 cursor-pointer items-center gap-2 rounded-full bg-white px-5 text-sm font-extrabold text-ink transition hover:bg-white/90">
-              Sample documents <ArrowRight size={16} />
+              <span className="sm:hidden">Samples</span><span className="hidden sm:inline">Sample documents</span> <ArrowRight size={16} />
             </button>
           </nav>
         </div>
@@ -133,7 +149,7 @@ export default function Landing({ onStart: start, onBrowse: browse }) {
 
 function Chapter({ id, children }) {
   return (
-    <section id={id} className="relative flex h-screen items-center">
+    <section id={id} className="relative flex min-h-[100svh] items-center py-24 lg:py-0">
       <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">{children}</div>
     </section>
   )
@@ -141,7 +157,7 @@ function Chapter({ id, children }) {
 
 function Hero({ onSample, onUpload, onBrowse }) {
   return (
-    <section id="top" className="relative flex h-screen flex-col justify-end pb-24 pt-24 sm:justify-center sm:pb-16">
+    <section id="top" className="relative flex min-h-[100svh] flex-col justify-center pb-24 pt-24 sm:pb-16">
       <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         <Reveal y={12} className="mb-7 inline-flex items-center gap-2 rounded-full border border-night-line bg-white/5 px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.18em] text-night-text/85 backdrop-blur">
           <span className="h-1.5 w-1.5 rounded-full bg-glow-money" /> For tenants, employees, borrowers and freelancers · Free
@@ -273,7 +289,7 @@ function ReadChapter() {
   const lift = useTransform(scrollYProgress, [0, 0.5, 1], [120, 0, -120])
   return (
     <Chapter id="read">
-      <div ref={ref} className="grid items-center gap-12 lg:grid-cols-2">
+      <div ref={ref} className="grid items-center gap-12 lg:grid-cols-2 [&>*]:min-w-0">
         <div>
           <Kicker n="03">Photo in, verdict out</Kicker>
           <h2 className="font-display text-[clamp(35px,min(6.4vw,9.3vh),96px)] font-extrabold leading-[0.92] tracking-[-0.045em]">
@@ -325,7 +341,7 @@ const ANSWER = 'क्लॉज़ 9 के अनुसार मकान म�
 function VoiceChapter() {
   return (
     <Chapter id="voice">
-      <div className="grid items-center gap-12 lg:grid-cols-2">
+      <div className="grid items-center gap-12 lg:grid-cols-2 [&>*]:min-w-0">
         <div>
           <Kicker n="04">Voice, in your language</Kicker>
           <h2 className="font-display text-[clamp(35px,min(6.4vw,9.3vh),96px)] font-extrabold leading-[0.92] tracking-[-0.045em]">
@@ -344,7 +360,7 @@ function VoiceChapter() {
               <span className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-night-muted">Priya asked</span>
               <p lang="hi" className="mt-0.5 text-[15px] font-semibold">क्या मकान मालिक बिना नोटिस के निकाल सकता है?</p>
             </div>
-            <div className="flex h-8 items-center gap-[3px]" aria-hidden="true">
+            <div className="hidden h-8 items-center gap-[3px] sm:flex" aria-hidden="true">
               {Array.from({ length: 14 }, (_, i) => (
                 <motion.span key={i} className="w-[3px] rounded-full bg-glow-heat" animate={{ height: [6, 10 + ((i * 7) % 20), 6] }} transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.06 }} />
               ))}
@@ -410,7 +426,7 @@ function JoinChapter({ onSample, onUpload }) {
             <Upload size={18} /> Upload your agreement
           </button>
         </Reveal>
-        <Reveal delay={0.45} className="mt-10 grid max-w-[900px] gap-4 sm:grid-cols-3">
+        <Reveal delay={0.45} className="mt-10 grid max-w-[900px] gap-4 sm:grid-cols-3 [&>*]:min-w-0">
           {[
             ['Private by design', 'Gemma 4 is open-weight, so it can run fully offline on a phone. ID numbers are blurred before anything is uploaded.'],
             ['Sarvam voice', 'Ask and listen in 10+ Indian languages.'],

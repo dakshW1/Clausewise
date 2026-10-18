@@ -46,7 +46,7 @@ export default function OverviewPage() {
           <HelpCard highStakes reason={`This document scores ${analysis.score}/100 with ${analysis.counts.red} clauses against the law.`} />
         </div>
       )}
-      <div className="grid gap-5 lg:grid-cols-12">
+      <div className="grid gap-5 lg:grid-cols-12 [&>*]:min-w-0">
         <ScorePanel analysis={analysis} />
         <KeyStats analysis={analysis} onFocus={(ids, rules) => { focus(ids, rules); navigate('/report/clauses') }} />
       </div>
@@ -57,7 +57,7 @@ export default function OverviewPage() {
             <h2 className="font-display text-2xl font-extrabold tracking-[-0.03em]">Fix these first</h2>
             <Link to="/report/clauses" className="flex items-center gap-1 text-sm font-extrabold text-muted hover:text-ink">All clauses <ArrowRight size={14} /></Link>
           </div>
-          <div className="grid gap-3 md:grid-cols-2">
+          <div className="grid gap-3 md:grid-cols-2 [&>*]:min-w-0">
             {reds.map((c, i) => (
               <motion.button
                 type="button"
@@ -87,7 +87,7 @@ export default function OverviewPage() {
 
       <section className="mt-10">
         <h2 className="mb-4 font-display text-2xl font-extrabold tracking-[-0.03em]">Go deeper</h2>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5 [&>*]:min-w-0">
           {explore.map((e, i) => (
             <motion.div
               key={e.to}

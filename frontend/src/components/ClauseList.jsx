@@ -64,7 +64,7 @@ function ClauseCard({ c, rule, active, first, activeT, onSpy, explanation, onCor
       <AnimatePresence>
         {open && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="relative overflow-hidden">
-            <div className="grid gap-3 px-4 pb-4 pl-[68px] md:grid-cols-2">
+            <div className="grid gap-3 px-4 pb-4 sm:pl-[68px] md:grid-cols-2 [&>*]:min-w-0">
               <div className="paper-doc rounded-xl p-3.5 font-serif text-[16px] leading-snug">
                 <span className="mb-1 flex items-center gap-1 font-sans text-[10px] font-extrabold uppercase tracking-[0.16em] text-black/45"><Quote size={11} /> The document says</span>
                 {c.text}
@@ -77,7 +77,7 @@ function ClauseCard({ c, rule, active, first, activeT, onSpy, explanation, onCor
               )}
             </div>
             {onCorrect && (
-              <div className="px-4 pb-4 pl-[68px]">
+              <div className="px-4 pb-4 sm:pl-[68px]">
                 <button type="button" onClick={() => onCorrect(c)} className="flex cursor-pointer items-center gap-1.5 text-xs font-extrabold text-muted hover:text-ink">
                   <PencilLine size={13} /> Misread? Correct this clause
                 </button>

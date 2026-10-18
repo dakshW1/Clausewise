@@ -18,7 +18,7 @@ export default function AskPage() {
   return (
     <>
       <PageHead kicker={['06', 'Ask']} title="Ask in your language." accent="See the proof." />
-      <div className="grid gap-5 lg:grid-cols-12">
+      <div className="grid gap-5 lg:grid-cols-12 [&>*]:min-w-0">
         <div className="h-[min(720px,calc(100vh-220px))] min-h-[560px] lg:col-span-7">
           <VoicePanel analysis={analysis} lang={lang} setLang={setLang} health={health} onCite={focus} onNegotiate={() => navigate('/report/negotiate')} />
         </div>

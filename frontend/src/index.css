@@ -98,6 +98,8 @@ body {
 }
 
 .scrollbar-thin::-webkit-scrollbar { width: 6px; }
+.scrollbar-none { scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(127, 127, 127, 0.25); border-radius: 99px; }
 
 input[type="range"] { accent-color: var(--ink); }

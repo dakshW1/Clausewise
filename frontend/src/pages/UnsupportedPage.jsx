@@ -69,7 +69,7 @@ export default function UnsupportedPage() {
         <Link to="/samples" className="flex h-11 items-center rounded-full px-4 text-sm font-bold text-night-text/80 transition hover:text-white">Sample documents</Link>
       </header>
 
-      <main className="relative z-10 mx-auto grid max-w-[1240px] items-center gap-12 px-4 pb-20 pt-8 sm:px-6 lg:grid-cols-[1.1fr_0.9fr]">
+      <main className="relative z-10 mx-auto grid max-w-[1240px] items-center gap-12 px-4 pb-20 pt-8 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] [&>*]:min-w-0">
         <div>
           <Kicker n="!">Can’t check this one</Kicker>
           <h1 className="font-display text-[clamp(38px,6vw,84px)] font-extrabold leading-[0.92] tracking-[-0.045em]">
@@ -96,7 +96,7 @@ export default function UnsupportedPage() {
 
           <Reveal delay={0.7} className="mt-10">
             {kind === 'unreadable' ? (
-              <div className="grid max-w-[560px] gap-2 sm:grid-cols-2">
+              <div className="grid max-w-[560px] gap-2 sm:grid-cols-2 [&>*]:min-w-0">
                 {PHOTO_TIPS.map(([Icon, tip]) => (
                   <div key={tip} className="flex items-start gap-3 rounded-2xl border border-night-line bg-night-2/70 p-3.5">
                     <Icon size={18} className="mt-0.5 shrink-0 text-glow-heat" />

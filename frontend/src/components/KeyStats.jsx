@@ -63,11 +63,11 @@ export default function KeyStats({ analysis, onFocus }) {
         <div className="grid grid-cols-2 gap-3">
           <button type="button" onClick={focus('deposit')} className="cursor-pointer rounded-2xl bg-paper p-4 text-left">
             <p className="text-xs font-bold text-muted">The landlord asks</p>
-            <p className={`num text-[30px] font-extrabold leading-tight text-muted ${kv.deposit > fair ? 'line-through decoration-danger decoration-[3px]' : ''}`}>{rupees(kv.deposit)}</p>
+            <p className={`num text-[22px] font-extrabold leading-tight text-muted sm:text-[30px] ${kv.deposit > fair ? 'line-through decoration-danger decoration-[3px]' : ''}`}>{rupees(kv.deposit)}</p>
           </button>
           <button type="button" onClick={focus('deposit')} className="cursor-pointer rounded-2xl bg-ink p-4 text-left text-white">
             <p className="text-xs font-bold text-white/70">The model law allows</p>
-            <p className="num text-[30px] font-extrabold leading-tight text-glow-money"><CountTo from={kv.deposit} to={fair} prefix="₹" onMount /></p>
+            <p className="num text-[22px] font-extrabold leading-tight text-glow-money sm:text-[30px]"><CountTo from={kv.deposit} to={fair} prefix="₹" onMount /></p>
           </button>
         </div>
       )}

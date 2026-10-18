@@ -47,7 +47,7 @@ export default function SamplesPage() {
           Four real-world documents with problems planted in them, each checked against its own rulebook: the Model Tenancy Act, Indian employment law, RBI lending rules and fair freelance practice.
         </Reveal>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-2">
+        <div className="mt-12 grid gap-5 md:grid-cols-2 [&>*]:min-w-0">
           {(samples ?? Array.from({ length: 4 }, (_, i) => ({ id: `skeleton-${i}` }))).map((s, i) => (
             <SampleCard key={s.id} sample={s} preview={previews[s.id]} index={i} onPick={() => start({ sampleId: s.id })} />
           ))}
@@ -89,7 +89,7 @@ function SampleCard({ sample, preview, index, onPick }) {
       whileHover="hover"
       className="group relative flex min-h-[300px] cursor-pointer overflow-hidden rounded-[28px] border border-night-line bg-night-2/80 p-6 text-left backdrop-blur-md transition hover:border-white/25"
     >
-      <div className="relative z-10 flex max-w-[58%] flex-col">
+      <div className="relative z-10 flex flex-col sm:max-w-[58%]">
         <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-glow-heat"><Icon size={22} /></span>
         <span className="mt-5 text-[11px] font-extrabold uppercase tracking-[0.18em] text-night-muted">{sample.label || ' '}</span>
         <span className="mt-1 font-display text-[28px] font-extrabold leading-[1.02] tracking-[-0.03em]">{sample.title || ' '}</span>
@@ -111,7 +111,7 @@ function SampleCard({ sample, preview, index, onPick }) {
       </div>
 
       {/* A small stack of paper that fans out on hover. */}
-      <div className="pointer-events-none absolute -bottom-6 right-4 h-[250px] w-[190px]" style={{ perspective: 900 }}>
+      <div className="pointer-events-none absolute -bottom-6 right-4 hidden h-[250px] w-[190px] sm:block" style={{ perspective: 900 }}>
         {[2, 1, 0].map((k) => (
           <motion.div
             key={k}
@@ -130,7 +130,7 @@ function SampleCard({ sample, preview, index, onPick }) {
         ))}
       </div>
 
-      <span className="absolute right-5 top-5 z-10 flex h-10 items-center gap-1.5 rounded-full bg-white px-4 text-xs font-extrabold text-ink opacity-0 transition group-hover:opacity-100">
+      <span className="absolute right-5 top-5 z-10 flex h-10 items-center gap-1.5 rounded-full bg-white px-4 text-xs font-extrabold text-ink transition sm:opacity-0 sm:group-hover:opacity-100">
         Check it <ArrowRight size={14} />
       </span>
     </motion.button>

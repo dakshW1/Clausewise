@@ -78,7 +78,7 @@ export default function CasePage() {
           )}
         </div>
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-12">
+        <div className="mt-8 grid gap-5 lg:grid-cols-12 [&>*]:min-w-0">
           <ClauseTracker c={c} onSet={(clauseId, status, note) => update(api.setOutcome(c.id, clauseId, status, note))} />
           <NegotiationTimeline c={c} onLog={(kind, text) => update(api.addEvent(c.id, kind, text))} />
         </div>
@@ -89,7 +89,7 @@ export default function CasePage() {
 
 function StatusPicker({ value, onChange }) {
   return (
-    <div className="flex flex-wrap gap-1 rounded-full bg-surface p-1 text-xs font-extrabold shadow-[0_1px_2px_rgba(20,20,20,0.05)]">
+    <div className="grid w-full grid-cols-2 gap-1 rounded-[20px] bg-surface p-1 text-xs font-extrabold shadow-[0_1px_2px_rgba(20,20,20,0.05)] sm:flex sm:w-auto sm:rounded-full [&>*]:min-w-0">
       {Object.entries(STATUS).map(([k, s]) => (
         <button type="button" key={k} onClick={() => k !== value && onChange(k)} className="relative cursor-pointer rounded-full px-3.5 py-2">
           {value === k && <motion.span layoutId="case-status" className="absolute inset-0 rounded-full" style={{ background: s.soft }} transition={{ type: 'spring', stiffness: 380, damping: 32 }} />}
@@ -152,7 +152,7 @@ function ClauseTracker({ c, onSet }) {
   const R = 26
   const C = 2 * Math.PI * R
   return (
-    <section className="rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(20,20,20,0.05)] sm:p-6 lg:col-span-7">
+    <section className="min-w-0 rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(20,20,20,0.05)] sm:p-6 lg:col-span-7">
       <div className="mb-5 flex items-center gap-4">
         <svg width="64" height="64" viewBox="0 0 64 64" className="shrink-0" aria-label={`${pct}% won`}>
           <circle cx="32" cy="32" r={R} fill="none" stroke="#EFEDE7" strokeWidth="7" />
@@ -160,7 +160,7 @@ function ClauseTracker({ c, onSet }) {
             strokeDasharray={C} initial={{ strokeDashoffset: C }} animate={{ strokeDashoffset: C * (1 - pct / 100) }} transition={{ duration: 1.2, ease: EASE }} />
           <text x="32" y="37" textAnchor="middle" className="num" fontSize="15" fontWeight="800" fill="#141414">{pct}%</text>
         </svg>
-        <div>
+        <div className="min-w-0">
           <h2 className="text-[15px] font-extrabold">What changed, clause by clause</h2>
           <p className="text-xs font-bold text-muted">Mark each flagged clause as the {(c.parties?.them || 'other side').toLowerCase()} responds.</p>
         </div>
@@ -192,9 +192,9 @@ function TrackerRow({ x, index, onSet }) {
           <span className="text-sm font-extrabold">{x.title} {x.rule_id && <span className="num ml-1 rounded-full bg-ink px-1.5 py-0.5 text-[10px] text-glow-money">{x.rule_id}</span>}</span>
           <span className="truncate text-xs font-semibold text-muted">{x.reason}</span>
         </span>
-        <div className="flex rounded-full bg-paper p-0.5 text-[11px] font-extrabold">
+        <div className="flex w-full rounded-full bg-paper p-0.5 text-[11px] font-extrabold sm:w-auto">
           {Object.entries(OUTCOME).map(([k, o]) => (
-            <button type="button" key={k} onClick={() => k !== x.status && onSet(x.clause_id, k, note)} className="relative cursor-pointer rounded-full px-2.5 py-1.5">
+            <button type="button" key={k} onClick={() => k !== x.status && onSet(x.clause_id, k, note)} className="relative flex-1 cursor-pointer rounded-full px-2.5 py-2 sm:flex-none sm:py-1.5">
               {x.status === k && <motion.span layoutId={`out-${x.clause_id}`} className="absolute inset-0 rounded-full" style={{ background: o.color }} transition={{ type: 'spring', stiffness: 400, damping: 32 }} />}
               <span className={`relative ${x.status === k ? 'text-white' : 'text-muted'}`}>{o.label}</span>
             </button>
@@ -223,7 +223,7 @@ function NegotiationTimeline({ c, onLog }) {
   const events = [...c.events].reverse()
 
   return (
-    <section className="rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(20,20,20,0.05)] sm:p-6 lg:col-span-5">
+    <section className="min-w-0 rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(20,20,20,0.05)] sm:p-6 lg:col-span-5">
       <h2 className="text-[15px] font-extrabold">Negotiation timeline</h2>
       <p className="text-xs font-bold text-muted">Newest first</p>
 

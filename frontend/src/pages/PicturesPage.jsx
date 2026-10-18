@@ -96,7 +96,7 @@ export default function PicturesPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 [&>*]:min-w-0">
         {analysis.clauses.map((c, i) => {
           const s = SEVERITY[c.severity]
           const Icon = ICONS[c.category] || FileText

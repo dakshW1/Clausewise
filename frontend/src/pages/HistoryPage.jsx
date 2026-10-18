@@ -67,7 +67,7 @@ export default function HistoryPage() {
             <br />
             <span className="font-serif font-normal italic text-glow-heat"><Words text="Every clause you won." delay={0.2} /></span>
           </h1>
-          <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4">
+          <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4 [&>*]:min-w-0">
             {stats.map(([n, label, prefix], i) => (
               <Reveal key={label} delay={0.2 + i * 0.08} y={20} className="rounded-2xl border border-night-line bg-night-2/80 p-4 backdrop-blur">
                 <span className="num block text-[40px] font-extrabold leading-none tracking-[-0.03em] text-glow-money">
@@ -93,7 +93,7 @@ export default function HistoryPage() {
         {cases && shown.length === 0 && (
           <p className="rounded-[24px] bg-surface p-10 text-center font-semibold text-muted">Nothing here yet. Check a document and it will appear in your history.</p>
         )}
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2 [&>*]:min-w-0">
           {shown.map((c, i) => <CaseCard key={c.id} c={c} index={i} />)}
         </div>
       </main>

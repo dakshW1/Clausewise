@@ -48,7 +48,7 @@ function KeyDates({ analysis }) {
           <CalendarPlus size={16} /> Add to calendar
         </button>
       </div>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 [&>*]:min-w-0">
         {dates.map((d, i) => (
           <motion.div
             key={d.key}
@@ -130,7 +130,7 @@ function ScrubTimeline({ analysis, onFocus }) {
         <div className="relative overflow-hidden rounded-[24px] bg-night p-5 text-night-text sm:p-7">
           <div className="pointer-events-none absolute -left-16 -top-24 h-64 w-64 rounded-full bg-glow-heat/15 blur-[80px]" />
 
-          <div className="relative grid gap-6 md:grid-cols-[1.3fr_1fr]">
+          <div className="relative grid gap-6 md:grid-cols-[1.3fr_1fr] [&>*]:min-w-0">
             <div>
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-night-muted">Month {Math.floor(month)} of {term}</p>
               <p className="num mt-1 text-[clamp(30px,4vw,48px)] font-extrabold leading-none tracking-[-0.04em]">{monthName(month)}</p>

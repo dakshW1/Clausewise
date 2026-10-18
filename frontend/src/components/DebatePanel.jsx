@@ -65,7 +65,7 @@ export default function DebatePanel({ analysis }) {
                 {c.title}
                 {c.rule_id && <span className="num rounded-full bg-ink px-2 py-0.5 text-[10px] text-glow-money">{c.rule_id}</span>}
               </p>
-              <div className="grid gap-3 md:grid-cols-2">
+              <div className="grid gap-3 md:grid-cols-2 [&>*]:min-w-0">
                 <Bubble side="left" icon={Shield} who={`${you}’s advocate`} text={d.advocate} delay={0} />
                 <Bubble side="right" icon={UserRound} who={`${them}’s view`} text={d.other_side} delay={0.25} />
               </div>

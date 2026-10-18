@@ -45,7 +45,7 @@ export default function ChecklistPage() {
   return (
     <>
       <PageHead kicker={['08', 'Checklist']} title="Before you sign," accent="tick these off." sub="Three things to check, two questions to ask, and what to keep ready, taken from the issues found in your document." />
-      <div className="grid items-start gap-5 lg:grid-cols-12">
+      <div className="grid items-start gap-5 lg:grid-cols-12 [&>*]:min-w-0">
         <section className="rounded-[24px] bg-surface p-5 shadow-[0_1px_2px_rgba(20,20,20,0.05)] sm:p-6 lg:col-span-7">
           <div className="mb-5 flex flex-wrap items-center gap-4">
             <div className="flex-1">

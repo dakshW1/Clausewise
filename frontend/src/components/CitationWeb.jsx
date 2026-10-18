@@ -30,12 +30,44 @@ export default function CitationWeb({ analysis, active, onFocus }) {
 
   return (
     <Card className="lg:col-span-12">
-      <CardHead title="Every flag is wired to a written rule" sub="hover a clause or a rule to trace it" />
-      <div className="mb-2 flex justify-between px-1 text-[11px] font-extrabold uppercase tracking-[0.18em] text-muted">
+      <CardHead title="Every flag is wired to a written rule" sub="tap or hover a clause to trace it" />
+      {/* Phones: the same links as a stacked list, since the wide diagram would be unreadably small. */}
+      <div className="flex flex-col gap-3 sm:hidden">
+        {left.map((c, i) => {
+          const s = SEVERITY[c.severity]
+          const rule = right.find((r) => r.id === c.rule_id)
+          return (
+            <motion.button
+              type="button"
+              key={c.id}
+              onClick={() => onFocus([c.id], [c.rule_id])}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.45, delay: Math.min(i, 4) * 0.05 }}
+              className="flex cursor-pointer flex-col items-stretch text-left"
+            >
+              <span className="flex items-center gap-2 rounded-xl px-3 py-2.5" style={{ background: s.soft }}>
+                <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: s.color }} />
+                <span className="text-sm font-extrabold">Clause {c.number}</span>
+                <span className="truncate text-xs font-semibold text-muted">{c.title}</span>
+              </span>
+              <span className="relative ml-5 h-5 w-[2px] overflow-hidden" style={{ background: s.color + '33' }}>
+                <motion.span className="absolute inset-x-0 top-0 block" style={{ background: s.color }} initial={{ height: 0 }} whileInView={{ height: '100%' }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.2 }} />
+              </span>
+              <span className="flex items-center gap-2 rounded-xl bg-ink px-3 py-2.5 text-white">
+                <span className="num text-sm font-extrabold text-glow-money">{c.rule_id}</span>
+                <span className="truncate text-xs font-semibold text-white/75">{rule?.title}</span>
+              </span>
+            </motion.button>
+          )
+        })}
+      </div>
+      <div className="mb-2 hidden justify-between px-1 text-[11px] font-extrabold uppercase tracking-[0.18em] text-muted sm:flex">
         <span>Your clauses</span>
         <span>The rulebook</span>
       </div>
-      <svg ref={box} viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Clauses linked to the rules they break">
+      <svg ref={box} viewBox={`0 0 ${W} ${H}`} className="hidden w-full sm:block" role="img" aria-label="Clauses linked to the rules they break">
         {left.map((c, i) => {
           const y1 = ly(i)
           const y2 = ry(ruleIndex[c.rule_id])

@@ -81,7 +81,7 @@ export default function ClausesPage() {
         sub={`${counts.red} unfair, ${counts.amber} unusual, ${counts.green} fair, and ${counts.missing} important clauses missing.`}
       />
       <AnimatePresence>{result && <RecheckResult result={result} onClose={() => setResult(null)} />}</AnimatePresence>
-      <div className="grid gap-5 lg:grid-cols-12">
+      <div className="grid gap-5 lg:grid-cols-12 [&>*]:min-w-0">
         <aside className="hidden lg:col-span-5 lg:block">
           <div className="sticky top-[136px] flex gap-3">
             <DocumentMap clauses={analysis.clauses} spy={spy} onPick={(c) => focus([c.id], c.rule_id ? [c.rule_id] : [])} />

@@ -32,7 +32,7 @@ export default function ProofPage() {
       <PipelineStrip stats={stats} />
       <p className="mb-8 mt-3 text-sm font-semibold text-muted">{verified}</p>
 
-      <div className="grid gap-5 lg:grid-cols-12">
+      <div className="grid gap-5 lg:grid-cols-12 [&>*]:min-w-0">
         <AgentFeed analysis={analysis} onFocus={focus} />
         <BenchmarkBars analysis={analysis} active={active} onFocus={focus} />
         <CitationWeb analysis={analysis} active={active} onFocus={focus} />
@@ -47,7 +47,7 @@ function PipelineStrip({ stats }) {
   return (
     <div className="relative overflow-hidden rounded-[24px] bg-night p-5 text-night-text sm:p-7">
       <div className="pointer-events-none absolute -left-10 -top-20 h-60 w-60 rounded-full bg-glow-heat/15 blur-[80px]" />
-      <div className="relative grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="relative grid grid-cols-2 gap-4 md:grid-cols-4 [&>*]:min-w-0">
         <div className="absolute left-[12%] right-[12%] top-[34px] hidden h-px bg-white/15 md:block" />
         {[0, 1, 2].map((i) => (
           <motion.span

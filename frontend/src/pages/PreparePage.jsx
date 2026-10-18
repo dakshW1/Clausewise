@@ -178,7 +178,7 @@ export default function PreparePage() {
         <Link to="/" aria-label="Clausewise home"><Logo dark /></Link>
         <span className="flex items-center gap-2 text-xs font-bold text-night-muted"><ShieldCheck size={14} /> Nothing has been uploaded yet</span>
       </header>
-      <main className="relative z-10 mx-auto grid max-w-[1240px] gap-8 px-4 pb-16 pt-6 sm:px-6 lg:grid-cols-[1fr_380px]">
+      <main className="relative z-10 mx-auto grid max-w-[1240px] gap-8 px-4 pb-16 pt-6 sm:px-6 lg:grid-cols-[1fr_380px] [&>*]:min-w-0">
         <div>
           <h1 className="font-display text-[clamp(32px,4.4vw,60px)] font-extrabold leading-[0.95] tracking-[-0.045em]">
             <Words text="Hide what’s private" />{' '}
