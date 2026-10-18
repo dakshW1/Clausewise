@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Quote, ShieldCheck } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { EASE } from '../components/motion-bits'
+import HelpCard from '../components/HelpCard'
 import { Chip } from '../components/ui'
 import VoicePanel from '../components/VoicePanel'
 import { useStore } from '../lib/store'
@@ -16,7 +17,7 @@ export default function AskPage() {
 
   return (
     <>
-      <PageHead kicker={['05', 'Ask']} title="Ask in your language." accent="See the proof." />
+      <PageHead kicker={['06', 'Ask']} title="Ask in your language." accent="See the proof." />
       <div className="grid gap-5 lg:grid-cols-12">
         <div className="h-[min(720px,calc(100vh-220px))] min-h-[560px] lg:col-span-7">
           <VoicePanel analysis={analysis} lang={lang} setLang={setLang} health={health} onCite={focus} onNegotiate={() => navigate('/report/negotiate')} />
@@ -76,6 +77,9 @@ export default function AskPage() {
                 })
               )}
             </AnimatePresence>
+          </div>
+          <div className="mt-4">
+            <HelpCard compact />
           </div>
         </aside>
       </div>

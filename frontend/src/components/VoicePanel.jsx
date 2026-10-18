@@ -240,8 +240,12 @@ export default function VoicePanel({ analysis, lang, setLang, health, onCite, on
                     )}
                   </div>
                   {m.confidence === 'low' && (
-                    <div className="mt-2 flex items-center gap-2 rounded-xl bg-info/25 px-3 py-2 text-xs font-bold text-[#CAD5E6]">
-                      <LifeBuoy size={14} /> Free legal aid: call <b>15100</b> (NALSA)
+                    <div className="mt-2 rounded-xl bg-info/25 px-3 py-2 text-xs font-bold text-[#CAD5E6]">
+                      <span className="flex items-center gap-2"><LifeBuoy size={14} /> I'm not sure about this one. Please check with a person.</span>
+                      <span className="mt-1.5 flex flex-wrap gap-2 pl-6">
+                        <a href="tel:15100" className="underline">Call NALSA free legal aid: 15100</a>
+                        <a href="https://nalsa.gov.in" target="_blank" rel="noreferrer" className="underline">Find your District Legal Services Authority</a>
+                      </span>
                     </div>
                   )}
                 </div>

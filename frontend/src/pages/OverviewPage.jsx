@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, CalendarClock, FileText, Handshake, Info, Link2, Mic } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
+import HelpCard from '../components/HelpCard'
 import KeyStats from '../components/KeyStats'
 import { EASE } from '../components/motion-bits'
 import ScorePanel from '../components/ScorePanel'
@@ -40,6 +41,11 @@ export default function OverviewPage() {
         </p>
       )}
 
+      {(analysis.score < 50 || analysis.counts.red >= 3) && (
+        <div className="mb-5">
+          <HelpCard highStakes reason={`This document scores ${analysis.score}/100 with ${analysis.counts.red} clauses against the law.`} />
+        </div>
+      )}
       <div className="grid gap-5 lg:grid-cols-12">
         <ScorePanel analysis={analysis} />
         <KeyStats analysis={analysis} onFocus={(ids, rules) => { focus(ids, rules); navigate('/report/clauses') }} />
