@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { CountTo, EASE, Words } from '../components/motion-bits'
 import Scales from '../components/Scales'
 import { Logo } from '../components/ui'
+import VersionDiff from '../components/VersionDiff'
 import { api } from '../lib/api'
 import { useStore } from '../lib/store'
 import { scaleAngle, SEVERITY } from '../lib/theme'
@@ -65,6 +66,7 @@ export default function CasePage() {
         </div>
 
         <BeforeAfter c={c} onUpload={() => fileRef.current?.click()} />
+        {c.versions?.length > 1 && <VersionDiff versions={c.versions} />}
 
         <div className="mt-5 flex flex-wrap gap-2">
           <button type="button" onClick={openReport} className="flex h-11 cursor-pointer items-center gap-2 rounded-full bg-ink px-5 text-sm font-extrabold text-white hover:bg-ink-2"><FileText size={16} /> Open the latest report</button>
